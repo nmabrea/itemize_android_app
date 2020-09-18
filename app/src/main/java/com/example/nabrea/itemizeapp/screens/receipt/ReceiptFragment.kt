@@ -216,6 +216,10 @@ class ReceiptFragment : Fragment(),
         // Locating the text view storing the StoreName within the onSavedInstanceState()
         storeNameEdit = receiptBinding.receiptStoreNameEdit
 
+        storeNameEdit.filters = arrayOf(InputFilter { charSequence, i, i2, spanned, i3, i4 ->
+            return@InputFilter charSequence.replace(Regex("[^a-zA-Z0-9 ]*"), "")
+        })
+
 
 
 
