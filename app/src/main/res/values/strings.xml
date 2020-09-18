@@ -1,0 +1,38 @@
+<resources>
+    <string name="app_name">Itemize App</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="itm_receiptHistory_title">Home</string>
+    <string name="itm_receipt_title">Receipt</string>
+    <string name="itm_datePicker_title">Choose Date of Receipt</string>
+    <string name="itm_expense_title">Expense</string>
+    <string name="itm_expense_name_hint">EXPENSE DESCRIPTION</string>
+    <string name="itm_expense_qty_hint">QUANTITY</string>
+    <string name="itm_expense_cost_hint">COST</string>
+    <string name="itm_expense_cost_prefix">$</string>
+    <string name="itm_patronGroup_title">Current Group</string>
+    <string name="itm_patron_title">Add a New Patron</string>
+    <string name="itm_patron_firstName_hint">FIRST NAME</string>
+    <string name="itm_patron_lastName_hint">LAST NAME</string>
+    <string name="itm_receiptSummary_title">Summary of Expenses</string>
+    <string name="itm_essentialsComposition_title">Compostion of Essential Expenses</string>
+    <string name="itm_receiptHistory_storeName">STORE NAME</string>
+    <string name="itm_receiptHistory_buttonAction">Create</string>
+    <string name="itm_receiptHistory_date">DATE OF RECEIPT</string>
+    <string name="itm_receiptHistory_patron">Paid By</string>
+    <string name="itm_receiptHistory_totalCost">$0.00</string>
+    <string name="itm_action_standby">Awaiting user action.</string>
+    <string name="itm_action_cancel">User cancelled action.</string>
+    <string name="itm_button_description_addExpense">Add Expense</string>
+    <string name="itm_button_description_expandMenu">Expand Menu</string>
+    <string name="itm_button_description_addPatron">Add Patron</string>
+    <string name="itm_button_description_finalizeReceipt">Finalize Receipt</string>
+    <string name="itm_button_done">done</string>
+    <string name="itm_button_add">add</string>
+    <string name="slide_handle">Slide Handle</string>
+
+    <string name="itm_error_expense_description">"Please enter an expense description. (20 characters max)"</string>
+    <string name="itm_error_expense_cost">"Please enter an expense cost. (8 digits max)"</string>
+    <string name="itm_error_expense_quantity">"Please enter an expense quantity. (3 digits max)</string>
+    <string name="itm_error_general">"Please enter a valid value for this field."</string>
+</resources>

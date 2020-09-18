@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="itm_margin_startEnd_min">16dp</dimen>
+    <dimen name="itm_margin_topBottom_min">8dp</dimen>
+    <dimen name="itm_margin_top_med">24dp</dimen>
+    <dimen name="itm_button_corner_radius">10dp</dimen>
+    <dimen name="itm_text_size_button">16sp</dimen>
+    <dimen name="itm_dp_none">0dp</dimen>
+    <dimen name="itm_padding_min">16dp</dimen>
+    <dimen name="itm_button_stroke_light">10dp</dimen>
+    <dimen name="itm_button_elevation_unpressed">8dp</dimen>
+    <dimen name="itm_button_elevation_pressed">4dp</dimen>
+    <dimen name="itm_text_size_small">14sp</dimen>
+    <dimen name="itm_text_size_medium">18sp</dimen>
+    <dimen name="itm_text_size_large">24sp</dimen>
+    <dimen name="itm_button_icon_size">55dp</dimen>
+    <dimen name="itm_button_icon_size_mini">25dp</dimen>
+    <dimen name="itm_margin_startEnd_extra">20dp</dimen>
+    <dimen name="itm_button_text_label_marginEnd">0dp</dimen>
+    <dimen name="itm_bab_fab_cradle_margin">0dp</dimen>
+    <dimen name="itm_bab_fab_cradle_vertical_offset">0dp</dimen>
+    <dimen name="itm_bab_fab_cradle_corner_radius">60dp</dimen>
+    <dimen name="itm_button_margin_top_max">24dp</dimen>
+    <dimen name="itm_button_outline_stroke">1dp</dimen>
+    <dimen name="itm_margin_top_max">45dp</dimen>
+    <dimen name="itm_btmsheet_twoline_btm_padding">115dp</dimen>
+</resources>

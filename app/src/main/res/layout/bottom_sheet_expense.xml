@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".screens.receipt.ReceiptFragment">
+
+    <data>
+        <variable
+            name="receiptViewModel"
+            type="com.example.nabrea.itemizeapp.screens.receipt.ReceiptViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/expenseBottomSheetLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="@dimen/itm_btmsheet_twoline_btm_padding"
+        android:fillViewport="true"
+        android:background="@drawable/itm_button_add"
+        app:behavior_hideable="false"
+        app:behavior_peekHeight="0dp"
+        app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
+
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:scaleX=".5"
+            android:scaleY=".3"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/itm_slide_handle"
+            android:contentDescription="@string/slide_handle" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/expenseDescription"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_marginTop="@dimen/itm_margin_top_max"
+            android:layout_marginStart="@dimen/itm_margin_startEnd_min"
+            android:layout_marginEnd="@dimen/itm_margin_startEnd_min"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:errorEnabled="true"
+            app:errorIconDrawable="@drawable/ic_baseline_error_24"
+            app:errorContentDescription="@string/itm_error_expense_description">
+
+            <!--TODO set all caps-->
+            <com.google.android.material.textfield.TextInputEditText
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:id="@+id/expenseDescriptionEdit"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/quicksand_medium"
+                android:hint="@string/itm_expense_name_hint"
+                android:textAllCaps="true"
+                android:textSize="@dimen/itm_text_size_small"
+                android:textStyle="bold"
+                android:inputType="text"
+                android:text="@={receiptViewModel._description}"
+                android:maxLength="20"
+                android:maxLines="1"/>
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/expenseCost"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Cost"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/itm_margin_startEnd_min"
+            android:layout_marginTop="@dimen/itm_margin_topBottom_min"
+            android:layout_marginEnd="@dimen/itm_margin_startEnd_min"
+            app:layout_constraintEnd_toStartOf="@+id/expenseQuantity"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/expenseDescription"
+            app:errorEnabled="true"
+            app:errorIconDrawable="@drawable/ic_baseline_error_24"
+            app:errorContentDescription="@string/itm_error_expense_cost">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/expenseCostEdit"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/quicksand_medium"
+                android:hint="@string/itm_expense_cost_hint"
+                android:inputType="numberDecimal"
+                android:textSize="@dimen/itm_text_size_small"
+                android:textStyle="bold"
+                android:text="@={receiptViewModel._costText}"
+                android:maxLength="10"
+                android:maxLines="1"/>
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/expenseQuantity"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/itm_margin_topBottom_min"
+            android:layout_marginStart="@dimen/itm_margin_startEnd_min"
+            android:layout_marginEnd="@dimen/itm_margin_startEnd_min"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/expenseCost"
+            app:layout_constraintTop_toBottomOf="@+id/expenseDescription"
+            app:errorEnabled="true"
+            app:errorIconDrawable="@drawable/ic_baseline_error_24"
+            app:errorContentDescription="@string/itm_error_expense_quantity">
+
+            <com.google.android.material.textfield.TextInputEditText
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:id="@+id/expenseQuantityEdit"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/quicksand_medium"
+                android:hint="@string/itm_expense_qty_hint"
+                android:textAllCaps="true"
+                android:textSize="@dimen/itm_text_size_small"
+                android:textStyle="bold"
+                android:inputType="number"
+                android:text="@={receiptViewModel._quantityText}"
+                android:maxLength="3"
+                android:maxLines="1"
+                />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/create_expense"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton.Icon"
+            android:text="@string/itm_button_add"
+            android:textColor="@color/itm_primary_grayLight"
+            android:layout_marginTop="@dimen/itm_button_margin_top_max"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/itm_margin_startEnd_min"
+            android:layout_marginEnd="@dimen/itm_margin_startEnd_min"
+            android:onClick="@{() -> receiptViewModel.validateExpenseInputs()}"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/expenseCost"
+            app:icon="@drawable/itm_icon_plus_white"
+            app:iconSize="34dp"
+            app:iconPadding="@dimen/itm_dp_none" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/cancel_expense"
+            style="@style/Widget.MaterialComponents.Button.TextButton"
+            android:text="@string/itm_button_done"
+            android:layout_marginTop="@dimen/itm_button_margin_top_max"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/itm_margin_startEnd_min"
+            android:layout_marginEnd="@dimen/itm_margin_startEnd_min"
+            android:onClick="@{() -> receiptViewModel.setExitExpenseOnClick()}"
+            app:layout_constraintStart_toEndOf="@+id/create_expense"
+            app:layout_constraintTop_toBottomOf="@+id/expenseCost"
+            />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="TextAppearance.MaterialComponents.TextView.Label" parent="">
+        <item name="android:layout_marginEnd">@dimen/itm_button_text_label_marginEnd</item>
+        <item name="android:textSize">@dimen/itm_text_size_small</item>
+        <item name="android:textAllCaps">true</item>
+        <item name="android:gravity">right</item>
+    </style>
+</resources>

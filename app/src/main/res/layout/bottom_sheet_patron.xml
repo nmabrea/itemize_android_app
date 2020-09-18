@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".screens.receipt.ReceiptFragment">
+
+    <data>
+        <variable
+            name="receiptViewModel"
+            type="com.example.nabrea.itemizeapp.screens.receipt.ReceiptViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/patronBottomSheetLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fillViewport="true"
+        android:paddingBottom="@dimen/itm_btmsheet_twoline_btm_padding"
+        android:background="@drawable/itm_button_add"
+        app:behavior_hideable="false"
+        app:behavior_peekHeight="0dp"
+        app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior"
+        >
+
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:scaleX=".5"
+            android:scaleY=".3"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/itm_slide_handle"
+            android:contentDescription="@string/slide_handle" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/patronFirstName"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_marginTop="@dimen/itm_margin_top_max"
+            android:layout_marginStart="@dimen/itm_margin_startEnd_min"
+            android:layout_marginEnd="@dimen/itm_margin_startEnd_min"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/quicksand_medium"
+                android:hint="@string/itm_patron_firstName_hint"
+                android:textAllCaps="true"
+                android:textSize="@dimen/itm_text_size_small"
+                android:textStyle="bold"
+                android:inputType="text"
+                android:text="@={receiptViewModel._firstName}"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/patronLastName"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_marginTop="@dimen/itm_margin_topBottom_min"
+            android:layout_marginStart="@dimen/itm_margin_startEnd_min"
+            android:layout_marginEnd="@dimen/itm_margin_startEnd_min"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/patronFirstName">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/quicksand_medium"
+                android:hint="@string/itm_patron_lastName_hint"
+                android:textAllCaps="true"
+                android:textSize="@dimen/itm_text_size_small"
+                android:textStyle="bold"
+                android:inputType="text"
+                android:text="@={receiptViewModel._lastName}"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/add_patron"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton.Icon"
+            android:text="@string/itm_button_add"
+            android:layout_marginTop="@dimen/itm_button_margin_top_max"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/itm_margin_startEnd_min"
+            android:layout_marginEnd="@dimen/itm_margin_startEnd_min"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/patronLastName"
+            app:icon="@drawable/itm_icon_plus_white"
+            app:iconSize="34dp"
+            app:iconPadding="@dimen/itm_dp_none"
+            android:onClick="@{() -> receiptViewModel.createPatron()}"/>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/cancel_patron"
+            style="@style/Widget.MaterialComponents.Button.TextButton"
+            android:text="@string/itm_button_done"
+            android:layout_marginTop="@dimen/itm_button_margin_top_max"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/itm_margin_startEnd_min"
+            android:layout_marginEnd="@dimen/itm_margin_startEnd_min"
+            app:layout_constraintStart_toEndOf="@+id/add_patron"
+            app:layout_constraintTop_toBottomOf="@+id/patronLastName"
+            />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+</layout>

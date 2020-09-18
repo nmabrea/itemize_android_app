@@ -1,0 +1,208 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:bind="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".screens.receipt.ReceiptFragment">
+
+    <data>
+        <variable
+            name="receiptViewModel"
+            type="com.example.nabrea.itemizeapp.screens.receipt.ReceiptViewModel"
+            />
+    </data>
+
+
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:id="@+id/receiptCoordinatorLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/itm_secondary_orangeLightest"
+            android:fillViewport="true">
+
+            <ScrollView
+                android:id="@+id/scrollView2"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                tools:layout_editor_absoluteX="76dp"
+                tools:layout_editor_absoluteY="71dp">
+
+                <LinearLayout
+                    android:id="@+id/receiptLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:id="@+id/receiptStoreName"
+                            style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/itm_margin_topBottom_min"
+                            app:errorEnabled="true"
+                            app:errorIconDrawable="@drawable/ic_baseline_error_24">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/receiptStoreNameEdit"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/itm_margin_startEnd_min"
+                            android:layout_marginTop="@dimen/itm_margin_top_med"
+                            android:layout_marginEnd="@dimen/itm_margin_startEnd_min"
+                            android:fontFamily="@font/quicksand_medium"
+                            android:hint="@string/itm_receiptHistory_storeName"
+                            android:inputType="text"
+                            android:textAllCaps="true"
+                            android:textSize="@dimen/itm_text_size_small"
+                            android:textStyle="bold"
+                            android:focusable="true"
+                            android:maxLines="1"
+                            android:maxLength="20"
+                            android:focusableInTouchMode="true"/>
+                        </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/receiptDate"
+                        style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/itm_margin_topBottom_min">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/receiptDateEdit"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/itm_margin_startEnd_min"
+                            android:layout_marginEnd="@dimen/itm_margin_startEnd_min"
+                            android:clickable="true"
+                            android:focusable="false"
+                            android:fontFamily="@font/quicksand_medium"
+                            android:hint="@string/itm_receiptHistory_date"
+                            android:textSize="@dimen/itm_text_size_small" />
+
+                    </com.google.android.material.textfield.TextInputLayout>
+                </LinearLayout>
+            </ScrollView>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/button_finalize"
+            style="@style/Widget.Design.FloatingActionButton.Mini"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|end"
+            android:layout_marginEnd="40dp"
+            android:layout_marginBottom="252dp"
+            android:clickable="true"
+            android:contentDescription="@string/itm_button_description_finalizeReceipt"
+            android:focusable="true"
+            android:visibility="gone"
+            app:layout_constraintBottom_toTopOf="@+id/button_addPatron"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:srcCompat="@drawable/ic_baseline_save_alt_24" />
+
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/label_finalize"
+            style="@style/TextAppearance.MaterialComponents.TextView.Label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|end"
+            android:layout_marginEnd="90dp"
+            android:layout_marginBottom="260dp"
+            android:labelFor="@id/button_addExpense"
+            android:text="@string/itm_button_description_finalizeReceipt"
+            android:textStyle="bold"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="@id/button_finalize"
+            app:layout_constraintEnd_toStartOf="@+id/button_finalize"
+            app:layout_constraintTop_toTopOf="@+id/button_finalize" />
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/button_addPatron"
+            style="@style/Widget.Design.FloatingActionButton.Mini"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|end"
+            android:layout_marginEnd="40dp"
+            android:layout_marginBottom="190dp"
+            android:clickable="true"
+            android:contentDescription="@string/itm_button_description_addPatron"
+            android:focusable="true"
+            android:visibility="gone"
+            app:layout_constraintBottom_toTopOf="@+id/button_addExpense"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:srcCompat="@drawable/ic_baseline_person_add_24" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/label_addPatron"
+            style="@style/TextAppearance.MaterialComponents.TextView.Label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|end"
+            android:layout_marginEnd="90dp"
+            android:layout_marginBottom="200dp"
+            android:labelFor="@id/button_addExpense"
+            android:text="@string/itm_button_description_addPatron"
+            android:textStyle="bold"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="@id/button_addPatron"
+            app:layout_constraintEnd_toStartOf="@+id/button_addPatron"
+            app:layout_constraintTop_toTopOf="@+id/button_addPatron" />
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/button_addExpense"
+            style="@style/Widget.Design.FloatingActionButton.Mini"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|end"
+            android:layout_marginEnd="40dp"
+            android:layout_marginBottom="130dp"
+            android:clickable="true"
+            android:contentDescription="@string/itm_button_description_addExpense"
+            android:focusable="true"
+            android:visibility="gone"
+            app:layout_constraintBottom_toTopOf="@+id/button_expandable"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:srcCompat="@drawable/ic_baseline_monetization_on_24" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/label_addExpense"
+            style="@style/TextAppearance.MaterialComponents.TextView.Label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|end"
+            android:layout_marginEnd="90dp"
+            android:layout_marginBottom="140dp"
+            android:labelFor="@id/button_addExpense"
+            android:text="@string/itm_button_description_addExpense"
+            android:visibility="gone"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@id/button_addExpense"
+            app:layout_constraintEnd_toStartOf="@+id/button_addExpense"
+            app:layout_constraintTop_toTopOf="@+id/button_addExpense" />
+
+        <include android:id="@+id/bottomSheetBackground"
+            layout="@layout/bottom_sheet_background"
+            bind:receiptViewModel="@={receiptViewModel}"/>
+
+        <include
+            android:id="@+id/expenseBottomSheet"
+            layout="@layout/bottom_sheet_expense"
+            bind:receiptViewModel="@={receiptViewModel}"
+            />
+
+        <include
+            android:id="@+id/patronBottomSheet"
+            layout="@layout/bottom_sheet_patron"
+            bind:receiptViewModel="@={receiptViewModel}"
+             />
+
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+
+</layout>

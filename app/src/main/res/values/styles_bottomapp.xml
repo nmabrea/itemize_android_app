@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+        <style name="Widget.MaterialComponents.BottomAppBar" parent="Widget.AppCompat.Toolbar">
+            <item name="enforceMaterialTheme">true</item>
+            <item name="backgroundTint">?attr/colorSurface</item>
+            <item name="fabCradleMargin">@dimen/itm_bab_fab_cradle_margin</item>
+            <item name="fabCradleRoundedCornerRadius">
+                @dimen/itm_bab_fab_cradle_corner_radius
+            </item>
+            <item name="fabCradleVerticalOffset">@dimen/itm_bab_fab_cradle_vertical_offset</item>
+            <item name="android:minHeight">@dimen/mtrl_bottomappbar_height</item>
+            <item name="maxButtonHeight">@dimen/mtrl_bottomappbar_height</item>
+            <item name="elevation">8dp</item>
+            <item name="paddingBottomSystemWindowInsets">true</item>
+            <item name="paddingLeftSystemWindowInsets">true</item>
+            <item name="paddingRightSystemWindowInsets">true</item>
+        </style>
+
+        <style name="Widget.MaterialComponents.BottomAppBar.Colored" parent="Widget.MaterialComponents.BottomAppBar">
+            <item name="backgroundTint">?attr/colorPrimary</item>
+            <item name="materialThemeOverlay">@style/ThemeOverlay.MaterialComponents.BottomAppBar.Primary</item>
+        </style>
+
+        <style name="Widget.MaterialComponents.BottomAppBar.PrimarySurface" parent="Widget.MaterialComponents.BottomAppBar.Colored"/>
+
+        <style name="ThemeOverlay.MaterialComponents.BottomAppBar.Surface" parent="">
+            <item name="colorControlNormal">@color/material_on_surface_emphasis_medium</item>
+            <item name="actionMenuTextColor">@color/material_on_surface_emphasis_medium</item>
+        </style>
+
+        <style name="ThemeOverlay.MaterialComponents.BottomAppBar.Primary" parent="">
+            <item name="colorControlNormal">?attr/colorOnPrimary</item>
+            <item name="actionMenuTextColor">?attr/colorOnPrimary</item>
+        </style>
+</resources>

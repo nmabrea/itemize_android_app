@@ -1,0 +1,35 @@
+<resources>
+    <!-- Base application theme. -->
+    <style name="AppTheme.NoActionBar" parent="Theme.MaterialComponents.Light.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/itm_primary_gray</item>
+        <item name="colorPrimaryDark">@color/itm_primary_grayDark</item>
+        <item name="colorAccent">@color/itm_secondary_orangeDark</item>
+        <item name="colorSecondary">@color/itm_secondary_orangeDark</item>
+        <item name="colorOnSecondary">@color/itm_primaryText_white</item>
+        <item name="colorOnSurface">@color/itm_secondary_orangeLighter</item>
+        <item name="fontFamily">@font/quicksand_medium</item>
+        <item name="android:fontFamily">@font/quicksand_medium</item>
+        <item name="windowNoTitle">true</item>
+        <item name="windowActionBar">false</item>
+        <item name="snackbarButtonStyle">@style/snackbar_button</item>
+    </style>
+
+
+    <style name="CustomDialog.Animation" parent="">
+        <item name="android:windowEnterAnimation">@anim/anim_slide_in_up_half</item>
+        <item name="android:windowExitAnimation">@anim/anim_slide_out_down_half</item>
+    </style>
+
+    <style name="CustomDialog.Window" parent="">
+        <item name="android:background">@drawable/itm_button_add</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+    </style>
+
+    <style name="snackbar_button" parent="@style/Widget.MaterialComponents.Button.TextButton.Snackbar">
+        <item name="backgroundTint">@color/itm_primary_gray</item>
+        <item name="android:textColor">@color/itm_primary_grayDark</item>
+    </style>
+
+</resources>

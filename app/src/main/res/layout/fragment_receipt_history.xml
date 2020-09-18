@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".screens.home.ReceiptHistoryFragment">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true"
+        android:background="@color/itm_secondary_orangeLightest">
+
+
+        <ScrollView
+            android:id="@+id/scrollView2"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_constraintBottom_toTopOf="@+id/coordinatorLayout"
+            tools:layout_editor_absoluteX="25dp">
+
+            <LinearLayout
+                android:id="@+id/receiptInfoLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/receiptHistoryStoreName"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/itm_margin_startEnd_min"
+                    android:layout_marginTop="@dimen/itm_margin_top_med"
+                    android:layout_marginEnd="@dimen/itm_margin_startEnd_min"
+                    android:fontFamily="@font/quicksand_medium"
+                    android:text="@string/itm_receiptHistory_storeName"
+                    android:textAllCaps="true"
+                    android:textSize="@dimen/itm_text_size_small"
+                    android:textStyle="bold" />
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/receiptHistoryDate"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/itm_margin_startEnd_min"
+                    android:layout_marginEnd="@dimen/itm_margin_startEnd_min"
+                    android:fontFamily="@font/quicksand_medium"
+                    android:text="@string/itm_receiptHistory_date"
+                    android:textSize="@dimen/itm_text_size_small" />
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/receiptHistoryTotalCost"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/itm_margin_startEnd_min"
+                    android:layout_marginEnd="@dimen/itm_margin_startEnd_min"
+                    android:text="@string/itm_receiptHistory_totalCost" />
+
+            </LinearLayout>
+        </ScrollView>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+</layout>

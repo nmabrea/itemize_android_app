@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <color name="itm_primary_gray">#37474f</color>
+
+    <color name="itm_primary_grayLight">#62727b</color>
+
+    <color name="itm_primary_grayDark">#102027</color>
+
+    <color name="itm_secondary_orange">#fb8c00</color>
+
+    <color name="itm_secondary_orangeLight">#ffbd45</color>
+
+    <color name="itm_secondary_orangeDark">#c25e00</color>
+
+    <color name="itm_primaryText_white">#ffffff</color>
+
+    <color name="itm_secondaryText_black">#000000</color>
+
+    <color name="itm_primary_grayLightest">#E0E3E6</color>
+
+    <color name="itm_secondary_orangeLighter">#FAD695</color>
+
+    <color name="itm_secondary_orangeLightest">#FFFAF2</color>
+
+</resources>
