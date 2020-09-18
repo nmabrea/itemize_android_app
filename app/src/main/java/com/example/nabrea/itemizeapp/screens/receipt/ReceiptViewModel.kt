@@ -128,10 +128,14 @@ class ReceiptViewModel : ViewModel() {
         var nullDetected = true
 
         if (expenseFormFields.contains(null) ||
-            expenseFormFields.contains("") ||
-            expenseFormFields.contains("0.00")
+            expenseFormFields[0]!!.isBlank() ||
+            expenseFormFields[0]!!.isEmpty() ||
+            expenseFormFields[1]!! == "0.00" ||
+            expenseFormFields[2]!! == "0" ||
+            expenseFormFields[2]!! == "00" ||
+            expenseFormFields[2]!! == "000" ||
+            expenseFormFields[2]!!.isNullOrBlank()
         ) {
-
             _error.value = ErrorMessages.KEY_ERROR_GENERAL.errorMessage
 
             expenseFormFields.removeAll(expenseFormFields)
@@ -154,6 +158,10 @@ class ReceiptViewModel : ViewModel() {
 
 
     fun createExpense() {
+
+        val trimmedDescription = _description.value!!.trim()
+
+        _description.value = trimmedDescription
 
         // Formats the UserInput text into an Int value for future calculations
         _quantity.value = _quantityText.value?.toInt() ?: 0

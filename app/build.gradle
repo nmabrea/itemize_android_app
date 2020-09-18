@@ -78,6 +78,12 @@ dependencies {
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.2.0"
     implementation "androidx.lifecycle:lifecycle-livedata-ktx:2.2.0"
 
+    // Cardview implementation
+    implementation "androidx.cardview:cardview:$version_cardview"
+
+    // Recyclerview implementation
+    implementation "androidx.recyclerview:recyclerview:$version_recyclerview"
+
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'

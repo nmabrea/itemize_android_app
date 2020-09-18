@@ -21,7 +21,6 @@ import com.example.nabrea.itemizeapp.ItemizeTextWatcherClass
 import com.example.nabrea.itemizeapp.R
 import com.example.nabrea.itemizeapp.databinding.FragmentReceiptBinding
 import com.google.android.material.bottomsheet.BottomSheetBehavior
-import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
@@ -65,8 +64,7 @@ interface ReceiptFragmentCommunication {
 }
 
 class ReceiptFragment : Fragment(),
-    ExpandingFabAnimationInterface,
-    MaterialDatePickerInterface {
+    ExpandingFabAnimationInterface {
 
     // Variable to establish the interface listener
     lateinit var listener: ReceiptFragmentCommunication
@@ -141,6 +139,8 @@ class ReceiptFragment : Fragment(),
     // NavController variable for navigation
     private lateinit var navController: NavController
 
+    private lateinit var fragManager: FragmentManager
+
     // Instance of expandable menu items that appear with Navigation Actions
     private lateinit var menuNavActions: MutableMap<
             Pair<FloatingActionButton, MaterialTextView>, NavDirections>
@@ -148,24 +148,15 @@ class ReceiptFragment : Fragment(),
 
 
     // Override values inherited from the MaterialDatePickerInterface below
-    // Variable for building the DatePicker display
-    override lateinit var builder: MaterialDatePicker.Builder<*>
-
-    // Picker instance variable
-    override lateinit var picker: MaterialDatePicker<*>
-
     private lateinit var editDate: TextInputLayout
 
     // The EditTextField associated with the DatePicker instance within the receipt_fragment.xml
-    override lateinit var editDateText: TextInputEditText
+    private lateinit var editDateText: TextInputEditText
 
     private lateinit var storeName: TextInputLayout
 
     // The TextInputEditText field associated with the Store Name input.
     private lateinit var storeNameEdit: TextInputEditText
-
-    // Variable identifying the FragmentManager
-    override lateinit var fragManager: FragmentManager
 
     // Override values inherited from the ExpandingFabAnimation interface
     override lateinit var animationContext: Context
@@ -213,12 +204,16 @@ class ReceiptFragment : Fragment(),
         // NAVIGATION UI::Locating the NavController for Navigation
         navController = this.findNavController()
 
+        fragManager = fragmentManager!!
+
         // Locating the text view storing the StoreName within the onSavedInstanceState()
         storeNameEdit = receiptBinding.receiptStoreNameEdit
 
         storeNameEdit.filters = arrayOf(InputFilter { charSequence, i, i2, spanned, i3, i4 ->
             return@InputFilter charSequence.replace(Regex("[^a-zA-Z0-9 ]*"), "")
         })
+
+        editDateText = receiptBinding.receiptDateEdit
 
 
 
@@ -257,6 +252,7 @@ class ReceiptFragment : Fragment(),
         expenseDescriptionEditText = receiptBinding.expenseBottomSheet.expenseDescriptionEdit
 
         expenseDescriptionEditText.filters = arrayOf(InputFilter { charSequence, i, i2, spanned, i3, i4 ->
+
             return@InputFilter charSequence.replace(Regex("[^a-zA-Z ]*"), "")
         })
 
@@ -390,27 +386,9 @@ class ReceiptFragment : Fragment(),
             }
         })
 
-        // TODO (02) Figure out if the MaterialDatePicker code can be in its own class
-
-        /* Code for initiating the Material Date Picker from MaterialDatePicker interface below:
-         * Initializes the Date Picker from Material library */
-        builder = MaterialDatePicker.Builder.datePicker()
-
-        // setTitle() sets the initial placeholder title of the Date Picker
-        setTitle()
-
-        // Instantializes the Date Picker from the library within this Fragment
-        picker = builder.build()
-
-        // Identifies the receiptDateEdit View to be edited based on date selection.
-        editDateText = receiptBinding.receiptDateEdit
-
-        // Identifies this Fragment's fragmentManager
-        fragManager = fragmentManager!!
-
-        // Initiates listeners for click actions that occur during Date Picker
-        clickActions(listener)
-
+        val datePicker = MaterialDatePickerClass(editDateText, fragManager)
+        datePicker.setTitle()
+        datePicker.clickActions(listener)
 
     }
 
@@ -421,6 +399,12 @@ class ReceiptFragment : Fragment(),
         return if (userInput.text == null) {
             false
         } else if (userInput.text!!.isEmpty()) {
+            false
+        } else if (userInput.text!!.isBlank()) {
+            false
+        } else if (userInput.text!!.contains("0")) {
+            false
+        }else if (userInput.text!!.contains("00") || userInput.text!!.contains("000")) {
             false
         } else !userInput.text!!.contains("0.00")
     }
@@ -437,6 +421,10 @@ class ReceiptFragment : Fragment(),
         storeNameEdit.isClickable = true
         storeNameEdit.isLongClickable = true
         storeNameEdit.isFocusable = true
+
+        expenseForm.keys.forEach {inputField ->
+            listener.hideKeyboard(inputField.first)
+        }
     }
 
     fun setBottomSheetFocus() {
