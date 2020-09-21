@@ -20,6 +20,9 @@ import com.example.nabrea.itemizeapp.ExpandingFabAnimationInterface
 import com.example.nabrea.itemizeapp.ItemizeTextWatcherClass
 import com.example.nabrea.itemizeapp.R
 import com.example.nabrea.itemizeapp.databinding.FragmentReceiptBinding
+import com.example.nabrea.itemizeapp.screens.receipt.uidisplay.BottomSheetClass
+import com.example.nabrea.itemizeapp.screens.receipt.uidisplay.MaterialDatePickerClass
+import com.example.nabrea.itemizeapp.screens.receipt.uidisplay.MenuClass
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.textfield.TextInputEditText

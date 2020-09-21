@@ -16,7 +16,7 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.NavigationUI
 import com.example.nabrea.itemizeapp.databinding.ActivityMainBinding
 import com.example.nabrea.itemizeapp.screens.home.ReceiptHistoryFragmentDirections
-import com.example.nabrea.itemizeapp.screens.receipt.MenuClass
+import com.example.nabrea.itemizeapp.screens.receipt.uidisplay.MenuClass
 import com.example.nabrea.itemizeapp.screens.receipt.ReceiptFragmentCommunication
 import com.google.android.material.bottomappbar.BottomAppBar
 import com.google.android.material.floatingactionbutton.FloatingActionButton

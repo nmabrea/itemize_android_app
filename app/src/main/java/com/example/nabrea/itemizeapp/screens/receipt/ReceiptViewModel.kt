@@ -4,6 +4,10 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.nabrea.itemizeapp.EventClass
+import com.example.nabrea.itemizeapp.screens.receipt.expense.ExpenseBasketClass
+import com.example.nabrea.itemizeapp.screens.receipt.expense.ExpenseClass
+import com.example.nabrea.itemizeapp.screens.receipt.patron.PatronClass
+import com.example.nabrea.itemizeapp.screens.receipt.uidisplay.BottomSheetClass
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import timber.log.Timber
 

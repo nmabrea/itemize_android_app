@@ -1,10 +1,12 @@
-package com.example.nabrea.itemizeapp.screens.receipt
+package com.example.nabrea.itemizeapp.screens.receipt.uidisplay
 
 import android.content.Context
 import android.view.View
 import androidx.appcompat.widget.LinearLayoutCompat
 import androidx.constraintlayout.widget.ConstraintLayout
 import com.example.nabrea.itemizeapp.ExpandingFabAnimationInterface
+import com.example.nabrea.itemizeapp.screens.receipt.ReceiptFragment
+import com.example.nabrea.itemizeapp.screens.receipt.ReceiptFragmentCommunication
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import timber.log.Timber
 

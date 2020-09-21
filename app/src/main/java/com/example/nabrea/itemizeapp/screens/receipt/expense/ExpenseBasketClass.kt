@@ -1,4 +1,4 @@
-package com.example.nabrea.itemizeapp.screens.receipt
+package com.example.nabrea.itemizeapp.screens.receipt.expense
 
 class ExpenseBasketClass( val expenseList: MutableList<ExpenseClass>) {
 

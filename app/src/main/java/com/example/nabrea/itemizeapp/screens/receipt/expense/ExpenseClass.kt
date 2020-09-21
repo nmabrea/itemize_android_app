@@ -1,4 +1,4 @@
-package com.example.nabrea.itemizeapp.screens.receipt
+package com.example.nabrea.itemizeapp.screens.receipt.expense
 
 import androidx.lifecycle.LiveData
 

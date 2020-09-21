@@ -1,6 +1,7 @@
-package com.example.nabrea.itemizeapp.screens.receipt
+package com.example.nabrea.itemizeapp.screens.receipt.uidisplay
 
 import androidx.fragment.app.FragmentManager
+import com.example.nabrea.itemizeapp.screens.receipt.ReceiptFragmentCommunication
 import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.android.material.textfield.TextInputEditText
 

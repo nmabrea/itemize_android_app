@@ -1,4 +1,4 @@
-package com.example.nabrea.itemizeapp.screens.receipt
+package com.example.nabrea.itemizeapp.screens.receipt.uidisplay
 
 import android.content.Context
 import androidx.navigation.NavController
