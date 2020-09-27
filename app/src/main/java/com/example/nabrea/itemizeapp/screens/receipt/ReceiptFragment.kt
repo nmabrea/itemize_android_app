@@ -16,9 +16,12 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
 import androidx.navigation.NavDirections
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.nabrea.itemizeapp.ExpandingFabAnimationInterface
 import com.example.nabrea.itemizeapp.ItemizeTextWatcherClass
 import com.example.nabrea.itemizeapp.R
+import com.example.nabrea.itemizeapp.database.ExpenseListAdapter
+import com.example.nabrea.itemizeapp.database.PatronListAdapter
 import com.example.nabrea.itemizeapp.databinding.FragmentReceiptBinding
 import com.example.nabrea.itemizeapp.screens.receipt.uidisplay.BottomSheetClass
 import com.example.nabrea.itemizeapp.screens.receipt.uidisplay.MaterialDatePickerClass
@@ -78,6 +81,10 @@ class ReceiptFragment : Fragment(),
     // ViewModel associated with this Fragment
     private lateinit var receiptVm: ReceiptViewModel
 
+    private lateinit var expenseAdapter: ExpenseListAdapter
+
+    private lateinit var patronAdapter: PatronListAdapter
+
     // An instance of the MenuClass. Takes in menu options along with the primaryButton
     private lateinit var expandMenu: MenuClass
 
@@ -119,9 +126,13 @@ class ReceiptFragment : Fragment(),
     // BottomSheetClass variable that passes in the Layout associated with the AddPatron Button
     private lateinit var patronBottomSheet: BottomSheetClass
 
-    private lateinit var patronFirstName: TextInputLayout
+    // Variable for the Patron's name input, displays errors
+    private lateinit var patronName: TextInputLayout
 
-    private lateinit var patronLastName: TextInputLayout
+    // Variable for the Patron's name input, takes in the user input
+    private lateinit var patronNameEditText: TextInputEditText
+
+    private lateinit var patronForm: MutableMap<Pair<TextInputEditText, TextInputLayout>, String>
 
     // Variable for the Finalize Button
     private lateinit var finalizeButton: FloatingActionButton
@@ -192,6 +203,10 @@ class ReceiptFragment : Fragment(),
             container,
             false)
 
+        // Below is the code sequence for the expandable FAB menu:
+        // Setting the context for the FAB menu animations
+        animationContext = receiptBinding.root.context
+
         // Getting the ReceiptViewModel
         receiptVm = ViewModelProvider(this).get(ReceiptViewModel::class.java)
 
@@ -200,6 +215,30 @@ class ReceiptFragment : Fragment(),
 
         // Identifying this Fragment as the lifecycleOwner of the ViewModel
         receiptBinding.lifecycleOwner = this
+
+        val patronRecycler = receiptBinding.patronReceiptRecyclerView
+
+        patronAdapter = PatronListAdapter(animationContext)
+
+        patronRecycler.adapter = patronAdapter
+
+        val expenseRecycler = receiptBinding.expenseRecyclerView
+
+        expenseAdapter = ExpenseListAdapter(animationContext, patronAdapter)
+
+        expenseRecycler.adapter = expenseAdapter
+
+        expenseRecycler.layoutManager = LinearLayoutManager(animationContext)
+
+        receiptVm.allExpenses.observe(viewLifecycleOwner, { expenses ->
+            expenses.let {
+                expenseAdapter.setExpenses(it)
+            }
+        })
+
+        receiptVm.allPatrons.observe(viewLifecycleOwner, { patrons ->
+            patrons.let { patronAdapter.setPatrons(it) }
+        })
 
         // Navigation Options setup within the action bar for this Fragment
         setHasOptionsMenu(true)
@@ -220,10 +259,6 @@ class ReceiptFragment : Fragment(),
 
 
 
-
-        // Below is the code sequence for the expandable FAB menu:
-        // Setting the context for the FAB menu animations
-        animationContext = receiptBinding.root.context
 
         // Creating the expandMenu object through the custom ActionButton() class
         expandMenu = MenuClass(navController, animationContext)
@@ -256,7 +291,7 @@ class ReceiptFragment : Fragment(),
 
         expenseDescriptionEditText.filters = arrayOf(InputFilter { charSequence, i, i2, spanned, i3, i4 ->
 
-            return@InputFilter charSequence.replace(Regex("[^a-zA-Z ]*"), "")
+            return@InputFilter charSequence.replace(Regex("[^a-zA-Z0-9 ]*"), "")
         })
 
         expenseCost = receiptBinding.expenseBottomSheet.expenseCost
@@ -279,6 +314,7 @@ class ReceiptFragment : Fragment(),
             ErrorMessages.KEY_ERROR_QUANTITY.errorMessage
 
 
+
         // Locating the patron button, and its associated label and bottom_sheet_patron.xml
         patronButton = receiptBinding.buttonAddPatron
 
@@ -294,9 +330,23 @@ class ReceiptFragment : Fragment(),
             stateExpandedBackground,
             listener,
             this,
-            animationContext)
+            animationContext
+        )
 
         receiptVm._patronBottomSheet.value = patronBottomSheet
+
+        patronName = receiptBinding.patronBottomSheet.patronNameInput
+
+        patronNameEditText = receiptBinding.patronBottomSheet.patronNameInputEdit
+
+        patronNameEditText.filters = arrayOf(InputFilter { charSequence, i, i2, spanned, i3, i4 ->
+
+            return@InputFilter charSequence.replace(Regex("[^a-zA-Z ]*"), "")
+        })
+
+        patronForm = mutableMapOf()
+
+        patronForm[Pair(patronNameEditText,patronName)] = ErrorMessages.KEY_ERROR_NAME.errorMessage
 
 
 
@@ -368,19 +418,43 @@ class ReceiptFragment : Fragment(),
             }
         })
 
+
         ItemizeTextWatcherClass().setCurrencyTextWatcher(expenseCostEditText)
 
-        receiptVm.error.observe(this, Observer { errorMessage ->
+
+        receiptVm.errorExpense.observe(this, Observer { errorMessage ->
 
             if (errorMessage == null) {
-                expenseForm.forEach {inputField ->
+
+                expenseForm.forEach { inputField ->
                     inputField.key.second.error = null
                 }
+
             } else {
 
                 expenseForm.forEach { inputField ->
 
-                    if (!isInputValid(inputField.key.first)) {
+                    if (!isExpenseInputValid(inputField.key.first)) {
+                        inputField.key.second.error = inputField.value
+                    } else {
+                        inputField.key.second.error = null
+                    }
+                }
+            }
+        })
+
+        receiptVm.errorPatron.observe(this, Observer { errorMessage ->
+            if (errorMessage == null) {
+
+                patronForm.forEach { inputField ->
+                    inputField.key.second.error = null
+                }
+
+            } else {
+
+                patronForm.forEach { inputField ->
+
+                    if(!isPatronInputValid(inputField.key.first)) {
                         inputField.key.second.error = inputField.value
                     } else {
                         inputField.key.second.error = null
@@ -397,8 +471,7 @@ class ReceiptFragment : Fragment(),
 
 
 
-
-    private fun isInputValid(userInput: TextInputEditText) : Boolean {
+    private fun isExpenseInputValid(userInput: TextInputEditText) : Boolean {
         return if (userInput.text == null) {
             false
         } else if (userInput.text!!.isEmpty()) {
@@ -410,6 +483,13 @@ class ReceiptFragment : Fragment(),
         }else if (userInput.text!!.contains("00") || userInput.text!!.contains("000")) {
             false
         } else !userInput.text!!.contains("0.00")
+    }
+
+
+    private fun isPatronInputValid(userInput: TextInputEditText) : Boolean {
+        return if (userInput.text.isNullOrBlank()) {
+            false
+        } else userInput.text!!.isNotEmpty()
     }
 
 

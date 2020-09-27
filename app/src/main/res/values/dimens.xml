@@ -4,9 +4,14 @@
     <dimen name="itm_margin_topBottom_min">8dp</dimen>
     <dimen name="itm_margin_top_med">24dp</dimen>
     <dimen name="itm_button_corner_radius">10dp</dimen>
+    <dimen name="itm_button_label_corner_radius">3dp</dimen>
+    <dimen name="itm_button_label_paddingTopBottom">4dp</dimen>
     <dimen name="itm_text_size_button">16sp</dimen>
     <dimen name="itm_dp_none">0dp</dimen>
+    <dimen name="itm_margin_startEnd_extrasmall">8dp</dimen>
+    <dimen name="itm_padding_extrasmall">8dp</dimen>
     <dimen name="itm_padding_min">16dp</dimen>
+    <dimen name="itm_patron_marginStartEnd_min">11dp</dimen>
     <dimen name="itm_button_stroke_light">10dp</dimen>
     <dimen name="itm_button_elevation_unpressed">8dp</dimen>
     <dimen name="itm_button_elevation_pressed">4dp</dimen>
@@ -24,4 +29,6 @@
     <dimen name="itm_button_outline_stroke">1dp</dimen>
     <dimen name="itm_margin_top_max">45dp</dimen>
     <dimen name="itm_btmsheet_twoline_btm_padding">115dp</dimen>
+    <dimen name="itm_card_stroke_width">1dp</dimen>
+    <dimen name="itm_bottomAppBar_height">50dp</dimen>
 </resources>

@@ -1,40 +1,48 @@
 package com.example.nabrea.itemizeapp.screens.receipt
 
+import android.app.Application
+import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.example.nabrea.itemizeapp.EventClass
+import com.example.nabrea.itemizeapp.database.ExpenseDao
+import com.example.nabrea.itemizeapp.database.PatronDao
+import com.example.nabrea.itemizeapp.database.ReceiptDatabase
+import com.example.nabrea.itemizeapp.database.ReceiptRepository
 import com.example.nabrea.itemizeapp.screens.receipt.expense.ExpenseBasketClass
-import com.example.nabrea.itemizeapp.screens.receipt.expense.ExpenseClass
-import com.example.nabrea.itemizeapp.screens.receipt.patron.PatronClass
+import com.example.nabrea.itemizeapp.screens.receipt.expense.ExpenseDataClass
+import com.example.nabrea.itemizeapp.screens.receipt.patron.PatronDataClass
 import com.example.nabrea.itemizeapp.screens.receipt.uidisplay.BottomSheetClass
 import com.google.android.material.bottomsheet.BottomSheetBehavior
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import timber.log.Timber
 
-class ReceiptViewModel : ViewModel() {
+class ReceiptViewModel(application: Application) : AndroidViewModel(application) {
+
+    private val repository: ReceiptRepository
+
+    private val expenseDao: ExpenseDao
+
+    private val patronDao: PatronDao
+
+    val allExpenses: LiveData<List<ExpenseDataClass>>
+
+    val allPatrons: LiveData<List<PatronDataClass>>
+
     private var _message = MutableLiveData<EventClass<String>>()
     val message: LiveData<EventClass<String>>
         get() = _message
 
-    private var _error = MutableLiveData<String>()
-    val error: LiveData<String>
-        get() = _error
+    private var _errorExpense = MutableLiveData<String>()
+    val errorExpense: LiveData<String>
+        get() = _errorExpense
 
-    /*private val _errorDescription = MutableLiveData<String>()
-    val errorDescription: LiveData<String>
-        get() = _errorDescription
+    private var _errorPatron = MutableLiveData<String>()
+    val errorPatron: LiveData<String>
+        get() = _errorPatron
 
-    private val _errorCost = MutableLiveData<String>()
-    val errorCost: LiveData<String>
-        get() = _errorQuantity
-
-    private val _errorQuantity = MutableLiveData<String>()
-    val errorQuantity: LiveData<String>
-        get() = _errorQuantity*/
-
-    /* Below is the code logic for creating Expense objects through the ExpenseClass
-     * Variables are affected by userinput within the bottom_sheet_expense.xml
-     */
     val _description = MutableLiveData<String>()
     val description: LiveData<String>
         get() = _description
@@ -67,9 +75,9 @@ class ReceiptViewModel : ViewModel() {
     val essentialRating: LiveData<Int>
         get() = _essentialRating
 
-    lateinit var expense: ExpenseClass
+    lateinit var expense: ExpenseDataClass
 
-    val expenseList: MutableList<ExpenseClass> = mutableListOf()
+    val expenseList: MutableList<ExpenseDataClass> = mutableListOf()
 
     // Below is the code logic for compiling UserInput for Expenses and Patrons
     val expenseBasket = ExpenseBasketClass(expenseList)
@@ -82,18 +90,45 @@ class ReceiptViewModel : ViewModel() {
         get() = _expenseRecordTotalCost
 
     private val _expenseForm = MutableLiveData<MutableList<String?>>()
-    private val expenseForm: LiveData<MutableList<String?>>
-        get() = _expenseForm
 
     private val expenseFormFields = mutableListOf<String?>()
 
+    private val _patronForm = MutableLiveData<MutableList<String?>>()
+
+    private val patronFormFields = mutableListOf<String?>()
 
     init {
         Timber.i("ReceiptViewModel created")
+
+        expenseDao =
+            ReceiptDatabase.getDatabase(application, viewModelScope).expenseDao()
+
+        patronDao =
+            ReceiptDatabase.getDatabase(application, viewModelScope).patronDao()
+
+        repository = ReceiptRepository(expenseDao, patronDao)
+
+        allExpenses = repository.allExpenses
+
+        allPatrons = repository.allPatrons
+
+        deleteAll()
+
         _expenseRecord.value = expenseBasket
 
         _expenseForm.value = expenseFormFields
 
+        _patronForm.value = patronFormFields
+    }
+
+    private fun deleteAll() = viewModelScope.launch(Dispatchers.IO) {
+        expenseDao.deleteAllExpenses()
+        patronDao.deleteAllPatrons()
+    }
+
+    private fun insertExpense(expense: ExpenseDataClass) =
+        viewModelScope.launch(Dispatchers.IO) {
+            repository.insertExpense(expense)
     }
 
     private fun clearExpenseForm() {
@@ -106,7 +141,7 @@ class ReceiptViewModel : ViewModel() {
         _subCost.value = 0F
         _subCostFormat.value = ""
         _essentialRating.value = 0
-        _error.value = null
+        _errorExpense.value = null
         expenseFormFields.removeAll(expenseFormFields)
     }
 
@@ -116,8 +151,9 @@ class ReceiptViewModel : ViewModel() {
 
     fun setExitExpenseOnClick() {
 
-        _expenseBottomSheet.value!!.bottomSheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
         clearExpenseForm()
+
+        _expenseBottomSheet.value!!.bottomSheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
 
     }
 
@@ -140,13 +176,13 @@ class ReceiptViewModel : ViewModel() {
             expenseFormFields[2]!! == "000" ||
             expenseFormFields[2]!!.isNullOrBlank()
         ) {
-            _error.value = ErrorMessages.KEY_ERROR_GENERAL.errorMessage
+            _errorExpense.value = ErrorMessages.KEY_ERROR_GENERAL.errorMessage
 
             expenseFormFields.removeAll(expenseFormFields)
 
         } else {
 
-            _error.value = null
+            _errorExpense.value = null
             nullDetected = false
 
             expenseFormFields.removeAll(expenseFormFields)
@@ -161,7 +197,7 @@ class ReceiptViewModel : ViewModel() {
     }
 
 
-    fun createExpense() {
+    private fun createExpense() {
 
         val trimmedDescription = _description.value!!.trim()
 
@@ -182,23 +218,66 @@ class ReceiptViewModel : ViewModel() {
 
         _subCostFormat.value = "%.2f".format(_subCost.value)
 
-        expense = ExpenseClass(description, cost, costFormat, quantity, subCost, subCostFormat, essentialRating)
+        expense = ExpenseDataClass(
+                description.value.toString(),
+                cost.value!!.toFloat(),
+                costFormat.value!!.toString(),
+                quantity.value!!.toInt(),
+                subCost.value!!.toFloat(),
+                subCostFormat.value.toString(),
+                essentialRating.value
+            )
 
-        expenseBasket.expenseList.add(expense)
+        /*expenseBasket.expenseList.add(expense)*/
+        insertExpense(expense)
 
-        _message.value = EventClass("Expense: ${expense.description.value} | Cost: $${expense.subCostFormat.value} added!")
+        _message.value = EventClass(
+            "Expense: ${expense.description} | Cost: $${expense.subCostFormat} added!"
+        )
 
         clearExpenseForm()
 
         Timber.i("Expense form is cleared")
+
         Timber.i("Expense Basket contains: ${expenseBasket.expenseList.size} items after user input")
     }
 
 
 
+
+
+
+    /* Below is the code logic for creating a Patron object through the PatronClass
+     * Variables are affected by userinput within the bottom_sheet_patron.xml
+     */
+    private val _patronID = MutableLiveData<Int>()
+    val patronID: LiveData<Int>
+        get() = _patronID
+
+    val _name = MutableLiveData<String>()
+    val name: LiveData<String>
+        get() = _name
+
+    private val _nameInitials = MutableLiveData<String>()
+    val nameInitials: LiveData<String>
+        get() = _nameInitials
+
+    /*val _lastName = MutableLiveData<String>()
+    val lastName: LiveData<String>
+        get() = _lastName*/
+
+    private val _cart = MutableLiveData<MutableList<ExpenseDataClass>>()
+    val cart: LiveData<MutableList<ExpenseDataClass>>
+        get() = _cart
+
+    lateinit var patron: PatronDataClass
+
     val _patronBottomSheet = MutableLiveData<BottomSheetClass>()
+
     val patronBottomSheet: LiveData<BottomSheetClass>
         get() = _patronBottomSheet
+
+
 
     fun setExitPatronOnClick() {
 
@@ -208,54 +287,110 @@ class ReceiptViewModel : ViewModel() {
     }
 
     private fun clearPatronForm() {
-        _firstName.value = ""
-        _lastName.value = ""
+
+        _name.value = ""
+        _nameInitials.value = ""
+        _cart.value = null
+        _errorPatron.value = null
+
+        /*_lastName.value = ""*/
+    }
+
+
+    fun validatePatronInputs() {
+
+        patronFormFields.add(_name.value)
+
+        var nullDetected = true
+
+        if (patronFormFields.contains(null) ||
+            patronFormFields[0]!!.isBlank() ||
+            patronFormFields[0]!!.isEmpty()
+        ) {
+            _errorPatron.value = ErrorMessages.KEY_ERROR_GENERAL.errorMessage
+
+            patronFormFields.removeAll(patronFormFields)
+
+        } else {
+
+            _errorPatron.value = null
+            nullDetected = false
+
+            patronFormFields.removeAll(patronFormFields)
+
+        }
+
+        when (nullDetected) {
+            true -> _message.value = EventClass(ErrorMessages.KEY_ERROR_GENERAL.errorMessage)
+            false -> createPatron()
+        }
+
+    }
+
+    private fun insertPatron(patron: PatronDataClass) =
+        viewModelScope.launch(Dispatchers.IO) {
+            repository.insertPatron(patron)
+        }
+
+
+
+    private fun createPatron() {
+
+        _cart.value = mutableListOf()
+
+
+        getPatronInitials()
+
+        patron = PatronDataClass(
+            0L,
+            name.value.toString(),
+            /*lastName,*/
+            nameInitials.value.toString()
+        )
+
+        insertPatron(patron)
+
+
+        _message.value = EventClass(
+            "Patron: ${patron.name} added!"
+        )
+
+        clearPatronForm()
+
+        Timber.i("Patron: ${patron.name}, ${patron.nameInitials} is created")
+    }
+
+    private fun getPatronInitials() {
+
+        val tempList = mutableListOf<String>()
+
+        val userInput = _name.value
+
+        val split = userInput!!.split(" ")
+
+        for (i in 0..1) {
+            val firstLetter = split[i].substring(0,1)
+            tempList.add(firstLetter)
+        }
+
+        _nameInitials.value = tempList.joinToString(separator = "") { it }
+
+        Timber.i("${nameInitials.value} is created")
+
     }
 
 
 
-    /* Below is the code logic for creating a Patron object through the PatronClass
-     * Variables are affected by userinput within the bottom_sheet_patron.xml
-     */
-    val _firstName = MutableLiveData<String>()
-    val firstName: LiveData<String>
-        get() = _firstName
-
-    val _lastName = MutableLiveData<String>()
-    val lastName: LiveData<String>
-        get() = _lastName
-
-    private val _patronID = MutableLiveData<Int>()
-    val patronID: LiveData<Int>
-        get() = _patronID
-
-    private val _cart = MutableLiveData<MutableList<ExpenseClass>>()
-    val cart: LiveData<MutableList<ExpenseClass>>
-        get() = _cart
-
-    lateinit var patron: PatronClass
-
-    fun createPatron() {
-
-        // TODO (03) Clarify code logic for setting patronID, and setting up the cart variable
-
-        patron = PatronClass(firstName, lastName, patronID, cart)
-
-        // TODO (05) Create code logic to clear out UserInput fields after "adding"
-
-        Timber.i("Patron: ${patron.firstName.value}, ${patron.lastName.value} is created")
-    }
-
-
-
-    private var _patronList = MutableLiveData<MutableList<PatronClass>>()
-    val patronList: LiveData<MutableList<PatronClass>>
+    private var _patronList = MutableLiveData<MutableList<PatronDataClass>>()
+    val patronList: LiveData<MutableList<PatronDataClass>>
         get() = _patronList
 
 
+    override fun onCleared() {
+        super.onCleared()
 
-    // TODO (04) Create code logic for storing UserInput Expenses and Patrons into MutableLists
-    // TODO (07) Figure out how to extract this data to transfer to ReceiptSummaryFragment
+        Timber.i("onCleared() is called. ViewModel instance is cleared.")
+    }
 
 
 

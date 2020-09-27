@@ -12,7 +12,7 @@
     <string name="itm_expense_cost_prefix">$</string>
     <string name="itm_patronGroup_title">Current Group</string>
     <string name="itm_patron_title">Add a New Patron</string>
-    <string name="itm_patron_firstName_hint">FIRST NAME</string>
+    <string name="itm_patron_firstName_hint">PATRON NAME</string>
     <string name="itm_patron_lastName_hint">LAST NAME</string>
     <string name="itm_receiptSummary_title">Summary of Expenses</string>
     <string name="itm_essentialsComposition_title">Compostion of Essential Expenses</string>
@@ -30,9 +30,12 @@
     <string name="itm_button_done">done</string>
     <string name="itm_button_add">add</string>
     <string name="slide_handle">Slide Handle</string>
-
     <string name="itm_error_expense_description">"Please enter an expense description. (20 characters max)"</string>
     <string name="itm_error_expense_cost">"Please enter an expense cost. (8 digits max)"</string>
     <string name="itm_error_expense_quantity">"Please enter an expense quantity. (3 digits max)</string>
     <string name="itm_error_general">"Please enter a valid value for this field."</string>
+
+    <string name="itm_expenseCard_cost">Cost: $%1$s</string>
+    <string name="itm_expenseCard_quantity">Quantity: %1$d</string>
+    <string name="itm_expenseCard_subCost">SubCost: $%1$s</string>
 </resources>

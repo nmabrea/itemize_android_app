@@ -24,69 +24,92 @@
             android:background="@color/itm_secondary_orangeLightest"
             android:fillViewport="true">
 
-            <ScrollView
-                android:id="@+id/scrollView2"
+            <LinearLayout
+                android:id="@+id/receiptLayoutView"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                tools:layout_editor_absoluteX="76dp"
-                tools:layout_editor_absoluteY="71dp">
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
 
-                <LinearLayout
-                    android:id="@+id/receiptLayout"
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/receiptStoreName"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical">
+                    android:layout_marginTop="@dimen/itm_margin_topBottom_min"
+                    app:errorEnabled="true"
+                    app:errorIconDrawable="@drawable/ic_baseline_error_24">
 
-                        <com.google.android.material.textfield.TextInputLayout
-                            android:id="@+id/receiptStoreName"
-                            style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="@dimen/itm_margin_topBottom_min"
-                            app:errorEnabled="true"
-                            app:errorIconDrawable="@drawable/ic_baseline_error_24">
-
-                        <com.google.android.material.textfield.TextInputEditText
-                            android:id="@+id/receiptStoreNameEdit"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="@dimen/itm_margin_startEnd_min"
-                            android:layout_marginTop="@dimen/itm_margin_top_med"
-                            android:layout_marginEnd="@dimen/itm_margin_startEnd_min"
-                            android:fontFamily="@font/quicksand_medium"
-                            android:hint="@string/itm_receiptHistory_storeName"
-                            android:inputType="text"
-                            android:textAllCaps="true"
-                            android:textSize="@dimen/itm_text_size_small"
-                            android:textStyle="bold"
-                            android:focusable="true"
-                            android:maxLines="1"
-                            android:maxLength="20"
-                            android:focusableInTouchMode="true"/>
-                        </com.google.android.material.textfield.TextInputLayout>
-
-                    <com.google.android.material.textfield.TextInputLayout
-                        android:id="@+id/receiptDate"
-                        style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/receiptStoreNameEdit"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/itm_margin_topBottom_min">
+                        android:layout_marginStart="@dimen/itm_margin_startEnd_min"
+                        android:layout_marginTop="@dimen/itm_margin_top_med"
+                        android:layout_marginEnd="@dimen/itm_margin_startEnd_min"
+                        android:focusable="true"
+                        android:focusableInTouchMode="true"
+                        android:fontFamily="@font/quicksand_medium"
+                        android:hint="@string/itm_receiptHistory_storeName"
+                        android:inputType="text"
+                        android:maxLength="20"
+                        android:maxLines="1"
+                        android:textAllCaps="true"
+                        android:textSize="@dimen/itm_text_size_small"
+                        android:textStyle="bold" />
+                </com.google.android.material.textfield.TextInputLayout>
 
-                        <com.google.android.material.textfield.TextInputEditText
-                            android:id="@+id/receiptDateEdit"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="@dimen/itm_margin_startEnd_min"
-                            android:layout_marginEnd="@dimen/itm_margin_startEnd_min"
-                            android:clickable="true"
-                            android:focusable="false"
-                            android:fontFamily="@font/quicksand_medium"
-                            android:hint="@string/itm_receiptHistory_date"
-                            android:textSize="@dimen/itm_text_size_small" />
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/receiptDate"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/itm_margin_topBottom_min">
 
-                    </com.google.android.material.textfield.TextInputLayout>
-                </LinearLayout>
-            </ScrollView>
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/receiptDateEdit"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/itm_margin_startEnd_min"
+                        android:layout_marginEnd="@dimen/itm_margin_startEnd_min"
+                        android:clickable="true"
+                        android:focusable="false"
+                        android:fontFamily="@font/quicksand_medium"
+                        android:hint="@string/itm_receiptHistory_date"
+                        android:textSize="@dimen/itm_text_size_small" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+            </LinearLayout>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/patronReceiptRecyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                tools:listitem="@layout/recyclerview_patron"
+                android:padding="@dimen/itm_padding_min"
+                android:layout_marginTop="@dimen/itm_margin_topBottom_min"                app:layout_constraintTop_toBottomOf="@+id/receiptLayoutView"
+                app:layout_constraintBottom_toTopOf="@+id/expenseRecyclerView"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:orientation="horizontal"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/expenseRecyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                tools:listitem="@layout/recyclerview_expense"
+                android:padding="@dimen/itm_dp_none"
+                android:layout_marginTop="@dimen/itm_margin_topBottom_min"
+                android:layout_marginBottom="@dimen/itm_bottomAppBar_height"
+                app:layout_constraintTop_toBottomOf="@id/patronReceiptRecyclerView"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"/>
+
+
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -108,7 +131,7 @@
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/label_finalize"
-            style="@style/TextAppearance.MaterialComponents.TextView.Label"
+            style="@style/button_labels"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom|end"
@@ -118,6 +141,9 @@
             android:text="@string/itm_button_description_finalizeReceipt"
             android:textStyle="bold"
             android:visibility="gone"
+            android:paddingStart="@dimen/itm_padding_extrasmall"
+            android:paddingEnd="@dimen/itm_padding_extrasmall"
+            android:background="@drawable/itm_button_label"
             app:layout_constraintBottom_toBottomOf="@id/button_finalize"
             app:layout_constraintEnd_toStartOf="@+id/button_finalize"
             app:layout_constraintTop_toTopOf="@+id/button_finalize" />
@@ -140,7 +166,7 @@
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/label_addPatron"
-            style="@style/TextAppearance.MaterialComponents.TextView.Label"
+            style="@style/button_labels"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom|end"
@@ -150,6 +176,9 @@
             android:text="@string/itm_button_description_addPatron"
             android:textStyle="bold"
             android:visibility="gone"
+            android:paddingStart="@dimen/itm_padding_extrasmall"
+            android:paddingEnd="@dimen/itm_padding_extrasmall"
+            android:background="@drawable/itm_button_label"
             app:layout_constraintBottom_toBottomOf="@id/button_addPatron"
             app:layout_constraintEnd_toStartOf="@+id/button_addPatron"
             app:layout_constraintTop_toTopOf="@+id/button_addPatron" />
@@ -172,7 +201,7 @@
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/label_addExpense"
-            style="@style/TextAppearance.MaterialComponents.TextView.Label"
+            style="@style/button_labels"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom|end"
@@ -182,6 +211,9 @@
             android:text="@string/itm_button_description_addExpense"
             android:visibility="gone"
             android:textStyle="bold"
+            android:paddingStart="@dimen/itm_padding_extrasmall"
+            android:paddingEnd="@dimen/itm_padding_extrasmall"
+            android:background="@drawable/itm_button_label"
             app:layout_constraintBottom_toBottomOf="@id/button_addExpense"
             app:layout_constraintEnd_toStartOf="@+id/button_addExpense"
             app:layout_constraintTop_toTopOf="@+id/button_addExpense" />

@@ -14,10 +14,11 @@ import androidx.navigation.NavDirections
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.NavigationUI
+import com.example.nabrea.itemizeapp.database.ExpenseDao
 import com.example.nabrea.itemizeapp.databinding.ActivityMainBinding
 import com.example.nabrea.itemizeapp.screens.home.ReceiptHistoryFragmentDirections
-import com.example.nabrea.itemizeapp.screens.receipt.uidisplay.MenuClass
 import com.example.nabrea.itemizeapp.screens.receipt.ReceiptFragmentCommunication
+import com.example.nabrea.itemizeapp.screens.receipt.uidisplay.MenuClass
 import com.google.android.material.bottomappbar.BottomAppBar
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import timber.log.Timber
@@ -32,6 +33,8 @@ class MainActivity : AppCompatActivity(),
 
     // Data Binding is applied to the Main Activity xml file
     private lateinit var activityMainBinding: ActivityMainBinding
+
+    private lateinit var expenseDao: ExpenseDao
 
     // Variable for identifying the BottomAppBar for hosting Navigation Options
     private lateinit var mainBab: BottomAppBar
@@ -139,6 +142,8 @@ class MainActivity : AppCompatActivity(),
                 R.id.receiptHistoryFragment -> {
 
                     Timber.i("destination.id is ReceiptHistoryFragment")
+
+
 
                     // Reestablishing the icon to be displayed if it changes
                     primaryAction.button.setImageDrawable(plusIcon)
