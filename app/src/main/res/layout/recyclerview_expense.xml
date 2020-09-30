@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical">
 
     <com.google.android.material.card.MaterialCardView
@@ -11,14 +11,14 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_marginTop="@dimen/itm_margin_topBottom_min"
-        android:layout_marginBottom="16dp"
         android:layout_marginStart="@dimen/itm_margin_startEnd_min"
+        android:layout_marginTop="@dimen/itm_margin_topBottom_min"
         android:layout_marginEnd="@dimen/itm_margin_startEnd_min"
+        android:layout_marginBottom="16dp"
         app:cardCornerRadius="8dp"
         app:cardElevation="6dp"
-        app:strokeWidth="@dimen/itm_card_stroke_width"
         app:strokeColor="@color/itm_primary_grayLightest"
+        app:strokeWidth="@dimen/itm_card_stroke_width"
         >
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -52,7 +52,7 @@
                 style="@style/expense_body_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:paddingBottom="@dimen/itm_padding_extrasmall"
+                android:paddingBottom="@dimen/itm_padding_min"
                 app:layout_constraintBaseline_toBaselineOf="@+id/expenseQuantityCardText"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/expenseSubTotalCardText"/>
@@ -62,7 +62,7 @@
                 style="@style/expense_body_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:paddingBottom="@dimen/itm_padding_extrasmall"
+                android:paddingBottom="@dimen/itm_padding_min"
                 app:layout_constraintBaseline_toBaselineOf="@+id/expenseCostCardText"
                 app:layout_constraintStart_toEndOf="@+id/expenseCostCardText"
                 app:layout_constraintTop_toBottomOf="@+id/expenseSubTotalCardText"/>
@@ -71,14 +71,15 @@
                 android:id="@+id/patronExpenseRecyclerView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                tools:listitem="@layout/recyclerview_patron"
                 android:orientation="horizontal"
-                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                app:layout_constraintTop_toBottomOf="@id/expenseCostCardText"
-                app:layout_constraintStart_toStartOf="parent"
-                android:paddingBottom="@dimen/itm_padding_min"
                 android:paddingStart="@dimen/itm_padding_min"
-                android:paddingEnd="@dimen/itm_padding_min" />
+                android:paddingEnd="@dimen/itm_padding_min"
+                android:paddingBottom="@dimen/itm_padding_min"
+                android:visibility="gone"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/expenseCostCardText"
+                tools:listitem="@layout/recyclerview_patron"/>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

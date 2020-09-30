@@ -206,12 +206,12 @@ class MainActivity : AppCompatActivity(),
         primaryAction.button.show()
         primaryAction.animateFabAntiClockwise(primaryAction.button)
 
-        // A Timer delay has been set to prevent the snackbar from immediately overlapping the FAB
+        // Snackbar display is delayed to not overlap the FAB. Snackbar display is for user feedback.
         Timer("BottomSheetBehavior STATE_COLLAPSE delay", false).schedule(400) {
             ItemizeSnackbar()
                 .displaySnackbarNoAction(
                     activityMainBinding.root,
-                    "The New Expense form is closed.",
+                    "The form is closed.",
                     primaryAction.button
                 )
         }

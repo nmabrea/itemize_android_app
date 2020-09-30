@@ -41,6 +41,7 @@ const val KEY_DATE: String = "key_date"
 // Constant value for the UserInput StoreName via EditTextField in the Receipt Fragment
 const val KEY_STORE: String = "key_store"
 
+// Enum class storing error typical error messages that the user may encounter
 enum class ErrorMessages (val errorMessage: String) {
 
     KEY_ERROR_GENERAL("Please fill in all fields correctly."),
@@ -52,7 +53,7 @@ enum class ErrorMessages (val errorMessage: String) {
 }
 
 
-// Interface to be used a communication between an instance of this Fragment and the MainActivity
+// Interface to be used as communication between an instance of this Fragment and the MainActivity
 interface ReceiptFragmentCommunication {
 
     // Function to be called when a BottomSheet is STATE_COLLAPSED
@@ -64,16 +65,19 @@ interface ReceiptFragmentCommunication {
     // Function to be called when Activity needs to display ReceiptFragment's menu actions
     fun setMenuAwareness(menu: MenuClass)
 
+    // Function used to hide the keyboard from the user
     fun hideKeyboard(view: View)
 
+    // Function used to display a snackbar for user feedback
     fun displaySnackbar(message: String)
 
 }
 
+// Receipt Fragment has mini FAB that act as an expandable menu. It controls the animations for these buttons.
 class ReceiptFragment : Fragment(),
     ExpandingFabAnimationInterface {
 
-    // Variable to establish the interface listener
+    // Variable to establish communication with the Main Activity as the listener
     lateinit var listener: ReceiptFragmentCommunication
 
     // DataBinding variable for this Fragment
@@ -82,8 +86,10 @@ class ReceiptFragment : Fragment(),
     // ViewModel associated with this Fragment
     private lateinit var receiptVm: ReceiptViewModel
 
+    // Adapter for the expense recycler view
     private lateinit var expenseAdapter: ExpenseListAdapter
 
+    // Adapter for the patron recycler view
     private lateinit var patronAdapter: PatronListAdapter
 
     // An instance of the MenuClass. Takes in menu options along with the primaryButton
@@ -101,18 +107,25 @@ class ReceiptFragment : Fragment(),
     // BottomSheetClass variable that passes in the Layout associated with the AddExpense Button
     private lateinit var expenseBottomSheet: BottomSheetClass
 
+    // Variable for the expense description TextInputLayout view
     private lateinit var expenseDescription: TextInputLayout
 
+    // Variable for the expense description EditText view
     private lateinit var expenseDescriptionEditText: TextInputEditText
 
+    // Variable for the expense cost TextInputLayout view
     private lateinit var expenseCost: TextInputLayout
 
+    // Variable for the expense cost EditText view
     private lateinit var expenseCostEditText: TextInputEditText
 
+    // Variable for the expense quantity TextInputLayout view
     private lateinit var expenseQuantity: TextInputLayout
 
+    // Variable for the expense quantity EditText view
     private lateinit var expenseQuantityEditText: TextInputEditText
 
+    // Variable that collects the views associated with expense information and their associated error messages.
     private lateinit var expenseForm: MutableMap<Pair<TextInputEditText, TextInputLayout>, String>
 
     // Variable for the AddPatron Button
@@ -133,6 +146,7 @@ class ReceiptFragment : Fragment(),
     // Variable for the Patron's name input, takes in the user input
     private lateinit var patronNameEditText: TextInputEditText
 
+    // Variable that collects the views associated with patron information and their associated error messages.
     private lateinit var patronForm: MutableMap<Pair<TextInputEditText, TextInputLayout>, String>
 
     // Variable for the Finalize Button
@@ -154,6 +168,7 @@ class ReceiptFragment : Fragment(),
     // NavController variable for navigation
     private lateinit var navController: NavController
 
+    // Variable for establishing the FragmentManager
     private lateinit var fragManager: FragmentManager
 
     // Instance of expandable menu items that appear with Navigation Actions
@@ -162,13 +177,8 @@ class ReceiptFragment : Fragment(),
 
 
 
-    // Override values inherited from the MaterialDatePickerInterface below
-    private lateinit var editDate: TextInputLayout
-
     // The EditTextField associated with the DatePicker instance within the receipt_fragment.xml
     private lateinit var editDateText: TextInputEditText
-
-    private lateinit var storeName: TextInputLayout
 
     // The TextInputEditText field associated with the Store Name input.
     private lateinit var storeNameEdit: TextInputEditText
@@ -217,26 +227,35 @@ class ReceiptFragment : Fragment(),
         // Identifying this Fragment as the lifecycleOwner of the ViewModel
         receiptBinding.lifecycleOwner = this
 
+        // Establishing how to find the Patron RecyclerView from the layout
         val patronRecycler = receiptBinding.patronReceiptRecyclerView
 
+        // Establishing this Fragment as the context to display the patron recyclerview
         patronAdapter = PatronListAdapter(animationContext)
 
+        // Establishing the adapter to reference for the Recycler View
         patronRecycler.adapter = patronAdapter
 
+        // Establishing how to find the Expense RecyclerView from the layout
         val expenseRecycler = receiptBinding.expenseRecyclerView
 
+        // Establishing this Fragment as the context to display both the Expense RecyclerView and its nested Patron RecyclerView
         expenseAdapter = ExpenseListAdapter(animationContext, patronAdapter)
 
+        // Establishing the adapter to reference for the RecyclerView
         expenseRecycler.adapter = expenseAdapter
 
+        // Establishing the LinearLayoutManager's context
         expenseRecycler.layoutManager = LinearLayoutManager(animationContext)
 
+        // Setting up an observer for the ViewModel variables that populate the Expense Recycler View
         receiptVm.allExpenses.observe(viewLifecycleOwner, { expenses ->
             expenses.let {
                 expenseAdapter.setExpenses(it)
             }
         })
 
+        // Setting up an observer for the ViewModel variables that populate the Patron Recycler View
         receiptVm.allPatrons.observe(viewLifecycleOwner, { patrons ->
             patrons.let { patronAdapter.setPatrons(it) }
         })
@@ -249,23 +268,25 @@ class ReceiptFragment : Fragment(),
 
         fragManager = fragmentManager!!
 
+
+
+
         // Locating the text view storing the StoreName within the onSavedInstanceState()
         storeNameEdit = receiptBinding.receiptStoreNameEdit
 
+        // Establishing rules for when a user types in the StoreName
         storeNameEdit.filters = arrayOf(InputFilter { charSequence, i, i2, spanned, i3, i4 ->
             return@InputFilter charSequence.replace(Regex("[^a-zA-Z0-9 ]*"), "")
         })
 
+        // Locating the EditText view for user Date selection
         editDateText = receiptBinding.receiptDateEdit
 
 
 
-
+        // The code below locates the layout views associated with the expanding menu's expense button
         // Creating the expandMenu object through the custom ActionButton() class
         expandMenu = MenuClass(navController, animationContext)
-
-        // Identifying the transparent background to supplement BottomSheetBehavior actions
-        stateExpandedBackground = receiptBinding.bottomSheetBackground.bottomSheetBackground
 
         // Locating the expense button, and its associated label and bottom_sheet_expense.xml
         expenseButton = receiptBinding.buttonAddExpense
@@ -273,8 +294,14 @@ class ReceiptFragment : Fragment(),
         // Locating the label text associated with the expense button
         expenseLabel = receiptBinding.labelAddExpense
 
+
+
+        // The code below locates the layout views associated with the expense BottomSheet
         // Locating the expenseLayout, which is included as part of the receiptBinding
         expenseLayout = receiptBinding.expenseBottomSheet.expenseBottomSheetLayout
+
+        // Identifying the transparent background to supplement BottomSheetBehavior actions
+        stateExpandedBackground = receiptBinding.bottomSheetBackground.bottomSheetBackground
 
         // Creating an instance of the BottomSheetClass for the Expense Bottom Sheet
         expenseBottomSheet = BottomSheetClass(
@@ -284,25 +311,36 @@ class ReceiptFragment : Fragment(),
             this,
             animationContext)
 
+        // Locating the expenseBottomSheet values from the ViewModel that affect the state within the Fragment
         receiptVm._expenseBottomSheet.value = expenseBottomSheet
 
+
+
+        // The code below locates the layout views for user input within the expense BottomSheet
+        // Locating the expenseDescription InputLayout view from the layout
         expenseDescription = receiptBinding.expenseBottomSheet.expenseDescription
 
+        // Locating the expenseDescription EditText view from the layout
         expenseDescriptionEditText = receiptBinding.expenseBottomSheet.expenseDescriptionEdit
 
+        // Setting input rules for when users type in the description
         expenseDescriptionEditText.filters = arrayOf(InputFilter { charSequence, i, i2, spanned, i3, i4 ->
-
             return@InputFilter charSequence.replace(Regex("[^a-zA-Z0-9 ]*"), "")
         })
 
+        // Locating the expenseCost InputLayout view from the layout
         expenseCost = receiptBinding.expenseBottomSheet.expenseCost
 
+        // Locating the expenseCost EditText view from the layout
         expenseCostEditText = receiptBinding.expenseBottomSheet.expenseCostEdit
 
+        // Locating the expenseQuantity InputLayout view from the layout
         expenseQuantity = receiptBinding.expenseBottomSheet.expenseQuantity
 
+        // Locating the expenseQuantity EditText view from the layout
         expenseQuantityEditText = receiptBinding.expenseBottomSheet.expenseQuantityEdit
 
+        // This variable collects the expense text layout views as pairs, and associates them with a value from the EnumClass ErrorMessages
         expenseForm = mutableMapOf()
 
         expenseForm[Pair(expenseDescriptionEditText, expenseDescription)] =
@@ -316,12 +354,16 @@ class ReceiptFragment : Fragment(),
 
 
 
+        // The code below locates the layout views associated with the patron button from the menu
         // Locating the patron button, and its associated label and bottom_sheet_patron.xml
         patronButton = receiptBinding.buttonAddPatron
 
         // Locating the label text associated with the patron button
         patronLabel = receiptBinding.labelAddPatron
 
+
+
+        // The code below locates the layout views associated with the patron BottomSheet
         // Locating the patronLayout, which is included as part of receiptBinding
         patronLayout = receiptBinding.patronBottomSheet.patronBottomSheetLayout
 
@@ -334,17 +376,21 @@ class ReceiptFragment : Fragment(),
             animationContext
         )
 
+        // Locating the ViewModel variables that affect the bottomsheet state within the Fragment
         receiptVm._patronBottomSheet.value = patronBottomSheet
 
+        // Locating the patronName InputLayout view from the layout
         patronName = receiptBinding.patronBottomSheet.patronNameInput
 
+        // Locating the patronName EditText view from the layout
         patronNameEditText = receiptBinding.patronBottomSheet.patronNameInputEdit
 
+        // Establishing rules for user input for the patronName view
         patronNameEditText.filters = arrayOf(InputFilter { charSequence, i, i2, spanned, i3, i4 ->
-
             return@InputFilter charSequence.replace(Regex("[^a-zA-Z ]*"), "")
         })
 
+        // This variable collects the patron text layout views and associates them with a value from the EnumClass ErrorMessages
         patronForm = mutableMapOf()
 
         patronForm[Pair(patronNameEditText,patronName)] = ErrorMessages.KEY_ERROR_NAME.errorMessage
@@ -385,7 +431,6 @@ class ReceiptFragment : Fragment(),
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         Timber.i("$listener is activated")
-
     }
 
 
@@ -395,23 +440,32 @@ class ReceiptFragment : Fragment(),
         super.onResume()
         Timber.i("onResume() has been called")
 
+        // Setting up an observer if a message is initialized within the ViewModel
         receiptVm.message.observe(this, Observer { message ->
             message.getContentIfNotHandled()?.let { content ->
+
+                // Communicating to the Main Activity to display ViewModel's message as a snackbar
                 listener.displaySnackbar(content)
             }
         })
 
+        // Setting up an observer for ViewModel variables that will affect the ExpenseBottomSheet state
         receiptVm.expenseBottomSheet.observe(this, Observer { eBottomSheet ->
             when (eBottomSheet.bottomSheetBehavior.state == BottomSheetBehavior.STATE_COLLAPSED) {
-               true -> {
+
+                // ViewModel variables inform whether the bottom sheet should close
+                true -> {
                    expenseBottomSheet.bottomSheetBehavior.state =
                        BottomSheetBehavior.STATE_COLLAPSED
                }
             }
         })
 
+        // Setting up an observer for ViewModel variables that will affect the PatronBottomSheet state
         receiptVm.patronBottomSheet.observe(this, Observer { pBottomSheet ->
             when (pBottomSheet.bottomSheetBehavior.state == BottomSheetBehavior.STATE_COLLAPSED) {
+
+                // ViewModel variables inform whether the bottom sheet should close
                 true -> {
                     patronBottomSheet.bottomSheetBehavior.state =
                         BottomSheetBehavior.STATE_COLLAPSED
@@ -420,19 +474,24 @@ class ReceiptFragment : Fragment(),
         })
 
 
+
+        // Establishing rules for how text input works for the ExpenseCostEditText view
         ItemizeTextWatcherClass().setCurrencyTextWatcher(expenseCostEditText)
 
 
+
+        // Setting an observer for ViewModel variables that inform the program of errors with the expenseForm
         receiptVm.errorExpense.observe(this, Observer { errorMessage ->
 
+            // If the ViewModel variable is null, all of the associated error values for the views are null
             if (errorMessage == null) {
-
                 expenseForm.forEach { inputField ->
                     inputField.key.second.error = null
                 }
-
             } else {
 
+                // If the ViewModel variable has an error message, all input fields are checked
+                // and error messages will be displayed based on the validation method's criteria
                 expenseForm.forEach { inputField ->
 
                     if (!isExpenseInputValid(inputField.key.first)) {
@@ -444,17 +503,21 @@ class ReceiptFragment : Fragment(),
             }
         })
 
-        receiptVm.errorPatron.observe(this, Observer { errorMessage ->
-            if (errorMessage == null) {
 
+
+        // Setting an observer for ViewModel variables that inform the program of errors with the patronForm
+        receiptVm.errorPatron.observe(this, Observer { errorMessage ->
+
+            // If the ViewModel variable is null, all of the associated error values for the views are null
+            if (errorMessage == null) {
                 patronForm.forEach { inputField ->
                     inputField.key.second.error = null
                 }
-
             } else {
 
+                // If the ViewModel variable has an error message, all input fields are checked
+                // and error messages will be displayed based on the validation method's criteria
                 patronForm.forEach { inputField ->
-
                     if(!isPatronInputValid(inputField.key.first)) {
                         inputField.key.second.error = inputField.value
                     } else {
@@ -464,6 +527,9 @@ class ReceiptFragment : Fragment(),
             }
         })
 
+
+
+        // Variables for setting up the MaterialDatePicker Dialog
         val datePicker = MaterialDatePickerClass(editDateText, fragManager)
         datePicker.setTitle()
         datePicker.clickActions(listener)
@@ -472,6 +538,7 @@ class ReceiptFragment : Fragment(),
 
 
 
+    // Method for validation criteria for various requirements of the expense form
     private fun isExpenseInputValid(userInput: TextInputEditText) : Boolean {
         return if (userInput.text == null) {
             false
@@ -487,6 +554,8 @@ class ReceiptFragment : Fragment(),
     }
 
 
+
+    // Method for validation criteria for various requirements of the patron form
     private fun isPatronInputValid(userInput: TextInputEditText) : Boolean {
         return if (userInput.text.isNullOrBlank()) {
             false
@@ -495,7 +564,7 @@ class ReceiptFragment : Fragment(),
 
 
 
-
+    // Method for reactivating the input forms once the bottom sheet is collapsed.
     fun setBottomSheetUnfocused() {
         // EditTextView is enabled for MaterialDatePicker
         editDateText.isClickable = true
@@ -506,11 +575,15 @@ class ReceiptFragment : Fragment(),
         storeNameEdit.isLongClickable = true
         storeNameEdit.isFocusable = true
 
+        // When the bottomsheet is collapsed the keyboard is hidden for any of the input fields.
         expenseForm.keys.forEach {inputField ->
             listener.hideKeyboard(inputField.first)
         }
     }
 
+
+
+    // Method for deactivating the input forms once the bottom sheet is expanded
     fun setBottomSheetFocus() {
         // EditTextView for MaterialDatePicker is disabled
         editDateText.isClickable = false
@@ -520,8 +593,11 @@ class ReceiptFragment : Fragment(),
         storeNameEdit.isClickable = false
         storeNameEdit.isLongClickable = false
 
+        // When the bottomsheet is expanded the keyboard is hidden from the storename input field.
         listener.hideKeyboard(storeNameEdit)
     }
+
+
 
     // Small values to be maintained within onSaveInstanceState()
     override fun onSaveInstanceState(outState: Bundle) {
