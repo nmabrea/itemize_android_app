@@ -11,7 +11,7 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            tools:context=".MainActivity">
+            tools:context=".activity.MainActivity">
 
             <fragment
                 android:id="@+id/myNavHostFragment"
@@ -67,7 +67,6 @@
                 app:fabAlignmentMode="center"
                 app:layout_behavior="com.google.android.material.bottomappbar.BottomAppBar$Behavior"
                 />
-
         </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
     </androidx.drawerlayout.widget.DrawerLayout>

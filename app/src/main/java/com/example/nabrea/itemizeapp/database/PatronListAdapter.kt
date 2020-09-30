@@ -17,7 +17,7 @@ class PatronListAdapter internal constructor(
     private var patronGroup = emptyList<PatronDataClass>()
 
     inner class PatronViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val patronInitials: TextView = itemView.findViewById(R.id.patronInitialsTextView)
+        val patronInitials: TextView = itemView.findViewById(R.id.patronInitialsButton)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PatronViewHolder {

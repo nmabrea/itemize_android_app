@@ -32,6 +32,7 @@ import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import com.google.android.material.textview.MaterialTextView
 import timber.log.Timber
+import kotlin.collections.set
 
 // Small constant values to be saved within onSavedInstanceState() below.
 // Constant value for the Date Selected via MaterialDatePicker in the Receipt Fragment

@@ -1,8 +1,9 @@
-package com.example.nabrea.itemizeapp
+package com.example.nabrea.itemizeapp.activity
 
 import android.content.Context
 import androidx.navigation.NavController
 import androidx.navigation.NavDirections
+import com.example.nabrea.itemizeapp.ExpandingFabAnimationInterface
 import com.google.android.material.bottomappbar.BottomAppBar
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import timber.log.Timber

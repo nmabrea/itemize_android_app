@@ -2,7 +2,7 @@
     <!-- Base application theme. -->
     <style name="AppTheme.NoActionBar" parent="Theme.MaterialComponents.Light.NoActionBar">
         <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/itm_primary_gray</item>
+        <item name="colorPrimary">@color/itm_primary_grayDark</item>
         <item name="colorPrimaryDark">@color/itm_primary_grayDark</item>
         <item name="colorAccent">@color/itm_secondary_orangeDark</item>
         <item name="colorSecondary">@color/itm_secondary_orangeDark</item>
@@ -74,8 +74,12 @@
     </style>
 
     <style name="patron_button" parent="Widget.MaterialComponents.Button.OutlinedButton">
-        <item name="shapeAppearance">@drawable/itm_patron_button_unactivated</item>
+        <item name="strokeColor">@color/itm_primary_grayLight</item>
         <item name="strokeWidth">@dimen/itm_button_outline_stroke</item>
+        <item name="paddingStart">@dimen/itm_dp_none</item>
+        <item name="paddingEnd">@dimen/itm_dp_none</item>
+        <item name="android:textAppearance">@style/TextAppearance.MaterialComponents.Body2</item>
     </style>
+
 
 </resources>

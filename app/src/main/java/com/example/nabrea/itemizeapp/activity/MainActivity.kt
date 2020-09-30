@@ -1,4 +1,4 @@
-package com.example.nabrea.itemizeapp
+package com.example.nabrea.itemizeapp.activity
 
 import android.content.Context
 import android.graphics.drawable.Drawable
@@ -14,7 +14,8 @@ import androidx.navigation.NavDirections
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.NavigationUI
-import com.example.nabrea.itemizeapp.database.ExpenseDao
+import com.example.nabrea.itemizeapp.ExpandingFabAnimationInterface
+import com.example.nabrea.itemizeapp.R
 import com.example.nabrea.itemizeapp.databinding.ActivityMainBinding
 import com.example.nabrea.itemizeapp.screens.home.ReceiptHistoryFragmentDirections
 import com.example.nabrea.itemizeapp.screens.receipt.ReceiptFragmentCommunication
@@ -25,7 +26,9 @@ import timber.log.Timber
 import java.util.*
 import kotlin.concurrent.schedule
 
-
+// The MainActivity is the NavigationHost for all of the Fragments that follow it
+// The Main Floating Action button animations are controlled within this Activity
+// It can also communicate and respond to methods and behaviors from the Receipt Fragment
 class MainActivity : AppCompatActivity(),
     NavigationHostInterface,
     ExpandingFabAnimationInterface,
@@ -33,8 +36,6 @@ class MainActivity : AppCompatActivity(),
 
     // Data Binding is applied to the Main Activity xml file
     private lateinit var activityMainBinding: ActivityMainBinding
-
-    private lateinit var expenseDao: ExpenseDao
 
     // Variable for identifying the BottomAppBar for hosting Navigation Options
     private lateinit var mainBab: BottomAppBar
@@ -71,6 +72,8 @@ class MainActivity : AppCompatActivity(),
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        // Internal message to track when the Activity is created
         Timber.i("onCreate() is called")
 
         // Setting the content view to the layout with Data Binding applied
@@ -141,9 +144,8 @@ class MainActivity : AppCompatActivity(),
                 // Navigation UI configuration when going to ReceiptHistoryFragment
                 R.id.receiptHistoryFragment -> {
 
+                    // Logcat message to notify when the destination has changed to ReceiptHistoryFragment
                     Timber.i("destination.id is ReceiptHistoryFragment")
-
-
 
                     // Reestablishing the icon to be displayed if it changes
                     primaryAction.button.setImageDrawable(plusIcon)
@@ -161,6 +163,7 @@ class MainActivity : AppCompatActivity(),
 
                 // Navigation UI configuration when in ReceiptFragment
                 R.id.receiptFragment -> {
+                    // Logcat message to notify when the destination has changed to the Receipt Fragment
                     Timber.i("destination.id is ReceiptFragment")
 
                     // Establishing the primary button alignment at this destination
@@ -174,11 +177,16 @@ class MainActivity : AppCompatActivity(),
                 // Navigation UI configuration when in ReceiptSummaryFragment
                 R.id.receiptSummaryFragment -> {
 
+                    // Logcat message to notify when the destination has changed to the Receipt Summary Fragment
                     Timber.i("destination.id is ReceiptSummaryFragment")
+
+                    // Initiating the animation to close the Primary Action Button if it was opened as a menu
                     primaryAction.animateFabAntiClockwise(primaryAction.button)
 
+                    // Returning its isClosed variable to the default state
                     primaryAction.isClosed = true
 
+                    // This button does not have a NavDirection associated with it yet.
                     primaryNavDirection = null
                 }
             }
@@ -189,6 +197,8 @@ class MainActivity : AppCompatActivity(),
 
     // Override function inherited from the FragmentCommunication interface within ReceiptFragment()
     override fun onBottomSheetCollapsed() {
+
+        // Logcat message notifies when a bottom sheet from the Receipt Fragment has been collapsed
         Timber.i("onBottomSheetCollapse() is called")
 
         // When a BottomSheet is STATE_COLLAPSED, primary button is shown closed
@@ -196,6 +206,7 @@ class MainActivity : AppCompatActivity(),
         primaryAction.button.show()
         primaryAction.animateFabAntiClockwise(primaryAction.button)
 
+        // A Timer delay has been set to prevent the snackbar from immediately overlapping the FAB
         Timer("BottomSheetBehavior STATE_COLLAPSE delay", false).schedule(400) {
             ItemizeSnackbar()
                 .displaySnackbarNoAction(
@@ -266,22 +277,28 @@ class MainActivity : AppCompatActivity(),
         }
     }
 
+    // Function is used to hide the keyboard after user behaviors trigger specific functions
     override fun hideKeyboard(view: View) {
         val inputMethodManager = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         inputMethodManager.hideSoftInputFromWindow(view.windowToken, 0)
     }
 
 
+    // Function to establish the snackbar behavior depending on the FAB visibility state
     override fun displaySnackbar(message: String) {
         when (primaryAction.button.visibility) {
+
+            // When FAB is visible, snackbar displays the message above it.
             FloatingActionButton.VISIBLE -> {
                 ItemizeSnackbar()
                     .displaySnackbarNoAction(activityMainBinding.root, message, primaryAction.button)
             }
+            // When the FAB is Invisible, snackbar displays the message above the bottomappbar
             FloatingActionButton.INVISIBLE -> {
                 ItemizeSnackbar()
                     .displaySnackbarNoAction(activityMainBinding.root, message, mainBab)
             }
+            // Similar to the Invisible state
             FloatingActionButton.GONE -> {
                 ItemizeSnackbar()
                     .displaySnackbarNoAction(activityMainBinding.root, message, mainBab)
@@ -290,6 +307,7 @@ class MainActivity : AppCompatActivity(),
     }
 
 
+    // Function to establish UpButton navigation for the bottom app bar
     override fun onSupportNavigateUp(): Boolean {
         val navController = this.findNavController(R.id.myNavHostFragment)
         return NavigationUI.navigateUp(navController, drawerLayout)

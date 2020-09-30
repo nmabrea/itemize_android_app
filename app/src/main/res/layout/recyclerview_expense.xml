@@ -12,9 +12,11 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_marginTop="@dimen/itm_margin_topBottom_min"
-        android:layout_marginBottom="@dimen/itm_margin_topBottom_min"
+        android:layout_marginBottom="16dp"
+        android:layout_marginStart="@dimen/itm_margin_startEnd_min"
+        android:layout_marginEnd="@dimen/itm_margin_startEnd_min"
         app:cardCornerRadius="8dp"
-        app:cardElevation="3dp"
+        app:cardElevation="6dp"
         app:strokeWidth="@dimen/itm_card_stroke_width"
         app:strokeColor="@color/itm_primary_grayLightest"
         >
@@ -22,7 +24,7 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:orientation="vertical" >
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/expenseDescriptionCardText"

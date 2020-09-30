@@ -1,18 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
-    android:layout_marginEnd="@dimen/itm_patron_marginStartEnd_min">
+    android:layout_marginEnd="@dimen/itm_patron_marginStartEnd_min"
+    android:paddingStart="@dimen/itm_dp_none"
+    android:paddingEnd="2.5dp">
 
-    <com.google.android.material.textview.MaterialTextView
-        android:id="@+id/patronInitialsTextView"
-        style="@style/patron_subtitle_text"
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/patronInitialsButton"
+        style="@style/Widget.MaterialComponents.Button"
         android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:background="@drawable/itm_patron_button_unactivated"
-        android:gravity="center" />
+        android:layout_height="50dp"
+        android:gravity="center"
+        android:paddingStart="@dimen/itm_dp_none"
+        android:paddingEnd="@dimen/itm_dp_none"
+        android:paddingBottom="@dimen/itm_dp_none"
+        android:paddingTop="@dimen/itm_dp_none"
+        android:layout_marginStart="3dp"/>
 
-</LinearLayout>
+    <View
+        android:layout_width="40dp"
+        android:layout_height="41dp"
+        android:layout_marginTop="5dp"
+        android:layout_above="@id/patronInitialsButton"
+        android:background="@drawable/itm_shadow_45"
+        android:alpha=".4"/>
+
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
 
 

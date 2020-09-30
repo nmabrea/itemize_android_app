@@ -1,4 +1,4 @@
-package com.example.nabrea.itemizeapp
+package com.example.nabrea.itemizeapp.activity
 
 import android.view.View
 import com.google.android.material.snackbar.Snackbar

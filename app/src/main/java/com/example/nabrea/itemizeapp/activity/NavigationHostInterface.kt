@@ -1,4 +1,4 @@
-package com.example.nabrea.itemizeapp
+package com.example.nabrea.itemizeapp.activity
 
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.navigation.NavController
