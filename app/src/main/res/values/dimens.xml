@@ -13,7 +13,7 @@
     <dimen name="itm_padding_min">16dp</dimen>
     <dimen name="itm_patron_marginStartEnd_min">11dp</dimen>
     <dimen name="itm_button_stroke_light">10dp</dimen>
-    <dimen name="itm_button_elevation_unpressed">8dp</dimen>
+    <dimen name="itm_button_elevation_unpressed">5dp</dimen>
     <dimen name="itm_button_elevation_pressed">4dp</dimen>
     <dimen name="itm_text_size_small">14sp</dimen>
     <dimen name="itm_text_size_medium">18sp</dimen>
