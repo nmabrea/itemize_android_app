@@ -7,7 +7,7 @@
     <data>
         <variable
             name="receiptViewModel"
-            type="com.example.nabrea.itemizeapp.screens.receipt.ReceiptViewModel" />
+            type="com.example.nabrea.itemizeapp.activity.ItemizeViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

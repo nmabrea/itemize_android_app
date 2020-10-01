@@ -7,8 +7,8 @@
 
     <data>
         <variable
-            name="receiptViewModel"
-            type="com.example.nabrea.itemizeapp.screens.receipt.ReceiptViewModel"
+            name="itemizeViewModel"
+            type="com.example.nabrea.itemizeapp.activity.ItemizeViewModel"
             />
     </data>
 
@@ -226,18 +226,18 @@
 
         <include android:id="@+id/bottomSheetBackground"
             layout="@layout/bottom_sheet_background"
-            bind:receiptViewModel="@={receiptViewModel}"/>
+            bind:receiptViewModel="@={itemizeViewModel}"/>
 
         <include
             android:id="@+id/expenseBottomSheet"
             layout="@layout/bottom_sheet_expense"
-            bind:receiptViewModel="@={receiptViewModel}"
+            bind:receiptViewModel="@={itemizeViewModel}"
             />
 
         <include
             android:id="@+id/patronBottomSheet"
             layout="@layout/bottom_sheet_patron"
-            bind:receiptViewModel="@={receiptViewModel}"
+            bind:receiptViewModel="@={itemizeViewModel}"
              />
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -1,4 +1,4 @@
-package com.example.nabrea.itemizeapp.screens.receipt
+package com.example.nabrea.itemizeapp.activity
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
@@ -10,6 +10,7 @@ import com.example.nabrea.itemizeapp.database.ExpenseDao
 import com.example.nabrea.itemizeapp.database.PatronDao
 import com.example.nabrea.itemizeapp.database.ReceiptDatabase
 import com.example.nabrea.itemizeapp.database.ReceiptRepository
+import com.example.nabrea.itemizeapp.screens.receipt.ErrorMessages
 import com.example.nabrea.itemizeapp.screens.receipt.expense.ExpenseDataClass
 import com.example.nabrea.itemizeapp.screens.receipt.patron.PatronDataClass
 import com.example.nabrea.itemizeapp.screens.receipt.uidisplay.BottomSheetClass
@@ -18,7 +19,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import timber.log.Timber
 
-class ReceiptViewModel(application: Application) : AndroidViewModel(application) {
+class ItemizeViewModel(application: Application) : AndroidViewModel(application) {
 
     // Variable for establishing connection with the repository associated with the Receipt Fragment
     private val repository: ReceiptRepository

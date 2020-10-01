@@ -20,6 +20,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.nabrea.itemizeapp.ExpandingFabAnimationInterface
 import com.example.nabrea.itemizeapp.ItemizeTextWatcherClass
 import com.example.nabrea.itemizeapp.R
+import com.example.nabrea.itemizeapp.activity.ItemizeViewModel
 import com.example.nabrea.itemizeapp.database.ExpenseListAdapter
 import com.example.nabrea.itemizeapp.database.PatronListAdapter
 import com.example.nabrea.itemizeapp.databinding.FragmentReceiptBinding
@@ -84,7 +85,7 @@ class ReceiptFragment : Fragment(),
     private lateinit var receiptBinding: FragmentReceiptBinding
 
     // ViewModel associated with this Fragment
-    private lateinit var receiptVm: ReceiptViewModel
+    private lateinit var receiptVm: ItemizeViewModel
 
     // Adapter for the expense recycler view
     private lateinit var expenseAdapter: ExpenseListAdapter
@@ -219,10 +220,10 @@ class ReceiptFragment : Fragment(),
         animationContext = receiptBinding.root.context
 
         // Getting the ReceiptViewModel
-        receiptVm = ViewModelProvider(activity!!).get(ReceiptViewModel::class.java)
+        receiptVm = ViewModelProvider(activity!!).get(ItemizeViewModel::class.java)
 
         // Associating the layout xml with the ViewModel for direct communication
-        receiptBinding.receiptViewModel = receiptVm
+        receiptBinding.itemizeViewModel = receiptVm
 
         // Identifying this Fragment as the lifecycleOwner of the ViewModel
         receiptBinding.lifecycleOwner = this

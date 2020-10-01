@@ -20,7 +20,6 @@ import com.example.nabrea.itemizeapp.R
 import com.example.nabrea.itemizeapp.databinding.ActivityMainBinding
 import com.example.nabrea.itemizeapp.screens.home.ReceiptHistoryFragmentDirections
 import com.example.nabrea.itemizeapp.screens.receipt.ReceiptFragmentCommunication
-import com.example.nabrea.itemizeapp.screens.receipt.ReceiptViewModel
 import com.example.nabrea.itemizeapp.screens.receipt.uidisplay.MenuClass
 import com.google.android.material.bottomappbar.BottomAppBar
 import com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -39,7 +38,7 @@ class MainActivity : AppCompatActivity(),
     // Data Binding is applied to the Main Activity xml file
     private lateinit var activityMainBinding: ActivityMainBinding
 
-    private lateinit var sharedViewModel: ReceiptViewModel
+    private lateinit var sharedViewModel: ItemizeViewModel
 
     // Variable for identifying the BottomAppBar for hosting Navigation Options
     private lateinit var mainBab: BottomAppBar
@@ -83,7 +82,7 @@ class MainActivity : AppCompatActivity(),
         // Setting the content view to the layout with Data Binding applied
         activityMainBinding = DataBindingUtil.setContentView(this, R.layout.activity_main)
 
-        sharedViewModel = ViewModelProvider(this).get(ReceiptViewModel::class.java)
+        sharedViewModel = ViewModelProvider(this).get(ItemizeViewModel::class.java)
 
         // Code for Navigation Drawer and Up Button below:
         // Associating Main Activity as Navigation Host
