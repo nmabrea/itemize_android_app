@@ -219,7 +219,7 @@ class ReceiptFragment : Fragment(),
         animationContext = receiptBinding.root.context
 
         // Getting the ReceiptViewModel
-        receiptVm = ViewModelProvider(this).get(ReceiptViewModel::class.java)
+        receiptVm = ViewModelProvider(activity!!).get(ReceiptViewModel::class.java)
 
         // Associating the layout xml with the ViewModel for direct communication
         receiptBinding.receiptViewModel = receiptVm
