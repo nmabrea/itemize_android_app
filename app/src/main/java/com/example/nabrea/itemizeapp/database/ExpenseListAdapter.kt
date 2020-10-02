@@ -15,7 +15,9 @@ class ExpenseListAdapter internal constructor(
 ) : RecyclerView.Adapter<ExpenseListAdapter.ExpenseViewHolder>() {
 
     private val inflater: LayoutInflater = LayoutInflater.from(context)
-    private var expenseBasket = emptyList<ExpenseDataClass>()
+
+    var expenseBasket = emptyList<ExpenseDataClass>()
+
     private val viewPool = RecyclerView.RecycledViewPool()
 
     inner class ExpenseViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -37,11 +39,11 @@ class ExpenseListAdapter internal constructor(
         holder.expenseCost.text = holder.expenseCost.context.getString(R.string.itm_expenseCard_cost, current.costFormat)
         holder.expenseQuantity.text = holder.expenseQuantity.context.getString(R.string.itm_expenseCard_quantity, current.quantity)
         holder.expenseSubTotal.text = holder.expenseSubTotal.context.getString(R.string.itm_expenseCard_subCost, current.subCostFormat)
-
         holder.availablePatrons.apply {
             adapter = patronAdapter
             setRecycledViewPool(viewPool)
         }
+
     }
 
     internal fun setExpenses(expenseBasket: List<ExpenseDataClass>) {

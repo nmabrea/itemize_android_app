@@ -16,9 +16,11 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
 import androidx.navigation.NavDirections
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.nabrea.itemizeapp.ExpandingFabAnimationInterface
 import com.example.nabrea.itemizeapp.ItemizeTextWatcherClass
+import com.example.nabrea.itemizeapp.ItemizeTouchHelperClass
 import com.example.nabrea.itemizeapp.R
 import com.example.nabrea.itemizeapp.activity.ItemizeViewModel
 import com.example.nabrea.itemizeapp.database.ExpenseListAdapter
@@ -64,7 +66,7 @@ interface ReceiptFragmentCommunication {
     fun onBottomSheetExpanded()
 
     // Function to be called when Activity needs to display ReceiptFragment's menu actions
-    fun setMenuAwareness(menu: MenuClass)
+    fun setMenuAwareness(menu: MenuClass, background: LinearLayoutCompat, host: ReceiptFragment)
 
     // Function used to hide the keyboard from the user
     fun hideKeyboard(view: View)
@@ -249,17 +251,25 @@ class ReceiptFragment : Fragment(),
         // Establishing the LinearLayoutManager's context
         expenseRecycler.layoutManager = LinearLayoutManager(animationContext)
 
+        val swipeGestures = ItemTouchHelper(ItemizeTouchHelperClass(receiptVm, expenseAdapter))
+
         // Setting up an observer for the ViewModel variables that populate the Expense Recycler View
         receiptVm.allExpenses.observe(viewLifecycleOwner, { expenses ->
-            expenses.let {
-                expenseAdapter.setExpenses(it)
-            }
+
+            expenseAdapter.setExpenses(expenses)
+
+            swipeGestures.attachToRecyclerView(expenseRecycler)
+
         })
 
         // Setting up an observer for the ViewModel variables that populate the Patron Recycler View
         receiptVm.allPatrons.observe(viewLifecycleOwner, { patrons ->
-            patrons.let { patronAdapter.setPatrons(it) }
+
+            patronAdapter.setPatrons(patrons)
+
         })
+
+
 
         // Navigation Options setup within the action bar for this Fragment
         setHasOptionsMenu(true)
@@ -268,7 +278,6 @@ class ReceiptFragment : Fragment(),
         navController = this.findNavController()
 
         fragManager = fragmentManager!!
-
 
 
 
@@ -422,7 +431,7 @@ class ReceiptFragment : Fragment(),
         menuNavActions[Pair(finalizeButton, finalizeLabel)] = finalizeDirections
 
         // Passing on the instance of this menu to the current MainActivity() instance
-        listener.setMenuAwareness(expandMenu)
+        listener.setMenuAwareness(expandMenu, stateExpandedBackground, this)
 
         return receiptBinding.root
     }
@@ -575,6 +584,7 @@ class ReceiptFragment : Fragment(),
         storeNameEdit.isClickable = true
         storeNameEdit.isLongClickable = true
         storeNameEdit.isFocusable = true
+        storeNameEdit.isFocusableInTouchMode = true
 
         // When the bottomsheet is collapsed the keyboard is hidden for any of the input fields.
         expenseForm.keys.forEach {inputField ->
@@ -593,6 +603,7 @@ class ReceiptFragment : Fragment(),
         // EditTextView for StoreName is disabled
         storeNameEdit.isClickable = false
         storeNameEdit.isLongClickable = false
+        storeNameEdit.isFocusable = false
 
         // When the bottomsheet is expanded the keyboard is hidden from the storename input field.
         listener.hideKeyboard(storeNameEdit)

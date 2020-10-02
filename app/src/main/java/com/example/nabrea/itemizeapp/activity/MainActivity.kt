@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.LinearLayoutCompat
 import androidx.core.content.res.ResourcesCompat
 import androidx.databinding.DataBindingUtil
 import androidx.drawerlayout.widget.DrawerLayout
@@ -19,6 +20,7 @@ import com.example.nabrea.itemizeapp.ExpandingFabAnimationInterface
 import com.example.nabrea.itemizeapp.R
 import com.example.nabrea.itemizeapp.databinding.ActivityMainBinding
 import com.example.nabrea.itemizeapp.screens.home.ReceiptHistoryFragmentDirections
+import com.example.nabrea.itemizeapp.screens.receipt.ReceiptFragment
 import com.example.nabrea.itemizeapp.screens.receipt.ReceiptFragmentCommunication
 import com.example.nabrea.itemizeapp.screens.receipt.uidisplay.MenuClass
 import com.google.android.material.bottomappbar.BottomAppBar
@@ -239,7 +241,7 @@ class MainActivity : AppCompatActivity(),
     }
 
     // Override function inherited from the FragmentCommunication interface within ReceiptFragment()
-    override fun setMenuAwareness(menu: MenuClass) {
+    override fun setMenuAwareness(menu: MenuClass, background: LinearLayoutCompat, host: ReceiptFragment) {
 
         // menu: MenuClass parameter is passed from the ReceiptFragment() instance when called
 
@@ -264,6 +266,12 @@ class MainActivity : AppCompatActivity(),
                     // Menu actions with BottomSheetBehavior actions are clickable and shown
                     menu.setBottomSheetListener()
 
+                    background.startAnimation(fadeIn)
+
+                    background.visibility = LinearLayoutCompat.VISIBLE
+
+                    host.setBottomSheetFocus()
+
                     // PrimaryAction as expanded menu is now open
                     primaryAction.isClosed = false
                 }
@@ -274,6 +282,12 @@ class MainActivity : AppCompatActivity(),
 
                     // Setting the animation behavior for all of the menu items to close
                     menu.setClosingMenuAnimations()
+
+                    background.startAnimation(fadeOut)
+
+                    background.visibility = LinearLayoutCompat.GONE
+
+                    host.setBottomSheetUnfocused()
 
                     // PrimaryAction as expanded menu is now closed
                     primaryAction.isClosed = true

@@ -55,12 +55,6 @@ class BottomSheetClass(
                         // Listener is notified that the BottomSheetState is STATE_EXPANDED
                         listener.onBottomSheetExpanded()
 
-                        // Background is fading in
-                        background.startAnimation(fadeIn)
-
-                        // Background is visible within the screen
-                        background.visibility = LinearLayoutCompat.VISIBLE
-
                         host.setBottomSheetFocus()
 
                         Timber.i("BottomSheet is fully Expanded")

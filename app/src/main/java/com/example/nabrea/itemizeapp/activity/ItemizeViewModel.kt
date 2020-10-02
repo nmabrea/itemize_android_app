@@ -37,17 +37,17 @@ class ItemizeViewModel(application: Application) : AndroidViewModel(application)
     val allPatrons: LiveData<List<PatronDataClass>>
 
     // Variable that informs the program of any messages for user feedback
-    private var _message = MutableLiveData<EventClass<String>>()
+    val _message = MutableLiveData<EventClass<String>>()
     val message: LiveData<EventClass<String>>
         get() = _message
 
     // Variable that informs the program of any errors with the expense form
-    private var _errorExpense = MutableLiveData<String>()
+    private val _errorExpense = MutableLiveData<String>()
     val errorExpense: LiveData<String>
         get() = _errorExpense
 
     // Variable that informs the program of any errors with the patron form
-    private var _errorPatron = MutableLiveData<String>()
+    private val _errorPatron = MutableLiveData<String>()
     val errorPatron: LiveData<String>
         get() = _errorPatron
 
@@ -123,6 +123,12 @@ class ItemizeViewModel(application: Application) : AndroidViewModel(application)
 
         // Method deletes all database information everytime the ViewModel is created or recreated.
         deleteAll()
+    }
+
+    fun deleteExpense(swipedExpense: ExpenseDataClass) = viewModelScope.launch(Dispatchers.IO) {
+
+        repository.deleteExpense(swipedExpense)
+
     }
 
 

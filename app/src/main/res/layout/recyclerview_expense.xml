@@ -6,66 +6,85 @@
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
-    <com.google.android.material.card.MaterialCardView
-        android:id="@+id/expenseCardView"
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginStart="@dimen/itm_margin_startEnd_min"
-        android:layout_marginTop="@dimen/itm_margin_topBottom_min"
-        android:layout_marginEnd="@dimen/itm_margin_startEnd_min"
-        android:layout_marginBottom="16dp"
-        app:cardCornerRadius="8dp"
-        app:cardElevation="6dp"
-        app:strokeColor="@color/itm_primary_grayLightest"
-        app:strokeWidth="@dimen/itm_card_stroke_width"
-        >
+        android:layout_height="wrap_content">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/expenseCardView"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical" >
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginStart="@dimen/itm_margin_startEnd_min"
+            android:layout_marginTop="@dimen/itm_margin_topBottom_min"
+            android:layout_marginEnd="@dimen/itm_margin_startEnd_min"
+            android:layout_marginBottom="16dp"
+            app:cardCornerRadius="8dp"
+            app:cardElevation="6dp"
+            app:strokeColor="@color/itm_primary_grayLightest"
+            app:strokeWidth="@dimen/itm_card_stroke_width" >
 
-            <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/expenseDescriptionCardText"
-                style="@style/expense_header_text"
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:paddingTop="@dimen/itm_margin_topBottom_min"
-                android:paddingBottom="@dimen/itm_padding_extrasmall"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"/>
+                android:orientation="vertical" >
 
-            <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/expenseSubTotalCardText"
-                style="@style/expense_subtitle_text"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:paddingBottom="@dimen/itm_padding_extrasmall"
-                app:layout_constraintBottom_toTopOf="@id/expenseCostCardText"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/expenseDescriptionCardText"/>
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:srcCompat="@drawable/itm_icon_options_menu"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:contentDescription="Edit expense" />
 
-            <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/expenseCostCardText"
-                style="@style/expense_body_text"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:paddingBottom="@dimen/itm_padding_min"
-                app:layout_constraintBaseline_toBaselineOf="@+id/expenseQuantityCardText"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/expenseSubTotalCardText"/>
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:layout_width="6dp"
+                    android:layout_height="0dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    android:background="@color/itm_primary_grayLight" />
 
-            <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/expenseQuantityCardText"
-                style="@style/expense_body_text"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:paddingBottom="@dimen/itm_padding_min"
-                app:layout_constraintBaseline_toBaselineOf="@+id/expenseCostCardText"
-                app:layout_constraintStart_toEndOf="@+id/expenseCostCardText"
-                app:layout_constraintTop_toBottomOf="@+id/expenseSubTotalCardText"/>
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/expenseDescriptionCardText"
+                    style="@style/expense_header_text"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:paddingTop="@dimen/itm_margin_topBottom_min"
+                    android:paddingBottom="@dimen/itm_padding_extrasmall"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"/>
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/expenseSubTotalCardText"
+                    style="@style/expense_subtitle_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="@dimen/itm_padding_extrasmall"
+                    app:layout_constraintBottom_toTopOf="@id/expenseCostCardText"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/expenseDescriptionCardText"/>
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/expenseCostCardText"
+                    style="@style/expense_body_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="@dimen/itm_padding_min"
+                    app:layout_constraintBaseline_toBaselineOf="@+id/expenseQuantityCardText"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/expenseSubTotalCardText"/>
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/expenseQuantityCardText"
+                    style="@style/expense_body_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="@dimen/itm_padding_min"
+                    app:layout_constraintBaseline_toBaselineOf="@+id/expenseCostCardText"
+                    app:layout_constraintStart_toEndOf="@+id/expenseCostCardText"
+                    app:layout_constraintTop_toBottomOf="@+id/expenseSubTotalCardText"/>
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/patronExpenseRecyclerView"
@@ -81,8 +100,10 @@
                 app:layout_constraintTop_toBottomOf="@id/expenseCostCardText"
                 tools:listitem="@layout/recyclerview_patron"/>
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
-    </com.google.android.material.card.MaterialCardView>
+        </com.google.android.material.card.MaterialCardView>
+
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
 </LinearLayout>

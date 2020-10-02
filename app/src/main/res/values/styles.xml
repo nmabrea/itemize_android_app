@@ -18,7 +18,8 @@
 
     <style name="cardview_shapeAppearance_overlay" parent="ShapeAppearance.MaterialComponents.MediumComponent">
         <item name="cornerFamily">rounded</item>
-        <item name="cornerSize">4dp</item>
+        <item name="cornerSize">@dimen/itm_card_corner_radius</item>
+        <item name="strokeWidth">@dimen/itm_dp_none</item>
     </style>
 
     <style name="expense_header_text">
@@ -57,7 +58,7 @@
     </style>
 
     <style name="button_labels" parent="@style/TextAppearance.MaterialComponents.TextView.Label">
-        <item name="android:textColor">@color/itm_secondary_orangeDark</item>
+        <item name="android:textColor">@color/itm_primaryText_white</item>
         <item name="android:paddingTop">@dimen/itm_button_label_paddingTopBottom</item>
         <item name="android:paddingBottom">@dimen/itm_button_label_paddingTopBottom</item>
     </style>
