@@ -353,6 +353,15 @@ class ItemizeViewModel(application: Application) : AndroidViewModel(application)
     // Method for validating the Patron user input fields
     fun validatePatronInputs() {
 
+        // Variable to temporarily collect processed characters as strings
+        val tempList = mutableListOf<String>()
+
+        // Pulling out the userinput value
+        val userInput = _name.value
+
+        // Splitting the user input into separate strings
+        val split = userInput!!.split(" ")
+
         // Variables are temporarily collected into the formFields variable
         patronFormFields.add(_name.value)
 
@@ -362,7 +371,8 @@ class ItemizeViewModel(application: Application) : AndroidViewModel(application)
         // Below is the criteria for the patron form fields
         if (patronFormFields.contains(null) ||
             patronFormFields[0]!!.isBlank() ||
-            patronFormFields[0]!!.isEmpty()
+            patronFormFields[0]!!.isEmpty() ||
+            split.size < 2
         ) {
             // If any of the above listed criteria applies, inform the program and user that there is an error
             _errorPatron.value = ErrorMessages.KEY_ERROR_GENERAL.errorMessage

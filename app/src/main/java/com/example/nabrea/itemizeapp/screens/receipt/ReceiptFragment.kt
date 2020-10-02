@@ -18,6 +18,7 @@ import androidx.navigation.NavDirections
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.nabrea.itemizeapp.ExpandingFabAnimationInterface
 import com.example.nabrea.itemizeapp.ItemizeTextWatcherClass
 import com.example.nabrea.itemizeapp.ItemizeTouchHelperClass
@@ -51,7 +52,7 @@ enum class ErrorMessages (val errorMessage: String) {
     KEY_ERROR_DESCRIPTION("Enter a valid description. (20 characters max)"),
     KEY_ERROR_COST("Enter a valid cost. (8 digits max)"),
     KEY_ERROR_QUANTITY("Enter a valid quantity. (3 digits max)"),
-    KEY_ERROR_NAME("Enter a valid name. (20 characters max)")
+    KEY_ERROR_NAME("Enter a first and last name. (20 characters max)")
 
 }
 
@@ -73,6 +74,9 @@ interface ReceiptFragmentCommunication {
 
     // Function used to display a snackbar for user feedback
     fun displaySnackbar(message: String)
+
+    // Function used to hide/show bottomappbar and fab
+    fun setNavigationScrollVisibility(recyclerView: RecyclerView)
 
 }
 
@@ -242,6 +246,8 @@ class ReceiptFragment : Fragment(),
         // Establishing how to find the Expense RecyclerView from the layout
         val expenseRecycler = receiptBinding.expenseRecyclerView
 
+        listener.setNavigationScrollVisibility(expenseRecycler)
+
         // Establishing this Fragment as the context to display both the Expense RecyclerView and its nested Patron RecyclerView
         expenseAdapter = ExpenseListAdapter(animationContext, patronAdapter)
 
@@ -251,7 +257,7 @@ class ReceiptFragment : Fragment(),
         // Establishing the LinearLayoutManager's context
         expenseRecycler.layoutManager = LinearLayoutManager(animationContext)
 
-        val swipeGestures = ItemTouchHelper(ItemizeTouchHelperClass(receiptVm, expenseAdapter))
+        val swipeGestures = ItemTouchHelper(ItemizeTouchHelperClass(receiptVm, expenseAdapter, animationContext))
 
         // Setting up an observer for the ViewModel variables that populate the Expense Recycler View
         receiptVm.allExpenses.observe(viewLifecycleOwner, { expenses ->
@@ -523,6 +529,7 @@ class ReceiptFragment : Fragment(),
                 patronForm.forEach { inputField ->
                     inputField.key.second.error = null
                 }
+
             } else {
 
                 // If the ViewModel variable has an error message, all input fields are checked
@@ -568,6 +575,8 @@ class ReceiptFragment : Fragment(),
     // Method for validation criteria for various requirements of the patron form
     private fun isPatronInputValid(userInput: TextInputEditText) : Boolean {
         return if (userInput.text.isNullOrBlank()) {
+            false
+        } else if (userInput.text!!.split(" ").size < 2) {
             false
         } else userInput.text!!.isNotEmpty()
     }

@@ -65,7 +65,7 @@
                 android:layout_height="@dimen/itm_bottomAppBar_height"
                 android:layout_gravity="bottom"
                 app:fabAlignmentMode="center"
-                app:layout_behavior="com.google.android.material.bottomappbar.BottomAppBar$Behavior"
+                app:hideOnScroll="true"
                 />
         </androidx.coordinatorlayout.widget.CoordinatorLayout>
 

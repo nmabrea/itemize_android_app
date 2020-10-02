@@ -16,6 +16,7 @@ import androidx.navigation.NavDirections
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.NavigationUI
+import androidx.recyclerview.widget.RecyclerView
 import com.example.nabrea.itemizeapp.ExpandingFabAnimationInterface
 import com.example.nabrea.itemizeapp.R
 import com.example.nabrea.itemizeapp.databinding.ActivityMainBinding
@@ -323,6 +324,28 @@ class MainActivity : AppCompatActivity(),
                     .displaySnackbarNoAction(activityMainBinding.root, message, mainBab)
             }
         }
+    }
+
+    override fun setNavigationScrollVisibility(recyclerView: RecyclerView) {
+
+        recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+
+                when {
+                    dy > 0 -> {
+                        mainBab.performHide()
+                        primaryAction.button.hide()
+                    }
+                    dy < 0 -> {
+                        mainBab.performShow()
+                        primaryAction.button.show()
+                    }
+                }
+
+                super.onScrolled(recyclerView, dx, dy)
+            }
+        })
+
     }
 
 
