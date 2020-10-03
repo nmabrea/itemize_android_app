@@ -31,6 +31,7 @@ import com.example.nabrea.itemizeapp.screens.receipt.uidisplay.BottomSheetClass
 import com.example.nabrea.itemizeapp.screens.receipt.uidisplay.MaterialDatePickerClass
 import com.example.nabrea.itemizeapp.screens.receipt.uidisplay.MenuClass
 import com.google.android.material.bottomsheet.BottomSheetBehavior
+import com.google.android.material.button.MaterialButton
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
@@ -184,14 +185,22 @@ class ReceiptFragment : Fragment(),
 
 
 
+    private lateinit var editDate: TextInputLayout
+
     // The EditTextField associated with the DatePicker instance within the receipt_fragment.xml
     private lateinit var editDateText: TextInputEditText
 
     // The TextInputEditText field associated with the Store Name input.
     private lateinit var storeNameEdit: TextInputEditText
 
+    private lateinit var receiptTotal: TextInputLayout
+
+    private lateinit var receiptTotalEdit: TextInputEditText
+
     // Override values inherited from the ExpandingFabAnimation interface
     override lateinit var animationContext: Context
+
+    private lateinit var receiptInformationButton: MaterialButton
 
 
 
@@ -219,7 +228,8 @@ class ReceiptFragment : Fragment(),
             inflater,
             R.layout.fragment_receipt,
             container,
-            false)
+            false
+        )
 
         // Below is the code sequence for the expandable FAB menu:
         // Setting the context for the FAB menu animations
@@ -257,7 +267,8 @@ class ReceiptFragment : Fragment(),
         // Establishing the LinearLayoutManager's context
         expenseRecycler.layoutManager = LinearLayoutManager(animationContext)
 
-        val swipeGestures = ItemTouchHelper(ItemizeTouchHelperClass(receiptVm, expenseAdapter, animationContext))
+        val swipeGestures =
+            ItemTouchHelper(ItemizeTouchHelperClass(receiptVm, expenseAdapter, animationContext))
 
         // Setting up an observer for the ViewModel variables that populate the Expense Recycler View
         receiptVm.allExpenses.observe(viewLifecycleOwner, { expenses ->
@@ -274,6 +285,7 @@ class ReceiptFragment : Fragment(),
             patronAdapter.setPatrons(patrons)
 
         })
+
 
 
 
@@ -297,6 +309,42 @@ class ReceiptFragment : Fragment(),
 
         // Locating the EditText view for user Date selection
         editDateText = receiptBinding.receiptDateEdit
+
+        editDate = receiptBinding.receiptDate
+
+        receiptTotal = receiptBinding.receiptTotalCost
+
+        receiptTotalEdit = receiptBinding.receiptTotalCostEdit
+
+        receiptVm._receiptTotal.observe(viewLifecycleOwner, { total ->
+
+            receiptVm._receiptTotalText.value = "%.2f".format(total)
+
+        })
+
+        receiptInformationButton = receiptBinding.receiptInfoButton
+
+        var isShowing = true
+
+        receiptInformationButton.setOnClickListener {
+
+            if (isShowing) {
+                editDate.visibility = TextInputLayout.GONE
+                receiptTotal.visibility = TextInputLayout.GONE
+
+                receiptInformationButton.text = getString(R.string.info_show)
+
+                isShowing = false
+            } else {
+                editDate.visibility = TextInputLayout.VISIBLE
+                receiptTotal.visibility = TextInputLayout.VISIBLE
+
+                receiptInformationButton.text = getString(R.string.info_hide)
+
+                isShowing = true
+            }
+        }
+
 
 
 

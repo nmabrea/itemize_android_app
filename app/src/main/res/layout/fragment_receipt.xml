@@ -12,107 +12,172 @@
             />
     </data>
 
-
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:id="@+id/receiptCoordinatorLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
         <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/receiptInformation"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:fillViewport="true"
             android:background="@color/itm_primary_gray">
 
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/receiptStoreName"
+                style="@style/receipt_header_fields"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/itm_margin_top_med"
+                android:layout_marginStart="@dimen/itm_margin_startEnd_min"
+                android:layout_marginEnd="@dimen/itm_margin_startEnd_min"
+                app:errorEnabled="true"
+                app:errorIconDrawable="@drawable/ic_baseline_error_24"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/receiptStoreNameEdit"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:focusable="true"
+                    android:focusableInTouchMode="true"
+                    android:fontFamily="@font/quicksand_medium"
+                    android:hint="@string/itm_receiptHistory_storeName"
+                    android:inputType="text"
+                    android:maxLength="20"
+                    android:maxLines="1"
+                    android:textAllCaps="true"
+                    android:textSize="@dimen/itm_text_size_small"
+                    android:textStyle="bold"
+                    android:textColor="@color/itm_primaryText_white"/>
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/receiptDate"
+                style="@style/receipt_header_fields"
+                app:layout_constraintTop_toBottomOf="@id/receiptStoreName"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/receiptTotalCost"
+                android:layout_marginEnd="@dimen/itm_dp_none"
+                android:layout_marginStart="@dimen/itm_margin_startEnd_min"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/itm_dp_none" >
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/receiptDateEdit"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:clickable="true"
+                    android:focusable="false"
+                    android:fontFamily="@font/quicksand_medium"
+                    android:hint="@string/itm_receiptHistory_date"
+                    android:textSize="@dimen/itm_text_size_small"
+                    android:textStyle="bold"
+                    android:textColor="@color/itm_primaryText_white"/>
+                </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/receiptTotalCost"
+                style="@style/receipt_header_fields"
+                app:boxStrokeWidth="@dimen/itm_dp_none"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/itm_dp_none"
+                android:layout_marginStart="@dimen/itm_margin_startEnd_min"
+                android:layout_marginEnd="@dimen/itm_margin_startEnd_min"
+                app:prefixText="@string/itm_expense_cost_prefix"
+                app:prefixTextColor="@color/itm_primaryText_white"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/receiptDate"
+                app:layout_constraintTop_toBottomOf="@id/receiptStoreName">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/receiptTotalCostEdit"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:clickable="false"
+                    android:focusable="false"
+                    android:fontFamily="@font/quicksand_medium"
+                    android:hint="@string/itm_receipt_total"
+                    android:textSize="@dimen/itm_text_size_small"
+                    android:textStyle="bold"
+                    android:textColor="@color/itm_primaryText_white"
+                    android:text="@{itemizeViewModel._receiptTotalText}"
+
+                    />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <ImageView
+                android:id="@+id/receiptDivider"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/receiptTotalCost"
+                app:layout_constraintBottom_toTopOf="@+id/receiptLayoutView"
+                app:srcCompat="@drawable/itm_divider"
+                android:contentDescription="@string/itm_information_divider" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/receiptInfoButton"
+                style="@style/text_button"
+                android:layout_width="70dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="14dp"
+                android:layout_marginBottom="@dimen/itm_margin_startEnd_min"
+                android:padding="@dimen/itm_dp_none"
+                android:paddingBottom="@dimen/itm_dp_none"
+                android:paddingStart="@dimen/itm_dp_none"
+                android:paddingEnd="@dimen/itm_dp_none"
+                android:layout_marginEnd="@dimen/itm_margin_startEnd_extra"
+                app:layout_constraintBottom_toBottomOf="@+id/receiptDivider"
+                app:layout_constraintEnd_toEndOf="@+id/receiptDivider"
+                app:layout_constraintTop_toTopOf="@+id/receiptDivider"
+                android:text="@string/info_hide"/>
+
             <LinearLayout
                 android:id="@+id/receiptLayoutView"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="0dp"
+                android:background="@color/itm_primary_gray"
                 android:orientation="vertical"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                android:background="@color/itm_primary_grayLightest"
-                >
+                app:layout_constraintTop_toBottomOf="@+id/receiptDivider"
+                app:layout_constraintBottom_toBottomOf="parent">
 
-                <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/receiptStoreName"
-                    style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/patronReceiptRecyclerView"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:errorEnabled="true"
-                    app:errorIconDrawable="@drawable/ic_baseline_error_24">
+                    android:orientation="horizontal"
+                    android:paddingBottom="@dimen/itm_padding_min"
+                    android:paddingStart="@dimen/itm_margin_startEnd_min"
+                    android:paddingEnd="@dimen/itm_margin_startEnd_min"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    app:layout_constraintBottom_toTopOf="@+id/expenseRecyclerView"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/receiptLayoutView"
+                    tools:listitem="@layout/recyclerview_patron" />
 
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/receiptStoreNameEdit"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/itm_margin_startEnd_min"
-                        android:layout_marginTop="@dimen/itm_margin_top_med"
-                        android:layout_marginEnd="@dimen/itm_margin_startEnd_min"
-                        android:focusable="true"
-                        android:focusableInTouchMode="true"
-                        android:fontFamily="@font/quicksand_medium"
-                        android:hint="@string/itm_receiptHistory_storeName"
-                        android:inputType="text"
-                        android:maxLength="20"
-                        android:maxLines="1"
-                        android:textAllCaps="true"
-                        android:textSize="@dimen/itm_text_size_small"
-                        android:textStyle="bold" />
-                </com.google.android.material.textfield.TextInputLayout>
-
-                <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/receiptDate"
-                    style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/expenseRecyclerView"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/itm_margin_topBottom_min">
+                    android:paddingBottom="@dimen/itm_margin_topBottom_min"
+                    android:scrollbarAlwaysDrawVerticalTrack="true"
+                    android:scrollbarSize="8dp"
+                    android:scrollbarThumbVertical="@drawable/itm_scrollbar"
+                    android:scrollbars="vertical"
+                    tools:listitem="@layout/recyclerview_expense" />
 
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/receiptDateEdit"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/itm_margin_startEnd_min"
-                        android:layout_marginEnd="@dimen/itm_margin_startEnd_min"
-                        android:clickable="true"
-                        android:focusable="false"
-                        android:fontFamily="@font/quicksand_medium"
-                        android:hint="@string/itm_receiptHistory_date"
-                        android:textSize="@dimen/itm_text_size_small" />
-
-                </com.google.android.material.textfield.TextInputLayout>
             </LinearLayout>
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/patronReceiptRecyclerView"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                tools:listitem="@layout/recyclerview_patron"
-                android:padding="@dimen/itm_padding_min"
-                app:layout_constraintTop_toBottomOf="@+id/receiptLayoutView"
-                app:layout_constraintBottom_toTopOf="@+id/expenseRecyclerView"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                android:orientation="horizontal"
-                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/expenseRecyclerView"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                tools:listitem="@layout/recyclerview_expense"
-                android:padding="@dimen/itm_dp_none"
-                android:paddingBottom="56dp"
-                android:layout_marginBottom="40dp"
-                app:layout_constraintTop_toBottomOf="@id/patronReceiptRecyclerView"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                android:scrollbars="vertical"
-                android:scrollbarAlwaysDrawVerticalTrack="true"
-                android:scrollbarSize="4dp"
-                android:scrollbarThumbVertical="@drawable/itm_scrollbar"/>
 
             <include
                 android:id="@+id/bottomSheetBackground"

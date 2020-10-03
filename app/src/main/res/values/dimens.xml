@@ -2,6 +2,7 @@
 <resources>
     <dimen name="itm_margin_startEnd_min">16dp</dimen>
     <dimen name="itm_margin_topBottom_min">8dp</dimen>
+    <dimen name="itm_margin_topBottom_med">16dp</dimen>
     <dimen name="itm_margin_top_med">24dp</dimen>
     <dimen name="itm_button_corner_radius">10dp</dimen>
     <dimen name="itm_button_label_corner_radius">3dp</dimen>

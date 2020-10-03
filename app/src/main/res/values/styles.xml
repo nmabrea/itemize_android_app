@@ -82,5 +82,24 @@
         <item name="android:textAppearance">@style/TextAppearance.MaterialComponents.Body2</item>
     </style>
 
+    <style name="text_button" parent="Widget.MaterialComponents.Button.TextButton">
+        <item name="android:textColor">@color/itm_primaryText_white</item>
+        <item name="textAllCaps">true</item>
+        <item name="backgroundTint">@color/itm_primary_gray</item>
+        <item name="rippleColor">@color/itm_primaryText_white</item>
+        <item name="android:textAppearance">?attr/textAppearanceCaption</item>
+        <item name="iconPadding">@dimen/itm_dp_none</item>
+        <item name="android:paddingLeft">@dimen/itm_dp_none</item>
+        <item name="android:paddingRight">@dimen/itm_dp_none</item>
+    </style>
+
+    <style name="receipt_header_fields" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+        <item name="boxStrokeColor">@color/itm_primaryText_white</item>
+        <item name="hintTextColor">@color/itm_primaryText_white</item>
+        <item name="android:textColor">@color/itm_primaryText_white</item>
+        <item name="android:textColorHint">@color/itm_primaryText_white</item>
+        <item name="boxCollapsedPaddingTop">@dimen/itm_margin_startEnd_min</item>
+    </style>
+
 
 </resources>

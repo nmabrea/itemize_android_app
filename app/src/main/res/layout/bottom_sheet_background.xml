@@ -20,7 +20,7 @@
             android:id="@+id/bottomSheetBackground"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:alpha=".85"
+            android:alpha=".65"
             android:background="@color/itm_secondaryText_black"
             android:visibility="gone"/>
 

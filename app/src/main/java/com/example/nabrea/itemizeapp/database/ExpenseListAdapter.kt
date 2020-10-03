@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.example.nabrea.itemizeapp.R
 import com.example.nabrea.itemizeapp.screens.receipt.expense.ExpenseDataClass
@@ -53,4 +54,14 @@ class ExpenseListAdapter internal constructor(
 
     override fun getItemCount() = expenseBasket.size
 
+}
+
+class ExpenseDiffCallback : DiffUtil.ItemCallback<ExpenseDataClass>() {
+    override fun areItemsTheSame(oldItem: ExpenseDataClass, newItem: ExpenseDataClass): Boolean {
+        TODO("Not yet implemented")
+    }
+
+    override fun areContentsTheSame(oldItem: ExpenseDataClass, newItem: ExpenseDataClass): Boolean {
+        TODO("Not yet implemented")
+    }
 }

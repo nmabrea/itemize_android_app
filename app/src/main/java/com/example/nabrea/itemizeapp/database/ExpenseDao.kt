@@ -24,4 +24,5 @@ interface ExpenseDao {
 
     @Delete
     suspend fun deleteSelectedExpense(expense: ExpenseDataClass)
+
 }

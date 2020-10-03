@@ -101,6 +101,13 @@ class ItemizeViewModel(application: Application) : AndroidViewModel(application)
     // Variable that temporarily collects the user input text patron fields for input validation
     private val patronFormFields = mutableListOf<String?>()
 
+    val _receiptTotal = MutableLiveData<Float>()
+    val receiptTotal: LiveData<Float>
+        get() = _receiptTotal
+
+    val _receiptTotalText = MutableLiveData<String>()
+
+
     init {
         Timber.i("ReceiptViewModel created")
 
@@ -123,9 +130,14 @@ class ItemizeViewModel(application: Application) : AndroidViewModel(application)
 
         // Method deletes all database information everytime the ViewModel is created or recreated.
         deleteAll()
+
+        _receiptTotal.value = 0F
     }
 
-    fun deleteExpense(swipedExpense: ExpenseDataClass) = viewModelScope.launch(Dispatchers.IO) {
+
+
+    fun deleteExpense(swipedExpense: ExpenseDataClass) =
+        viewModelScope.launch(Dispatchers.IO) {
 
         repository.deleteExpense(swipedExpense)
 
@@ -278,6 +290,10 @@ class ItemizeViewModel(application: Application) : AndroidViewModel(application)
 
         // Insert the compiled expense into the database
         insertExpense(expense)
+
+        val newTotal = _receiptTotal.value!!.plus(subCost.value!!.toFloat())
+
+        _receiptTotal.value = newTotal
 
         // Informing the program that an expense was created for user feedback.
         _message.value = EventClass(

@@ -86,7 +86,7 @@
         <item name="boxBackgroundColor">@color/itm_primary_grayLightest</item>
         <item name="endIconTint">@color/mtrl_filled_icon_tint</item>
         <item name="startIconTint">@color/mtrl_filled_icon_tint</item>
-        <item name="boxCollapsedPaddingTop">12dp</item>
+        <item name="boxCollapsedPaddingTop">8dp</item>
         <item name="boxStrokeColor">@color/itm_primary_grayLight</item>
         <item name="hintTextColor">@color/itm_primary_gray</item>
         <item name="shapeAppearanceOverlay">@style/ShapeAppearanceOverlay.MaterialComponents.TextInputLayout.FilledBox</item>
@@ -101,7 +101,7 @@
         <item name="materialThemeOverlay">@style/ThemeOverlay.MaterialComponents.TextInputEditText.OutlinedBox</item>
         <item name="shapeAppearanceOverlay">@style/ShapeAppearanceOverlay.MaterialComponents.TextInputLayout.OutlinedBox</item>
         <item name="boxStrokeColor">@color/itm_primary_grayLight</item>
-        <item name="boxCollapsedPaddingTop">0dp</item>
+        <item name="boxCollapsedPaddingTop">8dp</item>
         <item name="android:textColor">@color/itm_primary_gray</item>
         <item name="android:textAllCaps">true</item>
     </style>

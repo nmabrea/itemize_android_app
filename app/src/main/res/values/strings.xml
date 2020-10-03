@@ -18,7 +18,7 @@
     <string name="itm_essentialsComposition_title">Compostion of Essential Expenses</string>
     <string name="itm_receiptHistory_storeName">STORE NAME</string>
     <string name="itm_receiptHistory_buttonAction">Create</string>
-    <string name="itm_receiptHistory_date">DATE OF RECEIPT</string>
+    <string name="itm_receiptHistory_date">DATE</string>
     <string name="itm_receiptHistory_patron">Paid By</string>
     <string name="itm_receiptHistory_totalCost">$0.00</string>
     <string name="itm_action_standby">Awaiting user action.</string>
@@ -34,9 +34,14 @@
     <string name="itm_error_expense_cost">"Please enter an expense cost. (8 digits max)"</string>
     <string name="itm_error_expense_quantity">"Please enter an expense quantity. (3 digits max)</string>
     <string name="itm_error_general">"Please enter a valid value for this field."</string>
-
     <string name="itm_expenseCard_cost">Cost: $%1$s</string>
     <string name="itm_expenseCard_quantity">Quantity: %1$d</string>
     <string name="itm_expenseCard_subCost">SubCost: $%1$s</string>
     <string name="edit_expense">Edit expense</string>
+    <string name="info_less">less</string>
+    <string name="information_more">more</string>
+    <string name="info_hide">hide</string>
+    <string name="info_show">show</string>
+    <string name="itm_receipt_total">TOTAL COST</string>
+    <string name="itm_information_divider">Receipt Information Divider</string>
 </resources>

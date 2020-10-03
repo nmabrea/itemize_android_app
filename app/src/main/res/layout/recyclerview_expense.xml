@@ -32,6 +32,7 @@
                     android:layout_height="wrap_content"
                     app:srcCompat="@drawable/itm_icon_options_menu"
                     android:layout_marginTop="@dimen/itm_margin_topBottom_min"
+                    android:layout_marginEnd="@dimen/itm_margin_startEnd_extrasmall"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     android:contentDescription="@string/edit_expense" />
@@ -42,7 +43,7 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    android:background="@color/itm_secondary_orange" />
+                    android:background="@color/itm_secondary_orangeDark" />
 
                 <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/expenseDescriptionCardText"

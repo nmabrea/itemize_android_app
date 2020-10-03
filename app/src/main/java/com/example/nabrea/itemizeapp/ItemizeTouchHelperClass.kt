@@ -34,6 +34,10 @@ class ItemizeTouchHelperClass(private val viewModel: ItemizeViewModel,
 
                 viewModel.deleteExpense(adapter.expenseBasket[viewHolder.adapterPosition])
 
+                val newTotal = viewModel._receiptTotal.value!!.minus(adapter.expenseBasket[viewHolder.adapterPosition].subCost)
+
+                viewModel._receiptTotal.value = newTotal
+
                 val swipeMessage = "${(adapter.expenseBasket[viewHolder.adapterPosition]).description} has been removed from the list."
 
                 viewModel._message.value = EventClass(swipeMessage)
@@ -58,7 +62,7 @@ class ItemizeTouchHelperClass(private val viewModel: ItemizeViewModel,
 
         val background = ColorDrawable()
 
-        background.color = ContextCompat.getColor(context, R.color.itm_secondary_orangeDark)
+        background.color = ContextCompat.getColor(context, R.color.itm_secondary_orangeLighter)
 
         background.bounds = Rect(
             cardView.right - dX.toInt() * 15,
@@ -70,14 +74,16 @@ class ItemizeTouchHelperClass(private val viewModel: ItemizeViewModel,
         background.draw(canvas)
 
         val iconDelete =
-            ContextCompat.getDrawable(context, R.drawable.ic_baseline_delete_24)!!.toBitmap()
+            ContextCompat.getDrawable(context, R.drawable.ic_icons_trash)!!.toBitmap()
+
+
 
         val iconDestination =
             RectF(
-                iconDelete.width.toFloat(),
-                (cardView.top + ((cardView.height - iconDelete.height) / 2)).toFloat(),
-                (iconDelete.width * 2).toFloat(),
-                (cardView.top + ((cardView.height - iconDelete.height) / 2)) + iconDelete.height.toFloat()
+                (iconDelete.width / 25) - 25.toFloat(),
+                (cardView.top + ((cardView.height - iconDelete.height) / 12) + 100).toFloat(),
+                (iconDelete.width) - 450.toFloat(),
+                (cardView.top + ((cardView.height - iconDelete.height))) + iconDelete.height - 60.toFloat()
             )
 
         canvas.drawBitmap(iconDelete, null, iconDestination, Paint())
