@@ -288,7 +288,7 @@ class MainActivity : AppCompatActivity(),
 
                     background.visibility = LinearLayoutCompat.GONE
 
-                    host.setBottomSheetUnfocused()
+                    host.setExpenseBottomSheetUnfocused()
 
                     // PrimaryAction as expanded menu is now closed
                     primaryAction.isClosed = true

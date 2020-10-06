@@ -8,6 +8,7 @@ import com.example.nabrea.itemizeapp.ExpandingFabAnimationInterface
 import com.example.nabrea.itemizeapp.screens.receipt.ReceiptFragment
 import com.example.nabrea.itemizeapp.screens.receipt.ReceiptFragmentCommunication
 import com.google.android.material.bottomsheet.BottomSheetBehavior
+import kotlinx.android.synthetic.main.fragment_receipt.*
 import timber.log.Timber
 
 class BottomSheetClass(
@@ -44,7 +45,10 @@ class BottomSheetClass(
                         // Background is gone from the screen
                         background.visibility = LinearLayoutCompat.GONE
 
-                        host.setBottomSheetUnfocused()
+                        when (bottomSheet) {
+                            host.expenseBottomSheet -> { host.setExpenseBottomSheetUnfocused()}
+                            host.patronBottomSheet -> { host.setPatronBottomSheetUnfocused() }
+                        }
 
                         Timber.i("BottomSheet is Collapsed")
                     }

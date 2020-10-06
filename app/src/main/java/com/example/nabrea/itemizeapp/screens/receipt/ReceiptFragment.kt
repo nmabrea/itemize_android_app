@@ -257,6 +257,7 @@ class ReceiptFragment : Fragment(),
         val expenseRecycler = receiptBinding.expenseRecyclerView
 
 
+
         // TODO(01) Fix navigation visibility when items are deleted while scrolled all the way down
         listener.setNavigationScrollVisibility(expenseRecycler)
 
@@ -513,6 +514,8 @@ class ReceiptFragment : Fragment(),
         super.onResume()
         Timber.i("onResume() has been called")
 
+
+
         // Setting up an observer if a message is initialized within the ViewModel
         receiptVm.message.observe(this, Observer { message ->
             message.getContentIfNotHandled()?.let { content ->
@@ -524,15 +527,21 @@ class ReceiptFragment : Fragment(),
 
         // Setting up an observer for ViewModel variables that will affect the ExpenseBottomSheet state
         receiptVm.expenseBottomSheet.observe(this, Observer { eBottomSheet ->
+
             when (eBottomSheet.bottomSheetBehavior.state == BottomSheetBehavior.STATE_COLLAPSED) {
 
                 // ViewModel variables inform whether the bottom sheet should close
                 true -> {
+
                    expenseBottomSheet.bottomSheetBehavior.state =
+
                        BottomSheetBehavior.STATE_COLLAPSED
+
                }
             }
         })
+
+
 
         // Setting up an observer for ViewModel variables that will affect the PatronBottomSheet state
         receiptVm.patronBottomSheet.observe(this, Observer { pBottomSheet ->
@@ -540,8 +549,11 @@ class ReceiptFragment : Fragment(),
 
                 // ViewModel variables inform whether the bottom sheet should close
                 true -> {
+
                     patronBottomSheet.bottomSheetBehavior.state =
+
                         BottomSheetBehavior.STATE_COLLAPSED
+
                 }
             }
         })
@@ -622,7 +634,10 @@ class ReceiptFragment : Fragment(),
             false
         } else if (userInput.text!!.contains("0")) {
             false
-        }else if (userInput.text!!.contains("00") || userInput.text!!.contains("000")) {
+        } else if (
+            userInput.text!!.contains("00") ||
+            userInput.text!!.contains("000")
+        ) {
             false
         } else !userInput.text!!.contains("0.00")
     }
@@ -635,12 +650,11 @@ class ReceiptFragment : Fragment(),
         val userInputTrimmed = userInput.text!!.trim()
 
         return when {
-            userInput.text.isNullOrBlank() -> {
-                false
-            }
-            userInputTrimmed.split(" ").size <= 1 -> {
-                false
-            }
+
+            userInput.text.isNullOrBlank() -> { false }
+
+            userInputTrimmed.split(" ").size <= 1 -> { false }
+
             else -> userInput.text!!.isNotEmpty()
         }
     }
@@ -648,7 +662,7 @@ class ReceiptFragment : Fragment(),
 
 
     // Method for reactivating the input forms once the bottom sheet is collapsed.
-    fun setBottomSheetUnfocused() {
+    fun setExpenseBottomSheetUnfocused() {
         // EditTextView is enabled for MaterialDatePicker
         editDateText.isClickable = true
         editDateText.isLongClickable = true
@@ -663,6 +677,44 @@ class ReceiptFragment : Fragment(),
         expenseForm.keys.forEach {inputField ->
             listener.hideKeyboard(inputField.first)
         }
+
+        clearExpenseForm()
+    }
+
+
+
+    private fun clearExpenseForm() {
+        expenseCostEditText.setText("")
+        expenseDescriptionEditText.setText("")
+        expenseQuantityEditText.setText("")
+    }
+
+
+
+    // Method for reactivating the input forms once the bottom sheet is collapsed.
+    fun setPatronBottomSheetUnfocused() {
+        // EditTextView is enabled for MaterialDatePicker
+        editDateText.isClickable = true
+        editDateText.isLongClickable = true
+
+        // EditTextView is enabled for the StoreName field
+        storeNameEdit.isClickable = true
+        storeNameEdit.isLongClickable = true
+        storeNameEdit.isFocusable = true
+        storeNameEdit.isFocusableInTouchMode = true
+
+        // When the bottomsheet is collapsed the keyboard is hidden for any of the input fields.
+        patronForm.keys.forEach {inputField ->
+            listener.hideKeyboard(inputField.first)
+        }
+
+        clearPatronForm()
+    }
+
+
+
+    private fun clearPatronForm() {
+        patronNameEditText.setText("")
     }
 
 
