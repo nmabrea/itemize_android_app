@@ -16,7 +16,7 @@ import kotlinx.coroutines.launch
         ExpenseDataClass::class,
         PatronDataClass::class
     ],
-    version = 2,
+    version = 6,
     exportSchema = false
 )
 
@@ -42,6 +42,7 @@ abstract class ReceiptDatabase : RoomDatabase() {
 
             val expense =
                 ExpenseDataClass(
+                    0,
                     "Example Expense",
                     15F,
                     "$15.00",

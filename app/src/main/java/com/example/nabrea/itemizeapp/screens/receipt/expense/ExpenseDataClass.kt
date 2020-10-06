@@ -1,6 +1,5 @@
 package com.example.nabrea.itemizeapp.screens.receipt.expense
 
-import androidx.annotation.NonNull
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
@@ -8,8 +7,10 @@ import androidx.room.PrimaryKey
 @Entity(tableName = "expense_table")
 data class ExpenseDataClass(
 
-    @PrimaryKey
-    @NonNull
+    @PrimaryKey(autoGenerate = true)
+    var expenseId: Long? = 0L,
+
+    @ColumnInfo(name = "description")
     val description: String = "placeholder",
 
     @ColumnInfo(name = "cost_raw")
@@ -28,5 +29,5 @@ data class ExpenseDataClass(
     var subCostFormat: String = "$0.00",
 
     @ColumnInfo(name = "essential_rating")
-    var essentialRating: Int?
+    var essentialRating: Int? = -1
 )

@@ -16,6 +16,7 @@ import com.example.nabrea.itemizeapp.screens.receipt.patron.PatronDataClass
 import com.example.nabrea.itemizeapp.screens.receipt.uidisplay.BottomSheetClass
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import timber.log.Timber
 
@@ -29,6 +30,8 @@ class ItemizeViewModel(application: Application) : AndroidViewModel(application)
 
     // Variable for establishing connection with the patrondao
     private val patronDao: PatronDao
+
+    private var viewModelJob = Job()
 
     // Variable for locating the variable where the expense information is stored
     val allExpenses: LiveData<List<ExpenseDataClass>>
@@ -107,6 +110,8 @@ class ItemizeViewModel(application: Application) : AndroidViewModel(application)
 
     val _receiptTotalText = MutableLiveData<String>()
 
+    private val _expenseID = MutableLiveData<Long>()
+
 
     init {
         Timber.i("ReceiptViewModel created")
@@ -154,10 +159,12 @@ class ItemizeViewModel(application: Application) : AndroidViewModel(application)
 
 
     // Method for inserting an ExpenseDataClass entry into the database
-    private fun insertExpense(expense: ExpenseDataClass) =
+    private suspend fun insertExpense(expense: ExpenseDataClass) =
         viewModelScope.launch(Dispatchers.IO) {
+
             repository.insertExpense(expense)
-    }
+
+        }
 
 
 
@@ -277,19 +284,26 @@ class ItemizeViewModel(application: Application) : AndroidViewModel(application)
         // Formally storing a formatted version of the subcost into a readable format
         _subCostFormat.value = "%.2f".format(_subCost.value)
 
+        // TODO(01) Figure out how to retrieve the auto-generated id
         // Creating an expense based on the processed user input.
-        expense = ExpenseDataClass(
-                description.value.toString(),
-                cost.value!!.toFloat(),
-                costFormat.value!!.toString(),
-                quantity.value!!.toInt(),
-                subCost.value!!.toFloat(),
-                subCostFormat.value.toString(),
-                essentialRating.value
-            )
 
-        // Insert the compiled expense into the database
-        insertExpense(expense)
+        expense = ExpenseDataClass( null,
+            description.value.toString(),
+            cost.value!!.toFloat(),
+            costFormat.value!!.toString(),
+            quantity.value!!.toInt(),
+            subCost.value!!.toFloat(),
+            subCostFormat.value.toString(),
+            essentialRating.value
+        )
+
+        viewModelScope.launch {
+
+            expense.expenseId = expenseDao.insertExpense(expense)
+
+            Timber.i("${expense.expenseId}")
+
+        }
 
         val newTotal = _receiptTotal.value!!.plus(subCost.value!!.toFloat())
 
@@ -373,13 +387,10 @@ class ItemizeViewModel(application: Application) : AndroidViewModel(application)
         val tempList = mutableListOf<String>()
 
         // Pulling out the userinput value
-        val userInput = _name.value
-
-        // Splitting the user input into separate strings
-        val split = userInput!!.split(" ")
+        val userInput = _name.value!!.trim()
 
         // Variables are temporarily collected into the formFields variable
-        patronFormFields.add(_name.value)
+        patronFormFields.add(userInput)
 
         // By default the form entries are null
         var nullDetected = true
@@ -388,7 +399,7 @@ class ItemizeViewModel(application: Application) : AndroidViewModel(application)
         if (patronFormFields.contains(null) ||
             patronFormFields[0]!!.isBlank() ||
             patronFormFields[0]!!.isEmpty() ||
-            split.size < 2
+            patronFormFields[0]!!.split(" ").size <= 1
         ) {
             // If any of the above listed criteria applies, inform the program and user that there is an error
             _errorPatron.value = ErrorMessages.KEY_ERROR_GENERAL.errorMessage
@@ -438,10 +449,12 @@ class ItemizeViewModel(application: Application) : AndroidViewModel(application)
         // Method for processing the patron's initials based on user input.
         getPatronInitials()
 
+        val userInput = _name.value!!.trim()
+
         // Collecting the user input into the patron data class
         patron = PatronDataClass(
             0L,
-            name.value.toString(),
+            userInput,
             nameInitials.value.toString()
         )
 
@@ -469,14 +482,14 @@ class ItemizeViewModel(application: Application) : AndroidViewModel(application)
         val tempList = mutableListOf<String>()
 
         // Pulling out the userinput value
-        val userInput = _name.value
+        val userInput = _name.value!!.trim()
 
         // Splitting the user input into separate strings
         val split = userInput!!.split(" ")
 
         // Taking the first letter from the first two strings
         for (i in 0..1) {
-            val firstLetter = split[i].substring(0,1)
+            val firstLetter = split[i].trim().substring(0,1)
             tempList.add(firstLetter)
         }
 
@@ -493,11 +506,8 @@ class ItemizeViewModel(application: Application) : AndroidViewModel(application)
     override fun onCleared() {
         super.onCleared()
 
+        viewModelJob.cancel()
+
         Timber.i("onCleared() is called. ViewModel instance is cleared.")
     }
-
-
-
-
-
 }

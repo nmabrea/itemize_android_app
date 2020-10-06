@@ -10,12 +10,14 @@ class ReceiptRepository(
     private val patronDao: PatronDao
 ) {
 
-    val allExpenses: LiveData<List<ExpenseDataClass>> = expenseDao.getAlphabetizedExpenses()
+    val allExpenses: LiveData<List<ExpenseDataClass>> = expenseDao.getOrderedExpenses()
 
     val allPatrons: LiveData<List<PatronDataClass>> = patronDao.getAlphabetizedPatrons()
 
-    fun insertExpense(expense: ExpenseDataClass) {
+    suspend fun insertExpense(expense: ExpenseDataClass) {
+
         expenseDao.insertExpense(expense)
+
     }
 
     suspend fun deleteExpense(expense: ExpenseDataClass) {

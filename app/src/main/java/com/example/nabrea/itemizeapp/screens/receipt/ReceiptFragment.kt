@@ -256,6 +256,8 @@ class ReceiptFragment : Fragment(),
         // Establishing how to find the Expense RecyclerView from the layout
         val expenseRecycler = receiptBinding.expenseRecyclerView
 
+
+        // TODO(01) Fix navigation visibility when items are deleted while scrolled all the way down
         listener.setNavigationScrollVisibility(expenseRecycler)
 
         // Establishing this Fragment as the context to display both the Expense RecyclerView and its nested Patron RecyclerView
@@ -306,6 +308,8 @@ class ReceiptFragment : Fragment(),
         storeNameEdit.filters = arrayOf(InputFilter { charSequence, i, i2, spanned, i3, i4 ->
             return@InputFilter charSequence.replace(Regex("[^a-zA-Z0-9 ]*"), "")
         })
+
+        ItemizeTextWatcherClass().setStringTextWatcher(storeNameEdit)
 
         // Locating the EditText view for user Date selection
         editDateText = receiptBinding.receiptDateEdit
@@ -392,6 +396,8 @@ class ReceiptFragment : Fragment(),
             return@InputFilter charSequence.replace(Regex("[^a-zA-Z0-9 ]*"), "")
         })
 
+        ItemizeTextWatcherClass().setStringTextWatcher(expenseDescriptionEditText)
+
         // Locating the expenseCost InputLayout view from the layout
         expenseCost = receiptBinding.expenseBottomSheet.expenseCost
 
@@ -453,6 +459,9 @@ class ReceiptFragment : Fragment(),
         patronNameEditText.filters = arrayOf(InputFilter { charSequence, i, i2, spanned, i3, i4 ->
             return@InputFilter charSequence.replace(Regex("[^a-zA-Z ]*"), "")
         })
+
+        ItemizeTextWatcherClass().setStringTextWatcher(patronNameEditText)
+
 
         // This variable collects the patron text layout views and associates them with a value from the EnumClass ErrorMessages
         patronForm = mutableMapOf()
@@ -622,11 +631,18 @@ class ReceiptFragment : Fragment(),
 
     // Method for validation criteria for various requirements of the patron form
     private fun isPatronInputValid(userInput: TextInputEditText) : Boolean {
-        return if (userInput.text.isNullOrBlank()) {
-            false
-        } else if (userInput.text!!.split(" ").size < 2) {
-            false
-        } else userInput.text!!.isNotEmpty()
+
+        val userInputTrimmed = userInput.text!!.trim()
+
+        return when {
+            userInput.text.isNullOrBlank() -> {
+                false
+            }
+            userInputTrimmed.split(" ").size <= 1 -> {
+                false
+            }
+            else -> userInput.text!!.isNotEmpty()
+        }
     }
 
 

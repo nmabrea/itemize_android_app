@@ -19,6 +19,7 @@ class ItemizeTextWatcherClass () {
             override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
 
             override fun afterTextChanged(p0: Editable?) {
+
                 var userInput = p0.toString()
 
                 if(userInput != currentInput) {
@@ -41,8 +42,34 @@ class ItemizeTextWatcherClass () {
                     editText.addTextChangedListener(this)
                 }
             }
-
         })
     }
 
+    fun setStringTextWatcher(editText: TextInputEditText) {
+        editText.addTextChangedListener(object: TextWatcher {
+
+            val currentInput = ""
+
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
+
+            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
+
+            override fun afterTextChanged(p0: Editable?) {
+
+                val userInput = p0.toString()
+
+                if (userInput != currentInput) {
+                    editText.removeTextChangedListener(this)
+
+                    val userInputFormatted = userInput.replace("  ", " ")
+
+                    editText.setText(userInputFormatted)
+
+                    editText.setSelection(userInputFormatted.length)
+
+                    editText.addTextChangedListener(this)
+                }
+            }
+        })
+    }
 }

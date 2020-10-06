@@ -8,18 +8,15 @@ import com.example.nabrea.itemizeapp.screens.receipt.expense.ExpenseDataClass
 interface ExpenseDao {
 
     @Query("SELECT * from expense_table ORDER BY description ASC")
-    fun getAlphabetizedExpenses(): LiveData<List<ExpenseDataClass>>
+    fun getAlphabetizedExpenses() : LiveData<List<ExpenseDataClass>>
 
-    /*@Query("SELECT * from expense_table ORDER BY expenseID ASC")
-    fun getOrderedByIdExpenses(): LiveData<List<ExpenseDataClass>>*/
-
-    @Query("SELECT * from expense_table ORDER BY description ASC")
+    @Query("SELECT * from expense_table ORDER BY expenseId ASC")
     fun getOrderedExpenses(): LiveData<List<ExpenseDataClass>>
 
-    @Insert(onConflict = OnConflictStrategy.IGNORE)
-    fun insertExpense(expense: ExpenseDataClass)
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertExpense(expense: ExpenseDataClass) : Long
 
-    @Query("DELETE FROM expense_table")
+    @Query("DELETE from expense_table")
     suspend fun deleteAllExpenses()
 
     @Delete

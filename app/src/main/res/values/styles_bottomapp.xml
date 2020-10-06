@@ -3,7 +3,8 @@
 
         <style name="Widget.MaterialComponents.BottomAppBar" parent="Widget.AppCompat.Toolbar">
             <item name="enforceMaterialTheme">true</item>
-            <item name="backgroundTint">?attr/colorSurface</item>
+            <item name="materialThemeOverlay">@style/ThemeOverlay.MaterialComponents.BottomAppBar.Primary</item>
+            <item name="backgroundTint">@color/itm_primary_grayDark</item>
             <item name="fabCradleMargin">@dimen/itm_bab_fab_cradle_margin</item>
             <item name="fabCradleRoundedCornerRadius">
                 @dimen/itm_bab_fab_cradle_corner_radius
@@ -15,14 +16,18 @@
             <item name="paddingBottomSystemWindowInsets">true</item>
             <item name="paddingLeftSystemWindowInsets">true</item>
             <item name="paddingRightSystemWindowInsets">true</item>
+            <item name="actionMenuTextColor">@color/itm_primaryText_white</item>
         </style>
 
         <style name="Widget.MaterialComponents.BottomAppBar.Colored" parent="Widget.MaterialComponents.BottomAppBar">
             <item name="backgroundTint">?attr/colorPrimary</item>
-            <item name="materialThemeOverlay">@style/ThemeOverlay.MaterialComponents.BottomAppBar.Primary</item>
+            <item name="materialThemeOverlay">@style/ThemeOverlay.MaterialComponents.BottomAppBar.Surface</item>
         </style>
 
-        <style name="Widget.MaterialComponents.BottomAppBar.PrimarySurface" parent="Widget.MaterialComponents.BottomAppBar.Colored"/>
+        <style name="Widget.MaterialComponents.BottomAppBar.PrimarySurface" parent="Widget.MaterialComponents.BottomAppBar.Colored">
+            <item name="backgroundTint">@color/itm_primary_grayDark</item>
+            <item name="materialThemeOverlay">@style/ThemeOverlay.MaterialComponents.BottomAppBar.Primary</item>
+        </style>
 
         <style name="ThemeOverlay.MaterialComponents.BottomAppBar.Surface" parent="">
             <item name="colorControlNormal">@color/material_on_surface_emphasis_medium</item>
@@ -31,6 +36,6 @@
 
         <style name="ThemeOverlay.MaterialComponents.BottomAppBar.Primary" parent="">
             <item name="colorControlNormal">?attr/colorOnPrimary</item>
-            <item name="actionMenuTextColor">?attr/colorOnPrimary</item>
+            <item name="actionMenuTextColor">@color/itm_primaryText_white</item>
         </style>
 </resources>

@@ -82,7 +82,7 @@ class ItemizeTouchHelperClass(private val viewModel: ItemizeViewModel,
             RectF(
                 (iconDelete.width / 25) - 25.toFloat(),
                 (cardView.top + ((cardView.height - iconDelete.height) / 12) + 100).toFloat(),
-                (iconDelete.width) - 450.toFloat(),
+                (iconDelete.width) - 375.toFloat(),
                 (cardView.top + ((cardView.height - iconDelete.height))) + iconDelete.height - 60.toFloat()
             )
 
