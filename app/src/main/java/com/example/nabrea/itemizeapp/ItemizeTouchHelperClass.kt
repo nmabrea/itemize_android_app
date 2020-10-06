@@ -12,7 +12,6 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.example.nabrea.itemizeapp.activity.ItemizeViewModel
 import com.example.nabrea.itemizeapp.database.ExpenseListAdapter
-import timber.log.Timber
 
 class ItemizeTouchHelperClass(private val viewModel: ItemizeViewModel,
                               private val adapter: ExpenseListAdapter,
@@ -86,8 +85,6 @@ class ItemizeTouchHelperClass(private val viewModel: ItemizeViewModel,
                 (iconDelete.width) - 375.toFloat(),
                 (cardView.top + ((243 - iconDelete.height))) + iconDelete.height - 10.toFloat()
             )
-
-        Timber.i("${iconDelete.width}")
 
         canvas.drawBitmap(iconDelete, null, iconDestination, Paint())
 

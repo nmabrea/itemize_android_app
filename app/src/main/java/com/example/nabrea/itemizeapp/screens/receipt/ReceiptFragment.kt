@@ -37,7 +37,6 @@ import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import com.google.android.material.textview.MaterialTextView
 import timber.log.Timber
-import kotlin.collections.set
 
 // Small constant values to be saved within onSavedInstanceState() below.
 // Constant value for the Date Selected via MaterialDatePicker in the Receipt Fragment
@@ -244,6 +243,16 @@ class ReceiptFragment : Fragment(),
         // Identifying this Fragment as the lifecycleOwner of the ViewModel
         receiptBinding.lifecycleOwner = this
 
+        return receiptBinding.root
+    }
+
+
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        Timber.i("$listener is activated")
+
+
         // Establishing how to find the Patron RecyclerView from the layout
         val patronRecycler = receiptBinding.patronReceiptRecyclerView
 
@@ -255,8 +264,6 @@ class ReceiptFragment : Fragment(),
 
         // Establishing how to find the Expense RecyclerView from the layout
         val expenseRecycler = receiptBinding.expenseRecyclerView
-
-
 
         // TODO(01) Fix navigation visibility when items are deleted while scrolled all the way down
         listener.setNavigationScrollVisibility(expenseRecycler)
@@ -496,15 +503,6 @@ class ReceiptFragment : Fragment(),
 
         // Passing on the instance of this menu to the current MainActivity() instance
         listener.setMenuAwareness(expandMenu, stateExpandedBackground, this)
-
-        return receiptBinding.root
-    }
-
-
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        Timber.i("$listener is activated")
     }
 
 
