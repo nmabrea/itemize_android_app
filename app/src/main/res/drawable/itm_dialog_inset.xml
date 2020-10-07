@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<inset
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:drawable="@drawable/itm_button_add"
+    android:insetRight="@dimen/itm_margin_startEnd_min"
+    android:insetLeft="@dimen/itm_margin_startEnd_min">
+</inset>

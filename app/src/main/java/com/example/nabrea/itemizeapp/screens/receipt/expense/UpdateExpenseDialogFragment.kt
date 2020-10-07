@@ -37,13 +37,15 @@ class UpdateExpenseDialogFragment : DialogFragment() {
 
         updateExpenseBinding.itemizeViewModel = updateExpenseVm
 
+
+
         return updateExpenseBinding.root
     }
 
     override fun onStart() {
         super.onStart()
 
-        updateDialog.window?.setLayout(WindowManager.LayoutParams.WRAP_CONTENT, WindowManager.LayoutParams.WRAP_CONTENT)
+        updateDialog.window?.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT)
 
     }
 
@@ -52,7 +54,7 @@ class UpdateExpenseDialogFragment : DialogFragment() {
 
         updateDialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
 
-        updateDialog.window?.setBackgroundDrawable(ResourcesCompat.getDrawable(resources, R.drawable.itm_button_add, null))
+        updateDialog.window?.setBackgroundDrawable(ResourcesCompat.getDrawable(resources, R.drawable.itm_dialog_inset, null))
 
         return updateDialog
     }

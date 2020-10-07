@@ -117,12 +117,36 @@
             android:layout_height="wrap_content"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/updateExpenseCost">
+            app:layout_constraintTop_toBottomOf="@+id/updateExpenseCost" >
 
             <com.google.android.material.bottomappbar.BottomAppBar
+                android:id="@+id/dialog_actionbar"
+                style="@style/Widget.MaterialComponents.BottomAppBar.Colored"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:menu="@menu/update_expense_dialog_actions"/>
+                android:layout_height="wrap_content" >
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/dialog_button_cancel"
+                    style="@style/receipt_header_fields"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/itm_margin_startEnd_extra"
+                    android:textColor="@color/itm_secondary_orangeDark"
+                    android:text="@string/itm_dialog_cancel"/>
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/dialog_button_update"
+                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/itm_margin_top_max"
+                    app:strokeColor="@color/itm_secondary_orangeDark"
+                    android:textColor="@color/itm_secondary_orangeDark"
+                    android:textStyle="bold"
+                    android:text="@string/itm_dialog_update" />
+
+            </com.google.android.material.bottomappbar.BottomAppBar>
+
         </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>

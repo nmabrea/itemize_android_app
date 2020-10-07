@@ -20,8 +20,7 @@
         </style>
 
         <style name="Widget.MaterialComponents.BottomAppBar.Colored" parent="Widget.MaterialComponents.BottomAppBar">
-            <item name="backgroundTint">?attr/colorPrimary</item>
-            <item name="materialThemeOverlay">@style/ThemeOverlay.MaterialComponents.BottomAppBar.Surface</item>
+            <item name="backgroundTint">@color/itm_secondary_orangeLighter</item>
         </style>
 
         <style name="Widget.MaterialComponents.BottomAppBar.PrimarySurface" parent="Widget.MaterialComponents.BottomAppBar.Colored">
