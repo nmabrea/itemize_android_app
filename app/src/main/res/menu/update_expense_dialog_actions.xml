@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/action_close"
+        android:icon="@drawable/ic_icons_x"
+        android:title="@string/itm_dialog_close"
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/action_update"
+        android:icon="@drawable/ic_icons_update"
+        android:title="@string/itm_dialog_update_expense"
+        app:showAsAction="ifRoom" />
+</menu>
