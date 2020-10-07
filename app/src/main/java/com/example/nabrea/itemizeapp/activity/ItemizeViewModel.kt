@@ -358,6 +358,7 @@ class ItemizeViewModel(application: Application) : AndroidViewModel(application)
 
 
 
+    // TODO(04) Retrieve current data, update it with user input data
     suspend fun updateSelectedExpense() {
 
         // Variable with a trimmed format in case the user puts in excessive spaces

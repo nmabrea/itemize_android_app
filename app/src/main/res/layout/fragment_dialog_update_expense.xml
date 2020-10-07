@@ -32,6 +32,8 @@
             app:errorContentDescription="@string/itm_error_expense_description">
 
             <!--TODO set all caps-->
+            <!--TODO(09) Set Updated variable for text-->
+            <!--TODO(10) Set current variable as hint-->
             <com.google.android.material.textfield.TextInputEditText
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:id="@+id/updateExpenseDescriptionEdit"
@@ -64,6 +66,8 @@
             app:errorIconDrawable="@drawable/ic_baseline_error_24"
             app:errorContentDescription="@string/itm_error_expense_cost">
 
+            <!--TODO(07) Set Updated variable for text-->
+            <!--TODO(08) Set current variable as hint-->
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/updateExpenseCostEdit"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
@@ -95,6 +99,8 @@
             app:errorIconDrawable="@drawable/ic_baseline_error_24"
             app:errorContentDescription="@string/itm_error_expense_quantity">
 
+            <!--TODO(05) Set Updated variable for text-->
+            <!--TODO(06) Set current variable as hint-->
             <com.google.android.material.textfield.TextInputEditText
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:id="@+id/updateExpenseQuantityEdit"

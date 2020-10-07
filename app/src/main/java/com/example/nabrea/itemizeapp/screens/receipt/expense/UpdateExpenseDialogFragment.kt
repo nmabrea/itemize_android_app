@@ -37,7 +37,8 @@ class UpdateExpenseDialogFragment : DialogFragment() {
 
         updateExpenseBinding.itemizeViewModel = updateExpenseVm
 
-
+        /*TODO(11) Set ItemizeTextWatcher for the CostTextEdit, Input filters for TextEdit views,
+        *  textvalidation for any TextEditViews*/
 
         return updateExpenseBinding.root
     }

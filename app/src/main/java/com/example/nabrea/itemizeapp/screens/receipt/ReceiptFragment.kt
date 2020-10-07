@@ -741,6 +741,7 @@ class ReceiptFragment : Fragment(),
 
 
 
+    // TODO(03) Allow this function to retrieve current data from adapter, to set comparison in ViewModel
     fun showUpdateExpenseDialog(expenseId: Long) {
 
         fragManager
