@@ -4,17 +4,20 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.example.nabrea.itemizeapp.ExpandingFabAnimationInterface
 import com.example.nabrea.itemizeapp.R
+import com.example.nabrea.itemizeapp.screens.receipt.ReceiptFragment
 import com.example.nabrea.itemizeapp.screens.receipt.expense.ExpenseDataClass
 import com.google.android.material.textview.MaterialTextView
 
 class ExpenseListAdapter internal constructor(
     override val animationContext: Context,
     private var patronAdapter: PatronListAdapter,
+    var hostFragment: ReceiptFragment
 ) : RecyclerView.Adapter<ExpenseListAdapter.ExpenseViewHolder>(),
     ExpandingFabAnimationInterface {
 
@@ -24,12 +27,13 @@ class ExpenseListAdapter internal constructor(
 
     private val viewPool = RecyclerView.RecycledViewPool()
 
-    inner class ExpenseViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    class ExpenseViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val expenseDescription: TextView = itemView.findViewById(R.id.expenseDescriptionCardText)
         val expenseCost: TextView = itemView.findViewById(R.id.expenseCostCardText)
         val expenseQuantity: TextView = itemView.findViewById(R.id.expenseQuantityCardText)
         val expenseSubTotal: TextView = itemView.findViewById(R.id.expenseSubTotalCardText)
         val availablePatrons: RecyclerView = itemView.findViewById(R.id.patronExpenseRecyclerView)
+        val updateExpenseButton: ImageView = itemView.findViewById(R.id.updateExpenseButton)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ExpenseViewHolder {
@@ -76,6 +80,12 @@ class ExpenseListAdapter internal constructor(
                     isMinimized = true
                 }
             }
+        }
+
+        holder.updateExpenseButton.setOnClickListener { button ->
+
+            hostFragment.showUpdateExpenseDialog()
+
         }
 
     }

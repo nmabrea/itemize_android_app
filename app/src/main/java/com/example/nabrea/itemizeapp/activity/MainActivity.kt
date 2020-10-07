@@ -133,10 +133,13 @@ class MainActivity : AppCompatActivity(),
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
 
         // Modified appbar configuration to remove the UpButton from the listed layouts when applied
-        appBarConfiguration = AppBarConfiguration.Builder(R.id.receiptFragment).build()
+        appBarConfiguration = AppBarConfiguration.Builder(
+            R.id.receiptHistoryFragment,
+            R.id.receiptFragment
+        ).build()
 
         // Setting up the default configuration for the NavigationDrawer and UpButton
-        NavigationUI.setupActionBarWithNavController(this, navController, drawerLayout)
+        NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration)
     }
 
 
@@ -179,6 +182,8 @@ class MainActivity : AppCompatActivity(),
 
                     // The primaryAction should not navigate within this Fragment
                     primaryNavDirection = null
+
+                    NavigationUI.setupActionBarWithNavController(this, navController, drawerLayout)
 
                 }
 

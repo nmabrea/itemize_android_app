@@ -89,7 +89,7 @@ dependencies {
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$version_lifecycle"
     implementation "androidx.lifecycle:lifecycle-livedata-ktx:$version_lifecycle"
     implementation "androidx.lifecycle:lifecycle-extensions:$version_lifecycle"
-    kapt "androidx.lifecycle:lifecycle-compiler:$version_lifecycle"
+    implementation "androidx.lifecycle:lifecycle-common-java8:$version_lifecycle"
 
     // Cardview implementation
     implementation "androidx.cardview:cardview:$version_cardview"

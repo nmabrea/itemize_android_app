@@ -27,6 +27,7 @@ import com.example.nabrea.itemizeapp.activity.ItemizeViewModel
 import com.example.nabrea.itemizeapp.database.ExpenseListAdapter
 import com.example.nabrea.itemizeapp.database.PatronListAdapter
 import com.example.nabrea.itemizeapp.databinding.FragmentReceiptBinding
+import com.example.nabrea.itemizeapp.screens.receipt.expense.UpdateExpenseDialogFragment
 import com.example.nabrea.itemizeapp.screens.receipt.uidisplay.BottomSheetClass
 import com.example.nabrea.itemizeapp.screens.receipt.uidisplay.MaterialDatePickerClass
 import com.example.nabrea.itemizeapp.screens.receipt.uidisplay.MenuClass
@@ -269,7 +270,7 @@ class ReceiptFragment : Fragment(),
         listener.setNavigationScrollVisibility(expenseRecycler)
 
         // Establishing this Fragment as the context to display both the Expense RecyclerView and its nested Patron RecyclerView
-        expenseAdapter = ExpenseListAdapter(animationContext, patronAdapter)
+        expenseAdapter = ExpenseListAdapter(animationContext, patronAdapter, this)
 
         // Establishing the adapter to reference for the RecyclerView
         expenseRecycler.adapter = expenseAdapter
@@ -305,7 +306,7 @@ class ReceiptFragment : Fragment(),
         // NAVIGATION UI::Locating the NavController for Navigation
         navController = this.findNavController()
 
-        fragManager = fragmentManager!!
+        fragManager = parentFragmentManager
 
 
 
@@ -730,6 +731,18 @@ class ReceiptFragment : Fragment(),
 
         // When the bottomsheet is expanded the keyboard is hidden from the storename input field.
         listener.hideKeyboard(storeNameEdit)
+    }
+
+
+
+    fun showUpdateExpenseDialog() {
+
+        fragManager
+
+        val newFragment = UpdateExpenseDialogFragment()
+
+        newFragment.show(fragManager,"dialog")
+
     }
 
 

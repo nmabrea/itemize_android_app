@@ -28,6 +28,7 @@
                 android:orientation="vertical" >
 
                 <ImageView
+                    android:id="@+id/updateExpenseButton"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     app:srcCompat="@drawable/itm_icon_options_menu"
