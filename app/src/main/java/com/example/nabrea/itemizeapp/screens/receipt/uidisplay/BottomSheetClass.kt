@@ -46,7 +46,7 @@ class BottomSheetClass(
                         background.visibility = LinearLayoutCompat.GONE
 
                         when (bottomSheet) {
-                            host.expenseBottomSheet -> { host.setExpenseBottomSheetUnfocused()}
+                            host.expenseBottomSheet -> { host.setExpenseBottomSheetUnfocused() }
                             host.patronBottomSheet -> { host.setPatronBottomSheetUnfocused() }
                         }
 
@@ -59,7 +59,10 @@ class BottomSheetClass(
                         // Listener is notified that the BottomSheetState is STATE_EXPANDED
                         listener.onBottomSheetExpanded()
 
-                        host.setBottomSheetFocus()
+                        when (bottomSheet) {
+                            host.expenseBottomSheet -> { host.setExpenseBottomSheetFocus() }
+                            host.patronBottomSheet -> { host.setPatronBottomSheetFocus() }
+                        }
 
                         Timber.i("BottomSheet is fully Expanded")
                     }

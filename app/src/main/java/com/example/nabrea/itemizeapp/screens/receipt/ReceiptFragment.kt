@@ -677,15 +677,7 @@ class ReceiptFragment : Fragment(),
             listener.hideKeyboard(inputField.first)
         }
 
-        clearExpenseForm()
-    }
-
-
-
-    private fun clearExpenseForm() {
-        expenseCostEditText.setText("")
-        expenseDescriptionEditText.setText("")
-        expenseQuantityEditText.setText("")
+        receiptVm.clearExpenseForm()
     }
 
 
@@ -707,19 +699,13 @@ class ReceiptFragment : Fragment(),
             listener.hideKeyboard(inputField.first)
         }
 
-        clearPatronForm()
-    }
-
-
-
-    private fun clearPatronForm() {
-        patronNameEditText.setText("")
+        receiptVm.clearPatronForm()
     }
 
 
 
     // Method for deactivating the input forms once the bottom sheet is expanded
-    fun setBottomSheetFocus() {
+    fun setExpenseBottomSheetFocus() {
         // EditTextView for MaterialDatePicker is disabled
         editDateText.isClickable = false
         editDateText.isLongClickable = false
@@ -731,17 +717,39 @@ class ReceiptFragment : Fragment(),
 
         // When the bottomsheet is expanded the keyboard is hidden from the storename input field.
         listener.hideKeyboard(storeNameEdit)
+
+        receiptVm.clearExpenseForm()
     }
 
 
 
-    fun showUpdateExpenseDialog() {
+    fun setPatronBottomSheetFocus() {
+        // EditTextView for MaterialDatePicker is disabled
+        editDateText.isClickable = false
+        editDateText.isLongClickable = false
+
+        // EditTextView for StoreName is disabled
+        storeNameEdit.isClickable = false
+        storeNameEdit.isLongClickable = false
+        storeNameEdit.isFocusable = false
+
+        // When the bottomsheet is expanded the keyboard is hidden from the storename input field.
+        listener.hideKeyboard(storeNameEdit)
+
+        receiptVm.clearPatronForm()
+    }
+
+
+
+    fun showUpdateExpenseDialog(expenseId: Long) {
 
         fragManager
 
         val newFragment = UpdateExpenseDialogFragment()
 
         newFragment.show(fragManager,"dialog")
+
+        receiptVm._updateExpenseId.value = expenseId
 
     }
 

@@ -20,6 +20,12 @@ class ReceiptRepository(
 
     }
 
+    suspend fun updateExpense(expense: ExpenseDataClass) {
+
+        expenseDao.updateExpense(expense)
+
+    }
+
     suspend fun deleteExpense(expense: ExpenseDataClass) {
         Timber.i("deleteExpense() is called")
         expenseDao.deleteSelectedExpense(expense)

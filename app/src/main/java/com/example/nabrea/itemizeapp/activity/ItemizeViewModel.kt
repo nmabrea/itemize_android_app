@@ -158,18 +158,10 @@ class ItemizeViewModel(application: Application) : AndroidViewModel(application)
 
 
 
-    // Method for inserting an ExpenseDataClass entry into the database
-    private suspend fun insertExpense(expense: ExpenseDataClass) =
-        viewModelScope.launch(Dispatchers.IO) {
-
-            repository.insertExpense(expense)
-
-        }
-
-
-
     // Method for cleaning out the expense input fields and any errors
-    private fun clearExpenseForm() {
+    fun clearExpenseForm() {
+        Timber.i("ItemizeViewModel clearExpenseForm() is called")
+
         _description.value = ""
         _costText.value = ""
         _cost.value = 0F
@@ -284,9 +276,8 @@ class ItemizeViewModel(application: Application) : AndroidViewModel(application)
         // Formally storing a formatted version of the subcost into a readable format
         _subCostFormat.value = "%.2f".format(_subCost.value)
 
-        // TODO(01) Figure out how to retrieve the auto-generated id
-        // Creating an expense based on the processed user input.
 
+        // Creating an expense based on the processed user input.
         expense = ExpenseDataClass( null,
             description.value.toString(),
             cost.value!!.toFloat(),
@@ -321,6 +312,93 @@ class ItemizeViewModel(application: Application) : AndroidViewModel(application)
         Timber.i("Expense was processed, form is cleared")
 
     }
+
+
+
+    val _updateExpenseId = MutableLiveData<Long>()
+    val updateExpenseId: MutableLiveData<Long>
+        get() = _updateExpenseId
+
+    val _updateDescription = MutableLiveData<String>()
+    val updateDescription: MutableLiveData<String>
+        get() = _updateDescription
+
+    val _updateCostText = MutableLiveData<String>()
+
+    private val _updateCost = MutableLiveData<Float>()
+    val updateCost: MutableLiveData<Float>
+        get() = _updateCost
+
+    private val _updateCostFormat = MutableLiveData<String>()
+    val updateCostFormat: MutableLiveData<String>
+        get() = _updateCostFormat
+
+    val _updateQuantityText = MutableLiveData<String>()
+
+    private val _updateQuantity = MutableLiveData<Int>()
+    val updateQuantity: MutableLiveData<Int>
+        get() = _updateQuantity
+
+    private val _updateSubCost = MutableLiveData<Float>()
+    val updateSubCost: MutableLiveData<Float>
+        get() = _updateSubCost
+
+    private val _updateSubCostFormat = MutableLiveData<String>()
+    val updateSubCostFormat: MutableLiveData<String>
+        get() = _updateSubCostFormat
+
+
+
+    private suspend fun updateExpense(expense: ExpenseDataClass) =
+        viewModelScope.launch(Dispatchers.IO) {
+
+            repository.updateExpense(expense)
+
+        }
+
+
+
+    suspend fun updateSelectedExpense() {
+
+        // Variable with a trimmed format in case the user puts in excessive spaces
+        val trimmedDescription = _updateDescription.value!!.trim()
+
+        // Updating the stored input with the formatted input
+        _updateDescription.value = trimmedDescription
+
+        // Formats the UserInput text into an Int value for future calculations
+        _updateQuantity.value = _updateQuantityText.value?.toInt() ?: 0
+
+        // Formats the UserInput text into a Float value for future calculations
+        val filteredCostText = _updateCostText.value!!.replace(",", "")
+
+        // Formally storing the user input cost as a Float value for calculations
+        _updateCost.value = filteredCostText.toFloat() ?: 0F
+
+        // Formally storing a formatted version of the cost into a readable format
+        _updateCostFormat.value = "%.2f".format(_updateCost.value)
+
+        // Processes the subCost value before it gets bundled into an Expense object
+        _updateSubCost.value = _updateCost.value?.times(_updateQuantity.value!!) ?: 0F
+
+        // Formally storing a formatted version of the subcost into a readable format
+        _updateSubCostFormat.value = "%.2f".format(_updateSubCost.value)
+
+        expense = ExpenseDataClass(
+            _updateExpenseId.value,
+            _updateDescription.value.toString(),
+            _updateCost.value!!.toFloat(),
+            _updateCostFormat.value!!.toString(),
+            _updateQuantity.value!!.toInt(),
+            _updateSubCost.value!!.toFloat(),
+            _updateSubCostFormat.value!!.toString(),
+            essentialRating.value
+        )
+
+        updateExpense(expense)
+
+    }
+
 
 
 
@@ -369,7 +447,8 @@ class ItemizeViewModel(application: Application) : AndroidViewModel(application)
 
 
     // Method for clearing out the patron form
-    private fun clearPatronForm() {
+    fun clearPatronForm() {
+        Timber.i("ItemizeViewModel clearPatronForm() is called")
 
         _name.value = ""
         _nameInitials.value = ""

@@ -1,6 +1,5 @@
 <resources>
     <string name="app_name">Itemize App</string>
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="itm_receiptHistory_title">Home</string>
     <string name="itm_receipt_title">Receipt</string>

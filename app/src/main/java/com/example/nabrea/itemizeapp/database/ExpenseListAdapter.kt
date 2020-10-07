@@ -13,6 +13,7 @@ import com.example.nabrea.itemizeapp.R
 import com.example.nabrea.itemizeapp.screens.receipt.ReceiptFragment
 import com.example.nabrea.itemizeapp.screens.receipt.expense.ExpenseDataClass
 import com.google.android.material.textview.MaterialTextView
+import timber.log.Timber
 
 class ExpenseListAdapter internal constructor(
     override val animationContext: Context,
@@ -84,7 +85,9 @@ class ExpenseListAdapter internal constructor(
 
         holder.updateExpenseButton.setOnClickListener { button ->
 
-            hostFragment.showUpdateExpenseDialog()
+            hostFragment.showUpdateExpenseDialog(current.expenseId!!)
+
+            Timber.i("Updating: ${current.description}, ID: ${current.expenseId}")
 
         }
 
