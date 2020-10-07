@@ -40,6 +40,7 @@ class UpdateExpenseDialogFragment : DialogFragment() {
             false
         )
 
+        //TODO(02) Set textwatcher on costedit, set validation inputs, if null use old values.
         updateDescriptionEdit = updateExpenseBinding.updateExpenseDescriptionEdit
 
         updateCostEdit = updateExpenseBinding.updateExpenseCostEdit
