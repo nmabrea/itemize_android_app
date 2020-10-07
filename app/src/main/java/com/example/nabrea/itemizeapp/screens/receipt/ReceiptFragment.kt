@@ -524,6 +524,7 @@ class ReceiptFragment : Fragment(),
 
                 // Communicating to the Main Activity to display ViewModel's message as a snackbar
                 listener.displaySnackbar(content)
+
             }
         })
 
