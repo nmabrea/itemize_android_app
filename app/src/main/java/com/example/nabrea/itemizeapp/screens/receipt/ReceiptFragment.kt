@@ -253,6 +253,7 @@ class ReceiptFragment : Fragment(),
         Timber.i("$listener is activated")
 
 
+
         // Establishing how to find the Patron RecyclerView from the layout
         val patronRecycler = receiptBinding.patronReceiptRecyclerView
 
@@ -261,6 +262,15 @@ class ReceiptFragment : Fragment(),
 
         // Establishing the adapter to reference for the Recycler View
         patronRecycler.adapter = patronAdapter
+
+        // Setting up an observer for the ViewModel variables that populate the Patron Recycler View
+        receiptVm.allPatrons.observe(viewLifecycleOwner, { patrons ->
+
+            patronAdapter.setPatrons(patrons)
+
+        })
+
+
 
         // Establishing how to find the Expense RecyclerView from the layout
         val expenseRecycler = receiptBinding.expenseRecyclerView
@@ -289,14 +299,6 @@ class ReceiptFragment : Fragment(),
 
         })
 
-        // Setting up an observer for the ViewModel variables that populate the Patron Recycler View
-        receiptVm.allPatrons.observe(viewLifecycleOwner, { patrons ->
-
-            patronAdapter.setPatrons(patrons)
-
-        })
-
-
 
 
         // Navigation Options setup within the action bar for this Fragment
@@ -312,13 +314,6 @@ class ReceiptFragment : Fragment(),
         // Locating the text view storing the StoreName within the onSavedInstanceState()
         storeNameEdit = receiptBinding.receiptStoreNameEdit
 
-        // Establishing rules for when a user types in the StoreName
-        storeNameEdit.filters = arrayOf(InputFilter { charSequence, i, i2, spanned, i3, i4 ->
-            return@InputFilter charSequence.replace(Regex("[^a-zA-Z0-9 ]*"), "")
-        })
-
-        ItemizeTextWatcherClass().setStringTextWatcher(storeNameEdit)
-
         // Locating the EditText view for user Date selection
         editDateText = receiptBinding.receiptDateEdit
 
@@ -328,35 +323,7 @@ class ReceiptFragment : Fragment(),
 
         receiptTotalEdit = receiptBinding.receiptTotalCostEdit
 
-        receiptVm._receiptTotal.observe(viewLifecycleOwner, { total ->
-
-            receiptVm._receiptTotalText.value = "%.2f".format(total)
-
-        })
-
         receiptInformationButton = receiptBinding.receiptInfoButton
-
-        var isShowing = true
-
-        receiptInformationButton.setOnClickListener {
-
-            if (isShowing) {
-                editDate.visibility = TextInputLayout.GONE
-                receiptTotal.visibility = TextInputLayout.GONE
-
-                receiptInformationButton.text = getString(R.string.info_show)
-
-                isShowing = false
-            } else {
-                editDate.visibility = TextInputLayout.VISIBLE
-                receiptTotal.visibility = TextInputLayout.VISIBLE
-
-                receiptInformationButton.text = getString(R.string.info_hide)
-
-                isShowing = true
-            }
-        }
-
 
 
 
@@ -387,9 +354,6 @@ class ReceiptFragment : Fragment(),
             this,
             animationContext)
 
-        // Locating the expenseBottomSheet values from the ViewModel that affect the state within the Fragment
-        receiptVm._expenseBottomSheet.value = expenseBottomSheet
-
 
 
         // The code below locates the layout views for user input within the expense BottomSheet
@@ -398,13 +362,6 @@ class ReceiptFragment : Fragment(),
 
         // Locating the expenseDescription EditText view from the layout
         expenseDescriptionEditText = receiptBinding.expenseBottomSheet.expenseDescriptionEdit
-
-        // Setting input rules for when users type in the description
-        expenseDescriptionEditText.filters = arrayOf(InputFilter { charSequence, i, i2, spanned, i3, i4 ->
-            return@InputFilter charSequence.replace(Regex("[^a-zA-Z0-9 ]*"), "")
-        })
-
-        ItemizeTextWatcherClass().setStringTextWatcher(expenseDescriptionEditText)
 
         // Locating the expenseCost InputLayout view from the layout
         expenseCost = receiptBinding.expenseBottomSheet.expenseCost
@@ -439,8 +396,6 @@ class ReceiptFragment : Fragment(),
         // Locating the label text associated with the patron button
         patronLabel = receiptBinding.labelAddPatron
 
-
-
         // The code below locates the layout views associated with the patron BottomSheet
         // Locating the patronLayout, which is included as part of receiptBinding
         patronLayout = receiptBinding.patronBottomSheet.patronBottomSheetLayout
@@ -454,22 +409,13 @@ class ReceiptFragment : Fragment(),
             animationContext
         )
 
-        // Locating the ViewModel variables that affect the bottomsheet state within the Fragment
-        receiptVm._patronBottomSheet.value = patronBottomSheet
+
 
         // Locating the patronName InputLayout view from the layout
         patronName = receiptBinding.patronBottomSheet.patronNameInput
 
         // Locating the patronName EditText view from the layout
         patronNameEditText = receiptBinding.patronBottomSheet.patronNameInputEdit
-
-        // Establishing rules for user input for the patronName view
-        patronNameEditText.filters = arrayOf(InputFilter { charSequence, i, i2, spanned, i3, i4 ->
-            return@InputFilter charSequence.replace(Regex("[^a-zA-Z ]*"), "")
-        })
-
-        ItemizeTextWatcherClass().setStringTextWatcher(patronNameEditText)
-
 
         // This variable collects the patron text layout views and associates them with a value from the EnumClass ErrorMessages
         patronForm = mutableMapOf()
@@ -507,10 +453,68 @@ class ReceiptFragment : Fragment(),
 
 
 
-
     override fun onResume() {
         super.onResume()
         Timber.i("onResume() has been called")
+
+
+
+        // Establishing rules for when a user types in the StoreName
+        storeNameEdit.filters = arrayOf(InputFilter { charSequence, i, i2, spanned, i3, i4 ->
+            return@InputFilter charSequence.replace(Regex("[^a-zA-Z0-9 ]*"), "")
+        })
+
+        ItemizeTextWatcherClass().setStringTextWatcher(storeNameEdit)
+
+
+
+        receiptVm._receiptTotal.observe(viewLifecycleOwner, { total ->
+
+            receiptVm._receiptTotalText.value = "%.2f".format(total)
+
+        })
+
+
+
+        var isShowing = true
+
+        receiptInformationButton.setOnClickListener {
+
+            if (isShowing) {
+                editDate.visibility = TextInputLayout.GONE
+                receiptTotal.visibility = TextInputLayout.GONE
+
+                receiptInformationButton.text = getString(R.string.info_show)
+
+                isShowing = false
+            } else {
+                editDate.visibility = TextInputLayout.VISIBLE
+                receiptTotal.visibility = TextInputLayout.VISIBLE
+
+                receiptInformationButton.text = getString(R.string.info_hide)
+
+                isShowing = true
+            }
+        }
+
+
+
+        // Locating the expenseBottomSheet values from the ViewModel that affect the state within the Fragment
+        receiptVm._expenseBottomSheet.value = expenseBottomSheet
+
+
+
+        // Locating the ViewModel variables that affect the bottomsheet state within the Fragment
+        receiptVm._patronBottomSheet.value = patronBottomSheet
+
+
+
+        // Establishing rules for user input for the patronName view
+        patronNameEditText.filters = arrayOf(InputFilter { charSequence, i, i2, spanned, i3, i4 ->
+            return@InputFilter charSequence.replace(Regex("[^a-zA-Z ]*"), "")
+        })
+
+        ItemizeTextWatcherClass().setStringTextWatcher(patronNameEditText)
 
 
 
@@ -560,6 +564,15 @@ class ReceiptFragment : Fragment(),
 
         // Establishing rules for how text input works for the ExpenseCostEditText view
         ItemizeTextWatcherClass().setCurrencyTextWatcher(expenseCostEditText)
+
+
+
+        // Setting input rules for when users type in the description
+        expenseDescriptionEditText.filters = arrayOf(InputFilter { charSequence, i, i2, spanned, i3, i4 ->
+            return@InputFilter charSequence.replace(Regex("[^a-zA-Z0-9 ]*"), "")
+        })
+
+        ItemizeTextWatcherClass().setStringTextWatcher(expenseDescriptionEditText)
 
 
 
