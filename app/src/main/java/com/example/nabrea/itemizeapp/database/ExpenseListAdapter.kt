@@ -85,8 +85,13 @@ class ExpenseListAdapter internal constructor(
 
         holder.updateExpenseButton.setOnClickListener { button ->
 
-            // TODO(02) Refactor to update current data with the updated data
-            hostFragment.showUpdateExpenseDialog(current.expenseId!!)
+            hostFragment
+                .showUpdateExpenseDialog(
+                    current.expenseId!!,
+                    current.description,
+                    current.costFormat,
+                    current.quantity.toString()
+                )
 
             Timber.i("Updating: ${current.description}, ID: ${current.expenseId}")
 

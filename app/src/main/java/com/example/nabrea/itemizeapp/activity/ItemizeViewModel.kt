@@ -110,8 +110,7 @@ class ItemizeViewModel(application: Application) : AndroidViewModel(application)
 
     val _receiptTotalText = MutableLiveData<String>()
 
-    private val _expenseID = MutableLiveData<Long>()
-
+    var isNew: Boolean = true
 
     init {
         Timber.i("ReceiptViewModel created")
@@ -159,7 +158,7 @@ class ItemizeViewModel(application: Application) : AndroidViewModel(application)
 
 
     // Method for cleaning out the expense input fields and any errors
-    fun clearExpenseForm() {
+    fun clearNewExpenseForm() {
         Timber.i("ItemizeViewModel clearExpenseForm() is called")
 
         _description.value = ""
@@ -175,6 +174,27 @@ class ItemizeViewModel(application: Application) : AndroidViewModel(application)
         expenseFormFields.removeAll(expenseFormFields)
     }
 
+
+
+    // Method for cleaning out the expense input fields and any errors
+    fun clearUpdateExpenseForm() {
+        Timber.i("ItemizeViewModel clearExpenseForm() is called")
+
+        _updateDescription.value = ""
+        _updateCostText.value = ""
+        _updateCost.value = 0F
+        _updateCostFormat.value = ""
+        _updateQuantityText.value = ""
+        _updateQuantity.value = 0
+        _subCost.value = 0F
+        _subCostFormat.value = ""
+        _essentialRating.value = 0
+        _errorExpense.value = null
+        expenseFormFields.removeAll(expenseFormFields)
+    }
+
+
+
     // ViewModel variable for storing the ExpenseBottomSheet state
     val _expenseBottomSheet = MutableLiveData<BottomSheetClass>()
     val expenseBottomSheet: LiveData<BottomSheetClass>
@@ -186,7 +206,7 @@ class ItemizeViewModel(application: Application) : AndroidViewModel(application)
     fun setExitExpenseOnClick() {
 
         // Expense form is cleared
-        clearExpenseForm()
+        clearNewExpenseForm()
 
         // BottomSheetState is collapsed
         _expenseBottomSheet.value!!.bottomSheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
@@ -195,13 +215,28 @@ class ItemizeViewModel(application: Application) : AndroidViewModel(application)
 
 
 
+    fun notifyUpdate(descriptionInput: MutableLiveData<String>,
+                     costInput: MutableLiveData<String>,
+                     quantityInput:MutableLiveData<String>
+    ) {
+        isNew = false
+
+        validateExpenseInputs(descriptionInput, costInput, quantityInput)
+    }
+
+
+
     // Method for validating the user input expense fields
-    fun validateExpenseInputs() {
+    fun validateExpenseInputs(
+        descriptionInput: MutableLiveData<String>,
+        costInput: MutableLiveData<String>,
+        quantityInput:MutableLiveData<String>
+    ) {
 
         // All ViewModel variables associated with user input are added to the formFields collection
-        expenseFormFields.add(_description.value)
-        expenseFormFields.add(_costText.value)
-        expenseFormFields.add(_quantityText.value)
+        expenseFormFields.add(descriptionInput.value)
+        expenseFormFields.add(costInput.value)
+        expenseFormFields.add(quantityInput.value)
 
         // Default state of all forms are null
         var nullDetected = true
@@ -242,7 +277,7 @@ class ItemizeViewModel(application: Application) : AndroidViewModel(application)
             true -> _message.value = EventClass(ErrorMessages.KEY_ERROR_GENERAL.errorMessage)
 
             // When nullDetected is false, allow the program to create the expense
-            false -> createExpense()
+            false -> createExpense(descriptionInput, costInput, quantityInput)
         }
 
     }
@@ -250,63 +285,139 @@ class ItemizeViewModel(application: Application) : AndroidViewModel(application)
 
 
     // Method for creating an expense based on the user input
-    private fun createExpense() {
+    private fun createExpense(
+        descriptionInput: MutableLiveData<String>,
+        costInput: MutableLiveData<String>,
+        quantityInput:MutableLiveData<String>
+    ) {
 
         // Variable with a trimmed format in case the user puts in excessive spaces
-        val trimmedDescription = _description.value!!.trim()
-
-        // Updating the stored input with the formatted input
-        _description.value = trimmedDescription
-
-        // Formats the UserInput text into an Int value for future calculations
-        _quantity.value = _quantityText.value?.toInt() ?: 0
+        val trimmedDescription = descriptionInput.value!!.trim()
 
         // Formats the UserInput text into a Float value for future calculations
-        val filteredCostText = _costText.value!!.replace(",", "")
+        val filteredCostText = costInput.value!!.replace(",", "")
 
-        // Formally storing the user input cost as a Float value for calculations
-        _cost.value = filteredCostText.toFloat() ?: 0F
+        when (isNew) {
+            true -> {
 
-        // Formally storing a formatted version of the cost into a readable format
-        _costFormat.value = "%.2f".format(_cost.value)
+                // Updating the stored input with the formatted input
+                _description.value = trimmedDescription
 
-        // Processes the subCost value before it gets bundled into an Expense object
-        _subCost.value = _cost.value?.times(_quantity.value!!) ?: 0F
+                // Formats the UserInput text into an Int value for future calculations
+                _quantity.value = quantityInput.value?.toInt() ?: 0
 
-        // Formally storing a formatted version of the subcost into a readable format
-        _subCostFormat.value = "%.2f".format(_subCost.value)
+                // Formally storing the user input cost as a Float value for calculations
+                _cost.value = filteredCostText.toFloat()
+
+                // Formally storing a formatted version of the cost into a readable format
+                _costFormat.value = "%.2f".format(_cost.value)
+
+                // Processes the subCost value before it gets bundled into an Expense object
+                _subCost.value = _cost.value?.times(_quantity.value!!) ?: 0F
+
+                // Formally storing a formatted version of the subcost into a readable format
+                _subCostFormat.value = "%.2f".format(_subCost.value)
 
 
-        // Creating an expense based on the processed user input.
-        expense = ExpenseDataClass( null,
-            description.value.toString(),
-            cost.value!!.toFloat(),
-            costFormat.value!!.toString(),
-            quantity.value!!.toInt(),
-            subCost.value!!.toFloat(),
-            subCostFormat.value.toString(),
-            essentialRating.value
-        )
 
-        viewModelScope.launch {
+                // Creating an expense based on the processed user input.
+                expense = ExpenseDataClass(
+                    null,
+                    description.value.toString(),
+                    cost.value!!.toFloat(),
+                    costFormat.value!!.toString(),
+                    quantity.value!!.toInt(),
+                    subCost.value!!.toFloat(),
+                    subCostFormat.value.toString(),
+                    essentialRating.value
+                )
 
-            expense.expenseId = expenseDao.insertExpense(expense)
 
-            Timber.i("${expense.expenseId}")
 
+                viewModelScope.launch {
+
+                    expense.expenseId = expenseDao.insertExpense(expense)
+
+                    Timber.i("New expense ${expense.expenseId} is inserted")
+                }
+
+
+
+                // Informing the program that an expense was created for user feedback.
+                _message.value = EventClass(
+                    "${expense.description} | Cost: $${expense.subCostFormat} added!"
+                )
+
+
+
+                // ExpenseForm is cleared once stored in the database
+                clearNewExpenseForm()
+
+
+
+            }
+            false -> {
+
+                // Updating the stored input with the formatted input
+                _updateDescription.value = trimmedDescription
+
+                // Formats the UserInput text into an Int value for future calculations
+                _updateQuantity.value = quantityInput.value?.toInt() ?: 0
+
+                // Formally storing the user input cost as a Float value for calculations
+                _updateCost.value = filteredCostText.toFloat()
+
+                // Formally storing a formatted version of the cost into a readable format
+                _updateCostFormat.value = "%.2f".format(_updateCost.value)
+
+                // Processes the subCost value before it gets bundled into an Expense object
+                _subCost.value = _updateCost.value?.times(_updateQuantity.value!!) ?: 0F
+
+                // Formally storing a formatted version of the subcost into a readable format
+                _subCostFormat.value = "%.2f".format(_subCost.value)
+
+
+
+                expense = ExpenseDataClass(
+                    updateExpenseId.value,
+                    updateDescription.value.toString(),
+                    updateCost.value!!.toFloat(),
+                    updateCostFormat.value!!.toString(),
+                    updateQuantity.value!!.toInt(),
+                    subCost.value!!.toFloat(),
+                    subCostFormat.value.toString(),
+                    essentialRating.value
+                )
+
+
+
+                viewModelScope.launch {
+
+                    updateExpense(expense)
+
+                    Timber.i("Current expense ${expense.expenseId} is updated")
+                }
+
+
+
+                // Informing the program that an expense was created for user feedback.
+                _message.value = EventClass(
+                    "Expense has been updated!"
+                )
+
+
+                // ExpenseForm is cleared once stored in the database
+                clearUpdateExpenseForm()
+
+
+
+                isNew = true
+            }
         }
 
-        val newTotal = _receiptTotal.value!!.plus(subCost.value!!.toFloat())
+        /*val newTotal = _receiptTotal.value!!.plus(subCost.value!!.toFloat())
 
-        _receiptTotal.value = newTotal
-
-        // Informing the program that an expense was created for user feedback.
-        _message.value = EventClass(
-            "Expense: ${expense.description} | Cost: $${expense.subCostFormat} added!"
-        )
-
-        // ExpenseForm is cleared once stored in the database
-        clearExpenseForm()
+        _receiptTotal.value = newTotal*/
 
         // Logcat message to confirm the expense was processed
         Timber.i("Expense was processed, form is cleared")
@@ -323,7 +434,11 @@ class ItemizeViewModel(application: Application) : AndroidViewModel(application)
     val updateDescription: MutableLiveData<String>
         get() = _updateDescription
 
+    val _currentDescription = MutableLiveData<String>()
+
     val _updateCostText = MutableLiveData<String>()
+
+    val _currentCostText = MutableLiveData<String>()
 
     private val _updateCost = MutableLiveData<Float>()
     val updateCost: MutableLiveData<Float>
@@ -335,19 +450,11 @@ class ItemizeViewModel(application: Application) : AndroidViewModel(application)
 
     val _updateQuantityText = MutableLiveData<String>()
 
+    val _currentQuantityText = MutableLiveData<String>()
+
     private val _updateQuantity = MutableLiveData<Int>()
     val updateQuantity: MutableLiveData<Int>
         get() = _updateQuantity
-
-    private val _updateSubCost = MutableLiveData<Float>()
-    val updateSubCost: MutableLiveData<Float>
-        get() = _updateSubCost
-
-    private val _updateSubCostFormat = MutableLiveData<String>()
-    val updateSubCostFormat: MutableLiveData<String>
-        get() = _updateSubCostFormat
-
-
 
     private suspend fun updateExpense(expense: ExpenseDataClass) =
         viewModelScope.launch(Dispatchers.IO) {
@@ -355,50 +462,6 @@ class ItemizeViewModel(application: Application) : AndroidViewModel(application)
             repository.updateExpense(expense)
 
         }
-
-
-
-    // TODO(04) Retrieve current data, update it with user input data
-    suspend fun updateSelectedExpense() {
-
-        // Variable with a trimmed format in case the user puts in excessive spaces
-        val trimmedDescription = _updateDescription.value!!.trim()
-
-        // Updating the stored input with the formatted input
-        _updateDescription.value = trimmedDescription
-
-        // Formats the UserInput text into an Int value for future calculations
-        _updateQuantity.value = _updateQuantityText.value?.toInt() ?: 0
-
-        // Formats the UserInput text into a Float value for future calculations
-        val filteredCostText = _updateCostText.value!!.replace(",", "")
-
-        // Formally storing the user input cost as a Float value for calculations
-        _updateCost.value = filteredCostText.toFloat() ?: 0F
-
-        // Formally storing a formatted version of the cost into a readable format
-        _updateCostFormat.value = "%.2f".format(_updateCost.value)
-
-        // Processes the subCost value before it gets bundled into an Expense object
-        _updateSubCost.value = _updateCost.value?.times(_updateQuantity.value!!) ?: 0F
-
-        // Formally storing a formatted version of the subcost into a readable format
-        _updateSubCostFormat.value = "%.2f".format(_updateSubCost.value)
-
-        expense = ExpenseDataClass(
-            _updateExpenseId.value,
-            _updateDescription.value.toString(),
-            _updateCost.value!!.toFloat(),
-            _updateCostFormat.value!!.toString(),
-            _updateQuantity.value!!.toInt(),
-            _updateSubCost.value!!.toFloat(),
-            _updateSubCostFormat.value!!.toString(),
-            essentialRating.value
-        )
-
-        updateExpense(expense)
-
-    }
 
 
 
@@ -462,9 +525,6 @@ class ItemizeViewModel(application: Application) : AndroidViewModel(application)
 
     // Method for validating the Patron user input fields
     fun validatePatronInputs() {
-
-        // Variable to temporarily collect processed characters as strings
-        val tempList = mutableListOf<String>()
 
         // Pulling out the userinput value
         val userInput = _name.value!!.trim()
@@ -565,7 +625,7 @@ class ItemizeViewModel(application: Application) : AndroidViewModel(application)
         val userInput = _name.value!!.trim()
 
         // Splitting the user input into separate strings
-        val split = userInput!!.split(" ")
+        val split = userInput.split(" ")
 
         // Taking the first letter from the first two strings
         for (i in 0..1) {

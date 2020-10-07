@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:bind="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".screens.receipt.expense.UpdateExpenseDialogFragment">
 
@@ -32,8 +31,6 @@
             app:errorContentDescription="@string/itm_error_expense_description">
 
             <!--TODO set all caps-->
-            <!--TODO(09) Set Updated variable for text-->
-            <!--TODO(10) Set current variable as hint-->
             <com.google.android.material.textfield.TextInputEditText
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:id="@+id/updateExpenseDescriptionEdit"
@@ -45,7 +42,7 @@
                 android:textSize="@dimen/itm_text_size_small"
                 android:textStyle="bold"
                 android:inputType="text"
-                android:text="@={itemizeViewModel._description}"
+                android:text="@={itemizeViewModel._updateDescription}"
                 android:maxLength="20"
                 android:maxLines="1"/>
 
@@ -66,8 +63,6 @@
             app:errorIconDrawable="@drawable/ic_baseline_error_24"
             app:errorContentDescription="@string/itm_error_expense_cost">
 
-            <!--TODO(07) Set Updated variable for text-->
-            <!--TODO(08) Set current variable as hint-->
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/updateExpenseCostEdit"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
@@ -78,7 +73,7 @@
                 android:inputType="numberDecimal"
                 android:textSize="@dimen/itm_text_size_small"
                 android:textStyle="bold"
-                android:text="@={itemizeViewModel._costText}"
+                android:text="@={itemizeViewModel._updateCostText}"
                 android:maxLength="10"
                 android:maxLines="1"/>
 
@@ -99,8 +94,6 @@
             app:errorIconDrawable="@drawable/ic_baseline_error_24"
             app:errorContentDescription="@string/itm_error_expense_quantity">
 
-            <!--TODO(05) Set Updated variable for text-->
-            <!--TODO(06) Set current variable as hint-->
             <com.google.android.material.textfield.TextInputEditText
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:id="@+id/updateExpenseQuantityEdit"
@@ -112,7 +105,7 @@
                 android:textSize="@dimen/itm_text_size_small"
                 android:textStyle="bold"
                 android:inputType="number"
-                android:text="@={itemizeViewModel._quantityText}"
+                android:text="@={itemizeViewModel._updateQuantityText}"
                 android:maxLength="3"
                 android:maxLines="1"
                 />
@@ -149,7 +142,8 @@
                     app:strokeColor="@color/itm_secondary_orangeDark"
                     android:textColor="@color/itm_secondary_orangeDark"
                     android:textStyle="bold"
-                    android:text="@string/itm_dialog_update" />
+                    android:text="@string/itm_dialog_update"
+                    android:onClick="@{() -> itemizeViewModel.notifyUpdate(updateExpenseDescriptionEdit.text, updateExpenseCostEdit.text, updateExpenseQuantityEdit.text)}"/>
 
             </com.google.android.material.bottomappbar.BottomAppBar>
 

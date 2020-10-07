@@ -139,7 +139,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/itm_margin_startEnd_min"
             android:layout_marginEnd="@dimen/itm_margin_startEnd_min"
-            android:onClick="@{() -> receiptViewModel.validateExpenseInputs()}"
+            android:onClick="@{() -> receiptViewModel.validateExpenseInputs(expenseDescriptionEdit.text, expenseCostEdit.text, expenseQuantityEdit.text)}"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/expenseCost"
             app:icon="@drawable/itm_icon_plus_white"

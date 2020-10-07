@@ -11,7 +11,6 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
 import androidx.navigation.NavDirections
@@ -516,7 +515,7 @@ class ReceiptFragment : Fragment(),
 
 
         // Setting up an observer if a message is initialized within the ViewModel
-        receiptVm.message.observe(this, Observer { message ->
+        receiptVm.message.observe(this, { message ->
             message.getContentIfNotHandled()?.let { content ->
 
                 // Communicating to the Main Activity to display ViewModel's message as a snackbar
@@ -525,7 +524,7 @@ class ReceiptFragment : Fragment(),
         })
 
         // Setting up an observer for ViewModel variables that will affect the ExpenseBottomSheet state
-        receiptVm.expenseBottomSheet.observe(this, Observer { eBottomSheet ->
+        receiptVm.expenseBottomSheet.observe(this, { eBottomSheet ->
 
             when (eBottomSheet.bottomSheetBehavior.state == BottomSheetBehavior.STATE_COLLAPSED) {
 
@@ -543,7 +542,7 @@ class ReceiptFragment : Fragment(),
 
 
         // Setting up an observer for ViewModel variables that will affect the PatronBottomSheet state
-        receiptVm.patronBottomSheet.observe(this, Observer { pBottomSheet ->
+        receiptVm.patronBottomSheet.observe(this, { pBottomSheet ->
             when (pBottomSheet.bottomSheetBehavior.state == BottomSheetBehavior.STATE_COLLAPSED) {
 
                 // ViewModel variables inform whether the bottom sheet should close
@@ -565,7 +564,7 @@ class ReceiptFragment : Fragment(),
 
 
         // Setting an observer for ViewModel variables that inform the program of errors with the expenseForm
-        receiptVm.errorExpense.observe(this, Observer { errorMessage ->
+        receiptVm.errorExpense.observe(this, { errorMessage ->
 
             // If the ViewModel variable is null, all of the associated error values for the views are null
             if (errorMessage == null) {
@@ -590,7 +589,7 @@ class ReceiptFragment : Fragment(),
 
 
         // Setting an observer for ViewModel variables that inform the program of errors with the patronForm
-        receiptVm.errorPatron.observe(this, Observer { errorMessage ->
+        receiptVm.errorPatron.observe(this, { errorMessage ->
 
             // If the ViewModel variable is null, all of the associated error values for the views are null
             if (errorMessage == null) {
@@ -677,7 +676,7 @@ class ReceiptFragment : Fragment(),
             listener.hideKeyboard(inputField.first)
         }
 
-        receiptVm.clearExpenseForm()
+        receiptVm.clearNewExpenseForm()
     }
 
 
@@ -718,7 +717,7 @@ class ReceiptFragment : Fragment(),
         // When the bottomsheet is expanded the keyboard is hidden from the storename input field.
         listener.hideKeyboard(storeNameEdit)
 
-        receiptVm.clearExpenseForm()
+        receiptVm.clearNewExpenseForm()
     }
 
 
@@ -742,7 +741,12 @@ class ReceiptFragment : Fragment(),
 
 
     // TODO(03) Allow this function to retrieve current data from adapter, to set comparison in ViewModel
-    fun showUpdateExpenseDialog(expenseId: Long) {
+    fun showUpdateExpenseDialog(
+        expenseId: Long,
+        currentDescription: String,
+        currentCost: String,
+        currentQuantity: String
+    ) {
 
         fragManager
 
@@ -750,7 +754,15 @@ class ReceiptFragment : Fragment(),
 
         newFragment.show(fragManager,"dialog")
 
+
+
         receiptVm._updateExpenseId.value = expenseId
+
+        receiptVm._currentDescription.value = currentDescription
+
+        receiptVm._currentCostText.value = currentCost
+
+        receiptVm._currentQuantityText.value = currentQuantity
 
     }
 
