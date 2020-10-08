@@ -23,8 +23,10 @@ import com.example.nabrea.itemizeapp.databinding.ActivityMainBinding
 import com.example.nabrea.itemizeapp.screens.home.ReceiptHistoryFragmentDirections
 import com.example.nabrea.itemizeapp.screens.receipt.ReceiptFragment
 import com.example.nabrea.itemizeapp.screens.receipt.ReceiptFragmentCommunication
+import com.example.nabrea.itemizeapp.screens.receipt.uidisplay.BottomSheetClass
 import com.example.nabrea.itemizeapp.screens.receipt.uidisplay.MenuClass
 import com.google.android.material.bottomappbar.BottomAppBar
+import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import timber.log.Timber
 import java.util.*
@@ -352,7 +354,11 @@ class MainActivity : AppCompatActivity(),
 
 
 
-    override fun setNavigationScrollVisibility(recyclerView: RecyclerView) {
+    override fun setNavigationScrollVisibility(
+        recyclerView: RecyclerView,
+        expenseBottomSheet: BottomSheetClass,
+        patronBottomSheet: BottomSheetClass
+    ) {
 
         recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
@@ -372,15 +378,18 @@ class MainActivity : AppCompatActivity(),
                         primaryAction.button.isClickable = true
                         primaryAction.button.isLongClickable = true
                     }
-                    dy == 0 -> {
+                    dy == 0 && (
+                            expenseBottomSheet.bottomSheetBehavior.state == BottomSheetBehavior.STATE_COLLAPSED &&
+                                    patronBottomSheet.bottomSheetBehavior.state == BottomSheetBehavior.STATE_COLLAPSED
+                            ) -> {
                         mainBab.performShow()
                         primaryAction.button.show()
                         primaryAction.button.isEnabled = true
                         primaryAction.button.isClickable = true
                         primaryAction.button.isLongClickable = true
                     }
-                }
 
+                }
                 super.onScrolled(recyclerView, dx, dy)
             }
         })

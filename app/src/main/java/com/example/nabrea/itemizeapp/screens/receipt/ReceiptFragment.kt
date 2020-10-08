@@ -78,7 +78,11 @@ interface ReceiptFragmentCommunication {
     fun displaySnackbar(message: String)
 
     // Function used to hide/show bottomappbar and fab
-    fun setNavigationScrollVisibility(recyclerView: RecyclerView)
+    fun setNavigationScrollVisibility(
+        recyclerView: RecyclerView,
+        expenseBottomSheet: BottomSheetClass,
+        patronBottomSheet: BottomSheetClass
+    )
 
 }
 
@@ -274,39 +278,6 @@ class ReceiptFragment : Fragment(),
 
 
 
-        // Establishing how to find the Expense RecyclerView from the layout
-        val expenseRecycler = receiptBinding.expenseRecyclerView
-
-        listener.setNavigationScrollVisibility(expenseRecycler)
-
-        // Establishing this Fragment as the context to display both the Expense RecyclerView and its nested Patron RecyclerView
-        expenseAdapter =
-            ExpenseListAdapter(
-                animationContext,
-                patronAdapter,
-                this
-            )
-
-        // Establishing the adapter to reference for the RecyclerView
-        expenseRecycler.adapter = expenseAdapter
-
-        // Establishing the LinearLayoutManager's context
-        expenseRecycler.layoutManager = LinearLayoutManager(animationContext)
-
-        val swipeGestures =
-            ItemTouchHelper(ItemizeTouchHelperClass(receiptVm, expenseAdapter, animationContext))
-
-        // Setting up an observer for the ViewModel variables that populate the Expense Recycler View
-        receiptVm.allExpenses.observe(viewLifecycleOwner, { expenses ->
-
-            expenseAdapter.setExpenses(expenses)
-
-            swipeGestures.attachToRecyclerView(expenseRecycler)
-
-        })
-
-
-
         // Navigation Options setup within the action bar for this Fragment
         setHasOptionsMenu(true)
 
@@ -434,6 +405,43 @@ class ReceiptFragment : Fragment(),
 
 
 
+        // Establishing how to find the Expense RecyclerView from the layout
+        val expenseRecycler = receiptBinding.expenseRecyclerView
+
+        listener.setNavigationScrollVisibility(
+            expenseRecycler,
+            expenseBottomSheet,
+            patronBottomSheet
+        )
+
+        // Establishing this Fragment as the context to display both the Expense RecyclerView and its nested Patron RecyclerView
+        expenseAdapter =
+            ExpenseListAdapter(
+                animationContext,
+                patronAdapter,
+                this
+            )
+
+        // Establishing the adapter to reference for the RecyclerView
+        expenseRecycler.adapter = expenseAdapter
+
+        // Establishing the LinearLayoutManager's context
+        expenseRecycler.layoutManager = LinearLayoutManager(animationContext)
+
+        val swipeGestures =
+            ItemTouchHelper(ItemizeTouchHelperClass(receiptVm, expenseAdapter, animationContext))
+
+        // Setting up an observer for the ViewModel variables that populate the Expense Recycler View
+        receiptVm.allExpenses.observe(viewLifecycleOwner, { expenses ->
+
+            expenseAdapter.setExpenses(expenses)
+
+            swipeGestures.attachToRecyclerView(expenseRecycler)
+
+        })
+
+
+
         // Locating the finalize button, and its associated label and NavDirections.
         finalizeButton = receiptBinding.buttonFinalize
 
@@ -511,8 +519,6 @@ class ReceiptFragment : Fragment(),
 
         // Locating the expenseBottomSheet values from the ViewModel that affect the state within the Fragment
         receiptVm._expenseBottomSheet.value = expenseBottomSheet
-
-
 
         // Locating the ViewModel variables that affect the bottomsheet state within the Fragment
         receiptVm._patronBottomSheet.value = patronBottomSheet
@@ -781,6 +787,8 @@ class ReceiptFragment : Fragment(),
 
         receiptInformationButton.isClickable = false
 
+        listener.onBottomSheetExpanded()
+
         // When the bottomsheet is expanded the keyboard is hidden from the storename input field.
         listener.hideKeyboard(storeNameEdit)
 
@@ -800,6 +808,8 @@ class ReceiptFragment : Fragment(),
         storeNameEdit.isFocusable = false
 
         receiptInformationButton.isClickable = false
+
+        listener.onBottomSheetExpanded()
 
         // When the bottomsheet is expanded the keyboard is hidden from the storename input field.
         listener.hideKeyboard(storeNameEdit)
@@ -821,8 +831,6 @@ class ReceiptFragment : Fragment(),
         val newFragment = UpdateExpenseDialogFragment()
 
         newFragment.show(fragManager,"dialog")
-
-
 
         receiptVm._updateExpenseId.value = expenseId
 
