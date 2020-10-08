@@ -18,7 +18,7 @@
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/updateExpenseDescription"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-            android:layout_marginTop="@dimen/itm_margin_topBottom_min"
+            android:layout_marginTop="@dimen/itm_margin_topBottom_med"
             android:layout_marginStart="@dimen/itm_margin_startEnd_min"
             android:layout_marginEnd="@dimen/itm_margin_startEnd_min"
             android:layout_width="match_parent"
@@ -116,13 +116,27 @@
             android:layout_height="wrap_content"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/updateExpenseCost" >
+            app:layout_constraintTop_toBottomOf="@+id/updateExpenseCost"
+            android:layout_marginTop="@dimen/itm_margin_top_med">
 
             <com.google.android.material.bottomappbar.BottomAppBar
                 android:id="@+id/dialog_actionbar"
                 style="@style/Widget.MaterialComponents.BottomAppBar.Colored"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" >
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/dialog_button_update"
+                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/itm_margin_startEnd_extra"
+                    app:strokeColor="@color/itm_secondary_orangeDark"
+                    android:textColor="@color/itm_secondary_orangeDark"
+                    android:textStyle="bold"
+                    android:text="@string/itm_dialog_update"
+                    android:contentDescription="@string/itm_dialog_update_expense"
+                    android:onClick="@{() -> itemizeViewModel.notifyUpdate(updateExpenseDescriptionEdit.text, updateExpenseCostEdit.text, updateExpenseQuantityEdit.text)}"/>
 
                 <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/dialog_button_cancel"
@@ -131,19 +145,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/itm_margin_startEnd_extra"
                     android:textColor="@color/itm_secondary_orangeDark"
-                    android:text="@string/itm_dialog_cancel"/>
-
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/dialog_button_update"
-                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/itm_margin_top_max"
-                    app:strokeColor="@color/itm_secondary_orangeDark"
-                    android:textColor="@color/itm_secondary_orangeDark"
-                    android:textStyle="bold"
-                    android:text="@string/itm_dialog_update"
-                    android:onClick="@{() -> itemizeViewModel.notifyUpdate(updateExpenseDescriptionEdit.text, updateExpenseCostEdit.text, updateExpenseQuantityEdit.text)}"/>
+                    android:contentDescription="@string/itm_dialog_close"
+                    android:text="@string/itm_dialog_close"/>
 
             </com.google.android.material.bottomappbar.BottomAppBar>
 

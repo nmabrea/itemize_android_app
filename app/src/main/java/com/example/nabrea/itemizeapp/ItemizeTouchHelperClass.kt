@@ -34,11 +34,11 @@ class ItemizeTouchHelperClass(private val viewModel: ItemizeViewModel,
 
                 viewModel.deleteExpense(adapter.expenseBasket[viewHolder.adapterPosition])
 
-                val newTotal = viewModel._receiptTotal.value!!.minus(adapter.expenseBasket[viewHolder.adapterPosition].subCost)
+                /*val newTotal = viewModel._receiptTotal.value!!.minus(adapter.expenseBasket[viewHolder.adapterPosition].subCost)
 
-                viewModel._receiptTotal.value = newTotal
+                viewModel._receiptTotal.value = newTotal*/
 
-                val swipeMessage = "${(adapter.expenseBasket[viewHolder.adapterPosition]).description} has been removed from the list."
+                val swipeMessage = "${(adapter.expenseBasket[viewHolder.adapterPosition]).description} has been deleted."
 
                 viewModel._message.value = EventClass(swipeMessage)
 

@@ -49,10 +49,10 @@ const val KEY_STORE: String = "key_store"
 enum class ErrorMessages (val errorMessage: String) {
 
     KEY_ERROR_GENERAL("Please fill in all fields correctly."),
-    KEY_ERROR_DESCRIPTION("Enter a valid description. (20 characters max)"),
-    KEY_ERROR_COST("Enter a valid cost. (8 digits max)"),
-    KEY_ERROR_QUANTITY("Enter a valid quantity. (3 digits max)"),
-    KEY_ERROR_NAME("Enter a first and last name. (20 characters max)")
+    KEY_ERROR_DESCRIPTION("Enter a description. (20 characters max)"),
+    KEY_ERROR_COST("Enter a cost. (8 digits max)"),
+    KEY_ERROR_QUANTITY("Enter a quantity. (3 digits max)"),
+    KEY_ERROR_NAME("Enter a first + last name. (20 characters max)")
 
 }
 
@@ -644,14 +644,14 @@ class ReceiptFragment : Fragment(),
             false
         } else if (userInput.text!!.isBlank()) {
             false
-        } else if (userInput.text!!.contains("0")) {
+        } else if (userInput.text!!.toString() == "0") {
             false
         } else if (
-            userInput.text!!.contains("00") ||
-            userInput.text!!.contains("000")
+            userInput.text!!.toString() == "00" ||
+            userInput.text!!.toString() == "000"
         ) {
             false
-        } else !userInput.text!!.contains("0.00")
+        } else userInput.text!!.toString() != "0.00"
     }
 
 

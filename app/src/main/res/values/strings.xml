@@ -43,8 +43,7 @@
     <string name="info_show">show</string>
     <string name="itm_receipt_total">TOTAL COST</string>
     <string name="itm_information_divider">Receipt Information Divider</string>
-    <string name="itm_dialog_close">Close Dialog</string>
+    <string name="itm_dialog_close">CLOSE</string>
     <string name="itm_dialog_update_expense">Update Expense</string>
-    <string name="itm_dialog_cancel">CANCEL</string>
     <string name="itm_dialog_update">UPDATE</string>
 </resources>

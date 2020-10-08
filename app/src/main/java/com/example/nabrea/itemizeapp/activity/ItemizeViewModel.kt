@@ -112,6 +112,10 @@ class ItemizeViewModel(application: Application) : AndroidViewModel(application)
 
     var isNew: Boolean = true
 
+    private val _isUpdated = MutableLiveData<Boolean>()
+    val isUpdated: LiveData<Boolean>
+        get() = _isUpdated
+
     init {
         Timber.i("ReceiptViewModel created")
 
@@ -221,6 +225,8 @@ class ItemizeViewModel(application: Application) : AndroidViewModel(application)
     ) {
         isNew = false
 
+        _isUpdated.value = false
+
         validateExpenseInputs(descriptionInput, costInput, quantityInput)
     }
 
@@ -246,10 +252,12 @@ class ItemizeViewModel(application: Application) : AndroidViewModel(application)
             expenseFormFields[0]!!.isBlank() ||
             expenseFormFields[0]!!.isEmpty() ||
             expenseFormFields[1]!! == "0.00" ||
+            expenseFormFields[1]!!.isEmpty() ||
+            expenseFormFields[1]!!.isBlank() ||
             expenseFormFields[2]!! == "0" ||
             expenseFormFields[2]!! == "00" ||
             expenseFormFields[2]!! == "000" ||
-            expenseFormFields[2]!!.isNullOrBlank()
+            expenseFormFields[2]!!.isBlank()
         ) {
             // If any of the fields meet the criteria specified above, there's an error
             _errorExpense.value = ErrorMessages.KEY_ERROR_GENERAL.errorMessage
@@ -406,15 +414,20 @@ class ItemizeViewModel(application: Application) : AndroidViewModel(application)
                 )
 
 
+
                 // ExpenseForm is cleared once stored in the database
                 clearUpdateExpenseForm()
 
 
 
                 isNew = true
+
+                _isUpdated.value = true
             }
+
         }
 
+        _isUpdated.value = false
         /*val newTotal = _receiptTotal.value!!.plus(subCost.value!!.toFloat())
 
         _receiptTotal.value = newTotal*/
@@ -427,11 +440,11 @@ class ItemizeViewModel(application: Application) : AndroidViewModel(application)
 
 
     val _updateExpenseId = MutableLiveData<Long>()
-    val updateExpenseId: MutableLiveData<Long>
+    val updateExpenseId: LiveData<Long>
         get() = _updateExpenseId
 
     val _updateDescription = MutableLiveData<String>()
-    val updateDescription: MutableLiveData<String>
+    val updateDescription: LiveData<String>
         get() = _updateDescription
 
     val _currentDescription = MutableLiveData<String>()
@@ -441,11 +454,11 @@ class ItemizeViewModel(application: Application) : AndroidViewModel(application)
     val _currentCostText = MutableLiveData<String>()
 
     private val _updateCost = MutableLiveData<Float>()
-    val updateCost: MutableLiveData<Float>
+    val updateCost: LiveData<Float>
         get() = _updateCost
 
     private val _updateCostFormat = MutableLiveData<String>()
-    val updateCostFormat: MutableLiveData<String>
+    val updateCostFormat: LiveData<String>
         get() = _updateCostFormat
 
     val _updateQuantityText = MutableLiveData<String>()
@@ -453,7 +466,7 @@ class ItemizeViewModel(application: Application) : AndroidViewModel(application)
     val _currentQuantityText = MutableLiveData<String>()
 
     private val _updateQuantity = MutableLiveData<Int>()
-    val updateQuantity: MutableLiveData<Int>
+    val updateQuantity: LiveData<Int>
         get() = _updateQuantity
 
     private suspend fun updateExpense(expense: ExpenseDataClass) =
