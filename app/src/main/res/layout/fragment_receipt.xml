@@ -170,9 +170,9 @@
                     android:id="@+id/expenseRecyclerView"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:paddingBottom="@dimen/itm_margin_topBottom_min"
+                    android:paddingBottom="@dimen/itm_bottomAppBar_height"
                     android:scrollbarAlwaysDrawVerticalTrack="true"
-                    android:scrollbarSize="8dp"
+                    android:scrollbarSize="@dimen/itm_scrollbar_width"
                     android:scrollbarThumbVertical="@drawable/itm_scrollbar"
                     android:scrollbars="vertical"
                     tools:listitem="@layout/recyclerview_expense" />

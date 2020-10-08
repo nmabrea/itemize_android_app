@@ -33,4 +33,6 @@
     <dimen name="itm_card_stroke_width">1dp</dimen>
     <dimen name="itm_card_corner_radius">8dp</dimen>
     <dimen name="itm_bottomAppBar_height">50dp</dimen>
+    <dimen name="itm_bottom_padding_extra">24dp</dimen>
+    <dimen name="itm_scrollbar_width">8dp</dimen>
 </resources>

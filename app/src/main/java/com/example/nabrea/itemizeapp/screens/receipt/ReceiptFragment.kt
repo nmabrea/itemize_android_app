@@ -698,6 +698,8 @@ class ReceiptFragment : Fragment(),
         storeNameEdit.isFocusable = true
         storeNameEdit.isFocusableInTouchMode = true
 
+        receiptInformationButton.isClickable = true
+
         // When the bottomsheet is collapsed the keyboard is hidden for any of the input fields.
         expenseForm.keys.forEach {inputField ->
             listener.hideKeyboard(inputField.first)
@@ -719,6 +721,8 @@ class ReceiptFragment : Fragment(),
         storeNameEdit.isLongClickable = true
         storeNameEdit.isFocusable = true
         storeNameEdit.isFocusableInTouchMode = true
+
+        receiptInformationButton.isClickable = true
 
         // When the bottomsheet is collapsed the keyboard is hidden for any of the input fields.
         patronForm.keys.forEach {inputField ->
@@ -775,6 +779,8 @@ class ReceiptFragment : Fragment(),
         storeNameEdit.isLongClickable = false
         storeNameEdit.isFocusable = false
 
+        receiptInformationButton.isClickable = false
+
         // When the bottomsheet is expanded the keyboard is hidden from the storename input field.
         listener.hideKeyboard(storeNameEdit)
 
@@ -792,6 +798,8 @@ class ReceiptFragment : Fragment(),
         storeNameEdit.isClickable = false
         storeNameEdit.isLongClickable = false
         storeNameEdit.isFocusable = false
+
+        receiptInformationButton.isClickable = false
 
         // When the bottomsheet is expanded the keyboard is hidden from the storename input field.
         listener.hideKeyboard(storeNameEdit)
