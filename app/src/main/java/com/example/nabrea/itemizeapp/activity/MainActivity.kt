@@ -364,23 +364,20 @@ class MainActivity : AppCompatActivity(),
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
 
                 when {
-                    dy > 1 -> {
+                    dy > 0 -> {
                         mainBab.performHide()
                         primaryAction.button.hide()
                         primaryAction.button.isEnabled = false
                         primaryAction.button.isClickable = false
                         primaryAction.button.isLongClickable = false
                     }
-                    dy < 0 -> {
-                        mainBab.performShow()
-                        primaryAction.button.show()
-                        primaryAction.button.isEnabled = true
-                        primaryAction.button.isClickable = true
-                        primaryAction.button.isLongClickable = true
-                    }
-                    dy == 0 && (
-                            expenseBottomSheet.bottomSheetBehavior.state == BottomSheetBehavior.STATE_COLLAPSED &&
-                                    patronBottomSheet.bottomSheetBehavior.state == BottomSheetBehavior.STATE_COLLAPSED
+                    dy <= 0 && (
+                            expenseBottomSheet
+                                .bottomSheetBehavior.state ==
+                                    BottomSheetBehavior.STATE_COLLAPSED &&
+                                    patronBottomSheet
+                                        .bottomSheetBehavior.state ==
+                                    BottomSheetBehavior.STATE_COLLAPSED
                             ) -> {
                         mainBab.performShow()
                         primaryAction.button.show()
@@ -388,7 +385,6 @@ class MainActivity : AppCompatActivity(),
                         primaryAction.button.isClickable = true
                         primaryAction.button.isLongClickable = true
                     }
-
                 }
                 super.onScrolled(recyclerView, dx, dy)
             }

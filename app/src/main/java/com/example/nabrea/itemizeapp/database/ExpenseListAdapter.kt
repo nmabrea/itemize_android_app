@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.example.nabrea.itemizeapp.ExpandingFabAnimationInterface
@@ -18,7 +19,7 @@ import timber.log.Timber
 class ExpenseListAdapter internal constructor(
     override val animationContext: Context,
     private var patronAdapter: PatronListAdapter,
-    private var hostFragment: ReceiptFragment
+    private var hostFragment: Fragment
 ) : RecyclerView.Adapter<ExpenseListAdapter.ExpenseViewHolder>(),
     ExpandingFabAnimationInterface {
 
@@ -95,13 +96,14 @@ class ExpenseListAdapter internal constructor(
 
         holder.updateExpenseButton.setOnClickListener { button ->
 
-            hostFragment
+            (hostFragment as ReceiptFragment)
                 .showUpdateExpenseDialog(
                     current.expenseId!!,
                     current.description,
                     current.costFormat,
                     current.quantity.toString()
                 )
+
 
             Timber.i("Updating: ${current.description}, ID: ${current.expenseId}")
 
