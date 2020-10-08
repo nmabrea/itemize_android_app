@@ -279,7 +279,12 @@ class ReceiptFragment : Fragment(),
         listener.setNavigationScrollVisibility(expenseRecycler)
 
         // Establishing this Fragment as the context to display both the Expense RecyclerView and its nested Patron RecyclerView
-        expenseAdapter = ExpenseListAdapter(animationContext, patronAdapter, this)
+        expenseAdapter =
+            ExpenseListAdapter(
+                animationContext,
+                patronAdapter,
+                this
+            )
 
         // Establishing the adapter to reference for the RecyclerView
         expenseRecycler.adapter = expenseAdapter
@@ -713,6 +718,40 @@ class ReceiptFragment : Fragment(),
         }
 
         receiptVm.clearPatronForm()
+    }
+
+
+
+    fun setMenuFocus() {
+        // EditTextView for MaterialDatePicker is disabled
+        editDateText.isClickable = false
+        editDateText.isLongClickable = false
+
+        // EditTextView for StoreName is disabled
+        storeNameEdit.isClickable = false
+        storeNameEdit.isLongClickable = false
+        storeNameEdit.isFocusable = false
+
+        receiptInformationButton.isClickable = false
+
+        // When the bottomsheet is expanded the keyboard is hidden from the storename input field.
+        listener.hideKeyboard(storeNameEdit)
+    }
+
+
+
+    fun setMenuUnfocused() {
+        // EditTextView is enabled for MaterialDatePicker
+        editDateText.isClickable = true
+        editDateText.isLongClickable = true
+
+        // EditTextView is enabled for the StoreName field
+        storeNameEdit.isClickable = true
+        storeNameEdit.isLongClickable = true
+        storeNameEdit.isFocusable = true
+        storeNameEdit.isFocusableInTouchMode = true
+
+        receiptInformationButton.isClickable = true
     }
 
 

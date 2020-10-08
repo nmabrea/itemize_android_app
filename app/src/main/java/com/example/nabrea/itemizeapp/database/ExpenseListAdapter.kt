@@ -18,7 +18,7 @@ import timber.log.Timber
 class ExpenseListAdapter internal constructor(
     override val animationContext: Context,
     private var patronAdapter: PatronListAdapter,
-    var hostFragment: ReceiptFragment
+    private var hostFragment: ReceiptFragment
 ) : RecyclerView.Adapter<ExpenseListAdapter.ExpenseViewHolder>(),
     ExpandingFabAnimationInterface {
 
@@ -59,6 +59,8 @@ class ExpenseListAdapter internal constructor(
         holder.expenseCost.visibility = MaterialTextView.GONE
         holder.expenseQuantity.visibility = MaterialTextView.GONE
 
+
+        //TODO(02) Figure out how to disable item click when the menu/bottom sheet is in focus.
         holder.itemView.setOnClickListener { view ->
             when (isMinimized) {
                 true -> {
