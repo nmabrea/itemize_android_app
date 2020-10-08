@@ -471,6 +471,8 @@ class ReceiptFragment : Fragment(),
 
 
 
+
+
     override fun onResume() {
         super.onResume()
         Timber.i("onResume() has been called")
@@ -487,9 +489,7 @@ class ReceiptFragment : Fragment(),
 
 
         receiptVm._receiptTotal.observe(viewLifecycleOwner, { total ->
-
             receiptVm._receiptTotalText.value = "%.2f".format(total)
-
         })
 
 
@@ -584,6 +584,8 @@ class ReceiptFragment : Fragment(),
 
         // Establishing rules for how text input works for the ExpenseCostEditText view
         ItemizeTextWatcherClass().setCurrencyTextWatcher(expenseCostEditText)
+
+        ItemizeTextWatcherClass().setCurrencyTextWatcher(expenseQuantityEditText)
 
 
 

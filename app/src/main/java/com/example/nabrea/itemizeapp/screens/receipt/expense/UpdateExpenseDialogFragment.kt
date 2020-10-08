@@ -168,6 +168,8 @@ class UpdateExpenseDialogFragment : DialogFragment() {
 
 
 
+        ItemizeTextWatcherClass().setCurrencyTextWatcher(updateQuantityEdit)
+
         updateExpenseVm._currentQuantityText.observe(this, { currentQuantity ->
 
             updateExpenseVm._updateQuantityText.value = currentQuantity

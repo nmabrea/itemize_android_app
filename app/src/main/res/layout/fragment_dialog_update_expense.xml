@@ -104,9 +104,9 @@
                 android:textAllCaps="true"
                 android:textSize="@dimen/itm_text_size_small"
                 android:textStyle="bold"
-                android:inputType="number"
+                android:inputType="numberDecimal"
                 android:text="@={itemizeViewModel._updateQuantityText}"
-                android:maxLength="3"
+                android:maxLength="6"
                 android:maxLines="1"
                 />
         </com.google.android.material.textfield.TextInputLayout>

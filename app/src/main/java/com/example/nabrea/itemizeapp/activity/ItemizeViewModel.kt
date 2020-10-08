@@ -75,9 +75,13 @@ class ItemizeViewModel(application: Application) : AndroidViewModel(application)
     // Variable that stores the user input for the Expense quantity
     val _quantityText = MutableLiveData<String>()
 
+    private val _quantityFormat = MutableLiveData<String>()
+    val quantityFormat: LiveData<String>
+        get() = _quantityFormat
+
     // Variables that stores the Int value of the _quantityText variable
-    private val _quantity = MutableLiveData<Int>()
-    val quantity: LiveData<Int>
+    private val _quantity = MutableLiveData<Float>()
+    val quantity: LiveData<Float>
         get() = _quantity
 
     // Variable that stores the calculated Float value of sub cost based on cost and quantity input
@@ -170,7 +174,8 @@ class ItemizeViewModel(application: Application) : AndroidViewModel(application)
         _cost.value = 0F
         _costFormat.value = ""
         _quantityText.value = ""
-        _quantity.value = 0
+        _quantity.value = 0F
+        _quantityFormat.value = ""
         _subCost.value = 0F
         _subCostFormat.value = ""
         _essentialRating.value = 0
@@ -189,7 +194,8 @@ class ItemizeViewModel(application: Application) : AndroidViewModel(application)
         _updateCost.value = 0F
         _updateCostFormat.value = ""
         _updateQuantityText.value = ""
-        _updateQuantity.value = 0
+        _updateQuantity.value = 0F
+        _updateQuantityFormat.value = ""
         _subCost.value = 0F
         _subCostFormat.value = ""
         _essentialRating.value = 0
@@ -254,9 +260,8 @@ class ItemizeViewModel(application: Application) : AndroidViewModel(application)
             expenseFormFields[1]!! == "0.00" ||
             expenseFormFields[1]!!.isEmpty() ||
             expenseFormFields[1]!!.isBlank() ||
-            expenseFormFields[2]!! == "0" ||
-            expenseFormFields[2]!! == "00" ||
-            expenseFormFields[2]!! == "000" ||
+            expenseFormFields[2]!!.isEmpty() ||
+            expenseFormFields[2]!! == "0.00" ||
             expenseFormFields[2]!!.isBlank()
         ) {
             // If any of the fields meet the criteria specified above, there's an error
@@ -312,7 +317,9 @@ class ItemizeViewModel(application: Application) : AndroidViewModel(application)
                 _description.value = trimmedDescription
 
                 // Formats the UserInput text into an Int value for future calculations
-                _quantity.value = quantityInput.value?.toInt() ?: 0
+                _quantity.value = quantityInput.value?.toFloat() ?: 0F
+
+                _quantityFormat.value = "%.2f".format(_quantity.value)
 
                 // Formally storing the user input cost as a Float value for calculations
                 _cost.value = filteredCostText.toFloat()
@@ -332,7 +339,8 @@ class ItemizeViewModel(application: Application) : AndroidViewModel(application)
                     description.value.toString(),
                     cost.value!!.toFloat(),
                     costFormat.value!!.toString(),
-                    quantity.value!!.toInt(),
+                    quantity.value!!.toFloat(),
+                    quantityFormat.value!!.toString(),
                     subCost.value!!.toFloat(),
                     subCostFormat.value.toString(),
                     essentialRating.value
@@ -361,7 +369,9 @@ class ItemizeViewModel(application: Application) : AndroidViewModel(application)
                 _updateDescription.value = trimmedDescription
 
                 // Formats the UserInput text into an Int value for future calculations
-                _updateQuantity.value = quantityInput.value?.toInt() ?: 0
+                _updateQuantity.value = quantityInput.value?.toFloat() ?: 0F
+
+                _updateQuantityFormat.value = "%.2f".format(_updateQuantity.value)
 
                 // Formally storing the user input cost as a Float value for calculations
                 _updateCost.value = filteredCostText.toFloat()
@@ -380,7 +390,8 @@ class ItemizeViewModel(application: Application) : AndroidViewModel(application)
                     updateDescription.value.toString(),
                     updateCost.value!!.toFloat(),
                     updateCostFormat.value!!.toString(),
-                    updateQuantity.value!!.toInt(),
+                    updateQuantity.value!!.toFloat(),
+                    updateQuantityFormat.value!!.toString(),
                     subCost.value!!.toFloat(),
                     subCostFormat.value.toString(),
                     essentialRating.value
@@ -448,8 +459,12 @@ class ItemizeViewModel(application: Application) : AndroidViewModel(application)
 
     val _currentQuantityText = MutableLiveData<String>()
 
-    private val _updateQuantity = MutableLiveData<Int>()
-    val updateQuantity: LiveData<Int>
+    private val _updateQuantityFormat = MutableLiveData<String>()
+    val updateQuantityFormat: LiveData<String>
+        get() = _updateQuantityFormat
+
+    private val _updateQuantity = MutableLiveData<Float>()
+    val updateQuantity: LiveData<Float>
         get() = _updateQuantity
 
     private suspend fun updateExpense(expense: ExpenseDataClass) =

@@ -56,7 +56,7 @@ class ExpenseListAdapter internal constructor(
 
         holder.expenseDescription.text = current.description
         holder.expenseCost.text = holder.expenseCost.context.getString(R.string.itm_expenseCard_cost, current.costFormat)
-        holder.expenseQuantity.text = holder.expenseQuantity.context.getString(R.string.itm_expenseCard_quantity, current.quantity)
+        holder.expenseQuantity.text = holder.expenseQuantity.context.getString(R.string.itm_expenseCard_quantity, current.quantityFormat)
         holder.expenseSubTotal.text = holder.expenseSubTotal.context.getString(R.string.itm_expenseCard_subCost, current.subCostFormat)
         holder.availablePatrons.apply {
             adapter = patronAdapter
@@ -101,7 +101,7 @@ class ExpenseListAdapter internal constructor(
                     current.expenseId!!,
                     current.description,
                     current.costFormat,
-                    current.quantity.toString()
+                    current.quantityFormat
                 )
 
 

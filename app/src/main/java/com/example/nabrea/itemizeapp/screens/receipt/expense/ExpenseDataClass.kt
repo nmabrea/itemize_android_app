@@ -19,8 +19,11 @@ data class ExpenseDataClass(
     @ColumnInfo(name = "cost_formatted")
     var costFormat: String = "placeholder",
 
-    @ColumnInfo(name = "quantity")
-    var quantity: Int = 0,
+    @ColumnInfo(name = "quantity_raw")
+    var quantity: Float = 0F,
+
+    @ColumnInfo(name = "quantity_formatted")
+    var quantityFormat: String = "placeholder",
 
     @ColumnInfo(name = "sub_cost_raw")
     var subCost: Float = 0F,

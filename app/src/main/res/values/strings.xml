@@ -34,7 +34,7 @@
     <string name="itm_error_expense_quantity">"Please enter an expense quantity. (3 digits max)</string>
     <string name="itm_error_general">"Please enter a valid value for this field."</string>
     <string name="itm_expenseCard_cost">Cost: $%1$s</string>
-    <string name="itm_expenseCard_quantity">Quantity: %1$d</string>
+    <string name="itm_expenseCard_quantity">Quantity: %1$s</string>
     <string name="itm_expenseCard_subCost">SubCost: $%1$s</string>
     <string name="edit_expense">Edit expense</string>
     <string name="info_less">less</string>
