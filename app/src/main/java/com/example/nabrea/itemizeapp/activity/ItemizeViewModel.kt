@@ -326,8 +326,6 @@ class ItemizeViewModel(application: Application) : AndroidViewModel(application)
                 // Formally storing a formatted version of the subcost into a readable format
                 _subCostFormat.value = "%.2f".format(_subCost.value)
 
-
-
                 // Creating an expense based on the processed user input.
                 expense = ExpenseDataClass(
                     null,
@@ -343,13 +341,9 @@ class ItemizeViewModel(application: Application) : AndroidViewModel(application)
 
 
                 viewModelScope.launch {
-
                     expense.expenseId = expenseDao.insertExpense(expense)
-
                     Timber.i("New expense ${expense.expenseId} is inserted")
                 }
-
-
 
                 // Informing the program that an expense was created for user feedback.
                 _message.value = EventClass(
@@ -360,9 +354,6 @@ class ItemizeViewModel(application: Application) : AndroidViewModel(application)
 
                 // ExpenseForm is cleared once stored in the database
                 clearNewExpenseForm()
-
-
-
             }
             false -> {
 
@@ -384,8 +375,6 @@ class ItemizeViewModel(application: Application) : AndroidViewModel(application)
                 // Formally storing a formatted version of the subcost into a readable format
                 _subCostFormat.value = "%.2f".format(_subCost.value)
 
-
-
                 expense = ExpenseDataClass(
                     updateExpenseId.value,
                     updateDescription.value.toString(),
@@ -400,13 +389,9 @@ class ItemizeViewModel(application: Application) : AndroidViewModel(application)
 
 
                 viewModelScope.launch {
-
                     updateExpense(expense)
-
                     Timber.i("Current expense ${expense.expenseId} is updated")
                 }
-
-
 
                 // Informing the program that an expense was created for user feedback.
                 _message.value = EventClass(
@@ -417,8 +402,6 @@ class ItemizeViewModel(application: Application) : AndroidViewModel(application)
 
                 // ExpenseForm is cleared once stored in the database
                 clearUpdateExpenseForm()
-
-
 
                 isNew = true
 

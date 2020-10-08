@@ -28,6 +28,8 @@ class ExpenseListAdapter internal constructor(
 
     private val viewPool = RecyclerView.RecycledViewPool()
 
+
+
     class ExpenseViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val expenseDescription: TextView = itemView.findViewById(R.id.expenseDescriptionCardText)
         val expenseCost: TextView = itemView.findViewById(R.id.expenseCostCardText)
@@ -37,10 +39,14 @@ class ExpenseListAdapter internal constructor(
         val updateExpenseButton: ImageView = itemView.findViewById(R.id.updateExpenseButton)
     }
 
+
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ExpenseViewHolder {
         val itemView = inflater.inflate(R.layout.recyclerview_expense, parent, false)
         return ExpenseViewHolder(itemView)
     }
+
+
 
     override fun onBindViewHolder(holder: ExpenseViewHolder, position: Int) {
         val current = expenseBasket[position]
@@ -60,7 +66,7 @@ class ExpenseListAdapter internal constructor(
         holder.expenseQuantity.visibility = MaterialTextView.GONE
 
 
-        //TODO(02) Figure out how to disable item click when the menu/bottom sheet is in focus.
+
         holder.itemView.setOnClickListener { view ->
             when (isMinimized) {
                 true -> {
@@ -85,6 +91,8 @@ class ExpenseListAdapter internal constructor(
             }
         }
 
+
+
         holder.updateExpenseButton.setOnClickListener { button ->
 
             hostFragment
@@ -101,14 +109,20 @@ class ExpenseListAdapter internal constructor(
 
     }
 
+
+
     internal fun setExpenses(expenseBasket: List<ExpenseDataClass>) {
         this.expenseBasket = expenseBasket
         notifyDataSetChanged()
     }
 
+
+
     override fun getItemCount() = expenseBasket.size
 
 }
+
+
 
 class ExpenseDiffCallback : DiffUtil.ItemCallback<ExpenseDataClass>() {
     override fun areItemsTheSame(oldItem: ExpenseDataClass, newItem: ExpenseDataClass): Boolean {

@@ -208,6 +208,8 @@ class MainActivity : AppCompatActivity(),
 
 
 
+
+
     // Override function inherited from the FragmentCommunication interface within ReceiptFragment()
     override fun onBottomSheetCollapsed() {
 
@@ -233,6 +235,10 @@ class MainActivity : AppCompatActivity(),
         NavigationUI.setupActionBarWithNavController(this, navController, drawerLayout)
     }
 
+
+
+
+
     // Override function inherited from the FragmentCommunication interface within ReceiptFragment()
     override fun onBottomSheetExpanded() {
         Timber.i("onBottomSheetExpanded is called")
@@ -245,6 +251,10 @@ class MainActivity : AppCompatActivity(),
         // The modified appbar configuration is applied
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration)
     }
+
+
+
+
 
     // Override function inherited from the FragmentCommunication interface within ReceiptFragment()
     override fun setMenuAwareness(menu: MenuClass, background: LinearLayoutCompat, host: ReceiptFragment) {
@@ -302,11 +312,18 @@ class MainActivity : AppCompatActivity(),
         }
     }
 
+
+
+
+
     // Function is used to hide the keyboard after user behaviors trigger specific functions
     override fun hideKeyboard(view: View) {
         val inputMethodManager = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         inputMethodManager.hideSoftInputFromWindow(view.windowToken, 0)
     }
+
+
+
 
 
     // Function to establish the snackbar behavior depending on the FAB visibility state
@@ -331,19 +348,36 @@ class MainActivity : AppCompatActivity(),
         }
     }
 
+
+
+
+
     override fun setNavigationScrollVisibility(recyclerView: RecyclerView) {
 
         recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
 
                 when {
-                    dy > 0 -> {
+                    dy > 1 -> {
                         mainBab.performHide()
                         primaryAction.button.hide()
+                        primaryAction.button.isEnabled = false
+                        primaryAction.button.isClickable = false
+                        primaryAction.button.isLongClickable = false
                     }
                     dy < 0 -> {
                         mainBab.performShow()
                         primaryAction.button.show()
+                        primaryAction.button.isEnabled = true
+                        primaryAction.button.isClickable = true
+                        primaryAction.button.isLongClickable = true
+                    }
+                    dy == 0 -> {
+                        mainBab.performShow()
+                        primaryAction.button.show()
+                        primaryAction.button.isEnabled = true
+                        primaryAction.button.isClickable = true
+                        primaryAction.button.isLongClickable = true
                     }
                 }
 
@@ -351,7 +385,11 @@ class MainActivity : AppCompatActivity(),
             }
         })
 
+
     }
+
+
+
 
 
     // Function to establish UpButton navigation for the bottom app bar

@@ -37,6 +37,8 @@ import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import com.google.android.material.textview.MaterialTextView
 import timber.log.Timber
+import java.util.*
+import kotlin.concurrent.schedule
 
 // Small constant values to be saved within onSavedInstanceState() below.
 // Constant value for the Date Selected via MaterialDatePicker in the Receipt Fragment
@@ -275,7 +277,6 @@ class ReceiptFragment : Fragment(),
         // Establishing how to find the Expense RecyclerView from the layout
         val expenseRecycler = receiptBinding.expenseRecyclerView
 
-        // TODO(01) Fix navigation visibility when items are deleted while scrolled all the way down
         listener.setNavigationScrollVisibility(expenseRecycler)
 
         // Establishing this Fragment as the context to display both the Expense RecyclerView and its nested Patron RecyclerView
@@ -351,13 +352,17 @@ class ReceiptFragment : Fragment(),
         // Identifying the transparent background to supplement BottomSheetBehavior actions
         stateExpandedBackground = receiptBinding.bottomSheetBackground.bottomSheetBackground
 
+        // Setting up the background overlay to intercept all OnClick actions from items below.
+        stateExpandedBackground.setOnClickListener { }
+
         // Creating an instance of the BottomSheetClass for the Expense Bottom Sheet
         expenseBottomSheet = BottomSheetClass(
             expenseLayout,
             stateExpandedBackground,
             listener,
             this,
-            animationContext)
+            animationContext
+        )
 
 
 
@@ -527,9 +532,12 @@ class ReceiptFragment : Fragment(),
         receiptVm.message.observe(this, { message ->
             message.getContentIfNotHandled()?.let { content ->
 
-                // Communicating to the Main Activity to display ViewModel's message as a snackbar
-                listener.displaySnackbar(content)
+                Timer("message delay", false).schedule(200) {
 
+                    // Communicating to the Main Activity to display ViewModel's message as a snackbar
+                    listener.displaySnackbar(content)
+
+                }
             }
         })
 
