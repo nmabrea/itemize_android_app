@@ -27,6 +27,7 @@ import com.example.nabrea.itemizeapp.database.ExpenseListAdapter
 import com.example.nabrea.itemizeapp.database.PatronListAdapter
 import com.example.nabrea.itemizeapp.databinding.FragmentReceiptBinding
 import com.example.nabrea.itemizeapp.screens.receipt.expense.UpdateExpenseDialogFragment
+import com.example.nabrea.itemizeapp.screens.receipt.patron.UpdatePatronDialogFragment
 import com.example.nabrea.itemizeapp.screens.receipt.uidisplay.BottomSheetClass
 import com.example.nabrea.itemizeapp.screens.receipt.uidisplay.MaterialDatePickerClass
 import com.example.nabrea.itemizeapp.screens.receipt.uidisplay.MenuClass
@@ -264,7 +265,7 @@ class ReceiptFragment : Fragment(),
         val patronRecycler = receiptBinding.patronReceiptRecyclerView
 
         // Establishing this Fragment as the context to display the patron recyclerview
-        patronAdapter = PatronListAdapter(animationContext)
+        patronAdapter = PatronListAdapter(animationContext, this)
 
         // Establishing the adapter to reference for the Recycler View
         patronRecycler.adapter = patronAdapter
@@ -737,7 +738,7 @@ class ReceiptFragment : Fragment(),
             listener.hideKeyboard(inputField.first)
         }
 
-        receiptVm.clearPatronForm()
+        receiptVm.clearNewPatronForm()
     }
 
 
@@ -816,7 +817,7 @@ class ReceiptFragment : Fragment(),
         // When the bottomsheet is expanded the keyboard is hidden from the storename input field.
         listener.hideKeyboard(storeNameEdit)
 
-        receiptVm.clearPatronForm()
+        receiptVm.clearNewPatronForm()
     }
 
 
@@ -827,12 +828,11 @@ class ReceiptFragment : Fragment(),
         currentCost: String,
         currentQuantity: String
     ) {
-
         fragManager
 
         val newFragment = UpdateExpenseDialogFragment()
 
-        newFragment.show(fragManager,"dialog")
+        newFragment.show(fragManager,"Update Expense Dialog")
 
         receiptVm._updateExpenseId.value = expenseId
 
@@ -842,6 +842,21 @@ class ReceiptFragment : Fragment(),
 
         receiptVm._currentQuantityText.value = currentQuantity
 
+    }
+
+
+
+    fun showUpdatePatronDialog(patronId: Long, currentName: String) {
+
+        fragManager
+
+        val newFragment = UpdatePatronDialogFragment()
+
+        newFragment.show(fragManager, "Update Patron Dialog")
+
+        receiptVm._updatePatronID.value = patronId
+
+        receiptVm._updatePatronName.value = currentName
     }
 
 

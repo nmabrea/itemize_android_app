@@ -5,18 +5,22 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import com.example.nabrea.itemizeapp.R
+import com.example.nabrea.itemizeapp.screens.receipt.ReceiptFragment
 import com.example.nabrea.itemizeapp.screens.receipt.patron.PatronDataClass
+import timber.log.Timber
 
 class PatronListAdapter internal constructor(
-    context: Context
+    context: Context,
+    private var hostFragment: Fragment
 ) : RecyclerView.Adapter<PatronListAdapter.PatronViewHolder>() {
 
     private val inflater: LayoutInflater = LayoutInflater.from(context)
     private var patronGroup = emptyList<PatronDataClass>()
 
-    inner class PatronViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    class PatronViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val patronInitials: TextView = itemView.findViewById(R.id.patronInitialsButton)
     }
 
@@ -28,6 +32,18 @@ class PatronListAdapter internal constructor(
     override fun onBindViewHolder(holder: PatronViewHolder, position: Int) {
         val current = patronGroup[position]
         holder.patronInitials.text = current.nameInitials
+
+        holder.patronInitials.setOnClickListener { view ->
+
+            (hostFragment as ReceiptFragment)
+                .showUpdatePatronDialog(current.patronID!!, current.name)
+
+            Timber.i("Updating: ${current.name}, ID: ${current.patronID}")
+
+        }
+
+
+
     }
 
     internal fun setPatrons(patronGroup: List<PatronDataClass>) {

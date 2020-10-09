@@ -16,7 +16,7 @@ import kotlinx.coroutines.launch
         ExpenseDataClass::class,
         PatronDataClass::class
     ],
-    version = 8,
+    version = 9,
     exportSchema = false
 )
 

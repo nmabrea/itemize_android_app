@@ -46,4 +46,6 @@
     <string name="itm_dialog_close">CLOSE</string>
     <string name="itm_dialog_update_expense">Update Expense</string>
     <string name="itm_dialog_update">UPDATE</string>
+    <string name="itm_dialog_delete">DELETE</string>
+    <string name="itm_dialog_update_patron">Update Patron</string>
 </resources>

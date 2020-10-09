@@ -8,13 +8,13 @@ import androidx.room.PrimaryKey
 data class PatronDataClass(
 
     @PrimaryKey(autoGenerate = true)
-    val patronID: Long = 0L,
+    var patronID: Long? = 0L,
 
     @ColumnInfo(name = "name")
-    val name: String = "Placeholder",
+    var name: String = "Placeholder",
 
     @ColumnInfo(name = "initials")
-    val nameInitials: String = "PH",
+    var nameInitials: String = "PH",
 
     /*@ColumnInfo(name = "cart")
     val cart: MutableList<ExpenseDataClass> = mutableListOf()*/

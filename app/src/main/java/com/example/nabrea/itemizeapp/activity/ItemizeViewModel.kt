@@ -146,13 +146,17 @@ class ItemizeViewModel(application: Application) : AndroidViewModel(application)
         _receiptTotal.value = 0F
     }
 
+    private suspend fun insertExpense(expense: ExpenseDataClass) {
+        viewModelScope.launch(Dispatchers.IO) {
+            repository.insertExpense(expense)
+        }
+    }
+
 
 
     fun deleteExpense(swipedExpense: ExpenseDataClass) =
         viewModelScope.launch(Dispatchers.IO) {
-
-        repository.deleteExpense(swipedExpense)
-
+            repository.deleteExpense(swipedExpense)
     }
 
 
@@ -225,9 +229,9 @@ class ItemizeViewModel(application: Application) : AndroidViewModel(application)
 
 
 
-    fun notifyUpdate(descriptionInput: MutableLiveData<String>,
-                     costInput: MutableLiveData<String>,
-                     quantityInput:MutableLiveData<String>
+    fun notifyExpenseUpdate(descriptionInput: MutableLiveData<String>,
+                            costInput: MutableLiveData<String>,
+                            quantityInput:MutableLiveData<String>
     ) {
         isNew = false
 
@@ -349,7 +353,7 @@ class ItemizeViewModel(application: Application) : AndroidViewModel(application)
 
 
                 viewModelScope.launch {
-                    expense.expenseId = expenseDao.insertExpense(expense)
+                    insertExpense(expense)
                     Timber.i("New expense ${expense.expenseId} is inserted")
                 }
 
@@ -480,10 +484,6 @@ class ItemizeViewModel(application: Application) : AndroidViewModel(application)
     /* Below is the code logic for creating a Patron object through the PatronClass
      * Variables are affected by userinput within the bottom_sheet_patron.xml
      */
-    private val _patronID = MutableLiveData<Int>()
-    val patronID: LiveData<Int>
-        get() = _patronID
-
     // Variable for storing the patron name user input
     val _name = MutableLiveData<String>()
     val name: LiveData<String>
@@ -516,13 +516,13 @@ class ItemizeViewModel(application: Application) : AndroidViewModel(application)
         _patronBottomSheet.value!!.bottomSheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
 
         // Once the patron bottom sheet is collapsed, the form is entirely cleared
-        clearPatronForm()
+        clearNewPatronForm()
     }
 
 
 
     // Method for clearing out the patron form
-    fun clearPatronForm() {
+    fun clearNewPatronForm() {
         Timber.i("ItemizeViewModel clearPatronForm() is called")
 
         _name.value = ""
@@ -534,11 +534,62 @@ class ItemizeViewModel(application: Application) : AndroidViewModel(application)
 
 
 
+    // Method for clearing out the patron form
+    fun clearUpdatePatronForm() {
+        Timber.i("ItemizeViewModel clearPatronForm() is called")
+
+        _name.value = ""
+        _nameInitials.value = ""
+        /*_cart.value = null*/
+        _errorPatron.value = null
+
+    }
+
+
+
+    suspend fun deleteSelectedPatron(patron: PatronDataClass) {
+        viewModelScope.launch(Dispatchers.IO) {
+            repository.deletePatron(patron)
+        }
+    }
+
+
+
+    val _updatePatronID = MutableLiveData<Long>()
+    val updatePatronID: LiveData<Long>
+        get() = _updatePatronID
+
+    val _updatePatronName = MutableLiveData<String>()
+    val updatePatronName: LiveData<String>
+        get() = _updatePatronName
+
+    val _currentPatronName = MutableLiveData<String>()
+    val currentPatronName: LiveData<String>
+        get() = _currentPatronName
+
+    private suspend fun updatePatron(patron: PatronDataClass) {
+        viewModelScope.launch(Dispatchers.IO) {
+            repository.updatePatron(patron)
+        }
+    }
+
+    fun notifyPatronUpdate(nameInput: MutableLiveData<String>) {
+
+        isNew = false
+
+        _isUpdated.value = false
+
+        validatePatronInputs(nameInput)
+
+    }
+
+
+
     // Method for validating the Patron user input fields
-    fun validatePatronInputs() {
+    fun validatePatronInputs(nameInput: MutableLiveData<String>) {
 
         // Pulling out the userinput value
-        val userInput = _name.value!!.trim()
+        val userInput = nameInput.value!!.trim()
 
         // Variables are temporarily collected into the formFields variable
         patronFormFields.add(userInput)
@@ -578,14 +629,14 @@ class ItemizeViewModel(application: Application) : AndroidViewModel(application)
             true -> _message.value = EventClass(ErrorMessages.KEY_ERROR_GENERAL.errorMessage)
 
             // When nullDetected is false, allow the user to create the patron.
-            false -> createPatron()
+            false -> createPatron(nameInput)
         }
     }
 
 
 
     // Method for inserting the patron into the database
-    private fun insertPatron(patron: PatronDataClass) =
+    private suspend fun insertPatron(patron: PatronDataClass) =
         viewModelScope.launch(Dispatchers.IO) {
             repository.insertPatron(patron)
         }
@@ -593,47 +644,84 @@ class ItemizeViewModel(application: Application) : AndroidViewModel(application)
 
 
     // Method for creating a patron variable
-    private fun createPatron() {
+    private fun createPatron(nameInput: MutableLiveData<String>) {
 
         /*_cart.value = mutableListOf()*/
 
         // Method for processing the patron's initials based on user input.
-        getPatronInitials()
+        getPatronInitials(nameInput)
 
-        val userInput = _name.value!!.trim()
+        val userInput = nameInput.value!!.trim()
 
-        // Collecting the user input into the patron data class
-        patron = PatronDataClass(
-            0L,
-            userInput,
-            nameInitials.value.toString()
-        )
+        when (isNew) {
+            true -> {
+                _name.value = userInput
 
-        // Method for inserting the patron into the database
-        insertPatron(patron)
+                patron = PatronDataClass(
+                    null,
+                    name.value.toString(),
+                    nameInitials.value.toString()
+                )
 
-        // Displaying user feedback that the patron has been stored in the database
-        _message.value = EventClass(
-            "Patron: ${patron.name} added!"
-        )
+                viewModelScope.launch {
+                    // Method for inserting the patron into the database
+                    insertPatron(patron)
+                }
 
-        // User input fields are cleared
-        clearPatronForm()
+                // Displaying user feedback that the patron has been stored in the database
+                _message.value = EventClass(
+                    "Patron: ${patron.name} added!"
+                )
 
-        // Logcat confirmation that the user input has been processed
-        Timber.i("Patron: ${patron.name}, ${patron.nameInitials} is created")
+                // User input fields are cleared
+                clearNewPatronForm()
+
+                // Logcat confirmation that the user input has been processed
+                Timber.i("Patron: ${patron.name}, ${patron.nameInitials} is created")
+
+            }
+            false-> {
+
+                _updatePatronName.value = userInput
+
+                // Collecting the user input into the patron data class
+                patron = PatronDataClass(
+                    updatePatronID.value,
+                    updatePatronName.value.toString(),
+                    nameInitials.value.toString()
+                )
+
+                viewModelScope.launch {
+                    updatePatron(patron)
+                }
+
+                clearUpdatePatronForm()
+
+                isNew = true
+
+                _isUpdated.value = true
+            }
+        }
+
+        _isUpdated.value = false
+        /*val newTotal = _receiptTotal.value!!.plus(subCost.value!!.toFloat())
+
+        _receiptTotal.value = newTotal*/
+
+        // Logcat message to confirm the expense was processed
+        Timber.i("Patron was processed, form is cleared")
     }
 
 
 
     // Method for processing initials from the user input
-    private fun getPatronInitials() {
+    private fun getPatronInitials(nameInput: MutableLiveData<String>) {
 
         // Variable to temporarily collect processed characters as strings
         val tempList = mutableListOf<String>()
 
         // Pulling out the userinput value
-        val userInput = _name.value!!.trim()
+        val userInput = nameInput.value!!.trim()
 
         // Splitting the user input into separate strings
         val split = userInput.split(" ")

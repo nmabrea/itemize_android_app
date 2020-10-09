@@ -2,7 +2,7 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context=".screens.receipt.expense.UpdateExpenseDialogFragment">
+    tools:context=".screens.receipt.patron.UpdatePatronDialogFragment">
 
     <data>
         <variable
@@ -16,7 +16,7 @@
         android:layout_height="match_parent">
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/updateExpenseDescription"
+            android:id="@+id/updatePatronName"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_marginTop="@dimen/itm_margin_topBottom_med"
             android:layout_marginStart="@dimen/itm_margin_startEnd_min"
@@ -33,90 +33,28 @@
             <!--TODO set all caps-->
             <com.google.android.material.textfield.TextInputEditText
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                android:id="@+id/updateExpenseDescriptionEdit"
+                android:id="@+id/updatePatronNameEdit"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/quicksand_medium"
-                android:hint="@string/itm_expense_name_hint"
+                android:hint="@string/itm_patron_firstName_hint"
                 android:textAllCaps="true"
                 android:textSize="@dimen/itm_text_size_small"
                 android:textStyle="bold"
                 android:inputType="text"
-                android:text="@={itemizeViewModel._updateDescription}"
+                android:text="@={itemizeViewModel._updatePatronName}"
                 android:maxLength="20"
                 android:maxLines="1"/>
 
         </com.google.android.material.textfield.TextInputLayout>
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/updateExpenseCost"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Cost"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/itm_margin_startEnd_min"
-            android:layout_marginTop="@dimen/itm_margin_topBottom_min"
-            android:layout_marginEnd="@dimen/itm_margin_startEnd_min"
-            app:layout_constraintEnd_toStartOf="@+id/updateExpenseQuantity"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/updateExpenseDescription"
-            app:errorEnabled="true"
-            app:errorIconDrawable="@drawable/ic_baseline_error_24"
-            app:errorContentDescription="@string/itm_error_expense_cost">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/updateExpenseCostEdit"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/quicksand_medium"
-                android:hint="@string/itm_expense_cost_hint"
-                android:inputType="numberDecimal"
-                android:textSize="@dimen/itm_text_size_small"
-                android:textStyle="bold"
-                android:text="@={itemizeViewModel._updateCostText}"
-                android:maxLength="10"
-                android:maxLines="1"/>
-
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/updateExpenseQuantity"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/itm_margin_topBottom_min"
-            android:layout_marginStart="@dimen/itm_margin_startEnd_min"
-            android:layout_marginEnd="@dimen/itm_margin_startEnd_min"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/updateExpenseCost"
-            app:layout_constraintTop_toBottomOf="@+id/updateExpenseDescription"
-            app:errorEnabled="true"
-            app:errorIconDrawable="@drawable/ic_baseline_error_24"
-            app:errorContentDescription="@string/itm_error_expense_quantity">
-
-            <com.google.android.material.textfield.TextInputEditText
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                android:id="@+id/updateExpenseQuantityEdit"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/quicksand_medium"
-                android:hint="@string/itm_expense_qty_hint"
-                android:textAllCaps="true"
-                android:textSize="@dimen/itm_text_size_small"
-                android:textStyle="bold"
-                android:inputType="numberDecimal"
-                android:text="@={itemizeViewModel._updateQuantityText}"
-                android:maxLength="6"
-                android:maxLines="1"
-                />
-        </com.google.android.material.textfield.TextInputLayout>
 
         <androidx.coordinatorlayout.widget.CoordinatorLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/updateExpenseCost"
+            app:layout_constraintTop_toBottomOf="@+id/updatePatronName"
             android:layout_marginTop="@dimen/itm_margin_top_med">
 
             <com.google.android.material.bottomappbar.BottomAppBar
@@ -135,8 +73,8 @@
                     android:textColor="@color/itm_secondary_orangeDark"
                     android:textStyle="bold"
                     android:text="@string/itm_dialog_update"
-                    android:contentDescription="@string/itm_dialog_update_expense"
-                    android:onClick="@{() -> itemizeViewModel.notifyExpenseUpdate(updateExpenseDescriptionEdit.text, updateExpenseCostEdit.text, updateExpenseQuantityEdit.text)}"/>
+                    android:contentDescription="@string/itm_dialog_update_patron"
+                    android:onClick="@{() -> itemizeViewModel.notifyPatronUpdate(updatePatronNameEdit.text)}"/>
 
                 <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/dialog_button_cancel"
@@ -147,6 +85,18 @@
                     android:textColor="@color/itm_secondary_orangeDark"
                     android:contentDescription="@string/itm_dialog_close"
                     android:text="@string/itm_dialog_close"/>
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/dialog_button_delete"
+                    style="@style/Widget.MaterialComponents.Button.TextButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="60dp"
+                    android:layout_marginEnd="@dimen/itm_margin_startEnd_min"
+                    app:strokeColor="@color/itm_secondary_orangeDark"
+                    android:textColor="@color/itm_secondary_orangeDark"
+                    android:text="@string/itm_dialog_delete"
+                    android:contentDescription="@string/itm_dialog_update_expense" />
 
             </com.google.android.material.bottomappbar.BottomAppBar>
 

@@ -11,7 +11,7 @@ data class ExpenseDataClass(
     var expenseId: Long? = 0L,
 
     @ColumnInfo(name = "description")
-    val description: String = "placeholder",
+    var description: String = "placeholder",
 
     @ColumnInfo(name = "cost_raw")
     var cost: Float = 0F,

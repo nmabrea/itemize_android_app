@@ -59,30 +59,6 @@
                 android:text="@={receiptViewModel._name}"/>
         </com.google.android.material.textfield.TextInputLayout>
 
-        <!--<com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/patronLastName"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-            android:layout_marginTop="@dimen/itm_margin_topBottom_min"
-            android:layout_marginStart="@dimen/itm_margin_startEnd_min"
-            android:layout_marginEnd="@dimen/itm_margin_startEnd_min"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/patronFirstName">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/quicksand_medium"
-                android:hint="@string/itm_patron_lastName_hint"
-                android:textAllCaps="true"
-                android:textSize="@dimen/itm_text_size_small"
-                android:textStyle="bold"
-                android:inputType="text"
-                android:text="@={receiptViewModel._lastName}"/>
-        </com.google.android.material.textfield.TextInputLayout>-->
-
         <com.google.android.material.button.MaterialButton
             android:id="@+id/add_patron"
             style="@style/Widget.MaterialComponents.Button.OutlinedButton.Icon"
@@ -97,7 +73,7 @@
             app:icon="@drawable/itm_icon_plus_white"
             app:iconSize="34dp"
             app:iconPadding="@dimen/itm_dp_none"
-            android:onClick="@{() -> receiptViewModel.validatePatronInputs()}"/>
+            android:onClick="@{() -> receiptViewModel.validatePatronInputs(patronNameInputEdit.text)}"/>
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/cancel_patron"

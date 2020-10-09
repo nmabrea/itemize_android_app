@@ -14,11 +14,14 @@ interface PatronDao {
     fun getAlphabetizedPatrons(): LiveData<List<PatronDataClass>>
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
-    fun insertPatron(patron: PatronDataClass)
+    suspend fun insertPatron(patron: PatronDataClass)
 
-    @Update
-    fun updatePatron(patron: PatronDataClass)
+    @Update(entity = PatronDataClass::class)
+    suspend fun updatePatron(patron: PatronDataClass)
 
     @Query("DELETE FROM patron_table")
     suspend fun deleteAllPatrons()
+
+    @Delete
+    suspend fun deleteSelectedPatron(patron: PatronDataClass)
 }
