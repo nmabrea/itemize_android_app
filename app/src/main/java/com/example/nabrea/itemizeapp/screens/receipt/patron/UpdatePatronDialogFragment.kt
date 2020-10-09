@@ -10,6 +10,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
+import com.example.nabrea.itemizeapp.EventClass
 import com.example.nabrea.itemizeapp.ItemizeTextWatcherClass
 import com.example.nabrea.itemizeapp.R
 import com.example.nabrea.itemizeapp.activity.ItemizeViewModel
@@ -145,6 +146,8 @@ class UpdatePatronDialogFragment : DialogFragment() {
                     updatePatronVm.deleteSelectedPatron(currentPatron)
 
                 }
+
+                updatePatronVm._message.value = EventClass("${currentPatron.name} has been removed.")
 
                 closeDialog()
 
