@@ -27,6 +27,7 @@ import com.example.nabrea.itemizeapp.database.ExpenseListAdapter
 import com.example.nabrea.itemizeapp.database.PatronListAdapter
 import com.example.nabrea.itemizeapp.databinding.FragmentReceiptBinding
 import com.example.nabrea.itemizeapp.screens.receipt.expense.UpdateExpenseDialogFragment
+import com.example.nabrea.itemizeapp.screens.receipt.patron.PatronDataClass
 import com.example.nabrea.itemizeapp.screens.receipt.patron.UpdatePatronDialogFragment
 import com.example.nabrea.itemizeapp.screens.receipt.uidisplay.BottomSheetClass
 import com.example.nabrea.itemizeapp.screens.receipt.uidisplay.MaterialDatePickerClass
@@ -846,7 +847,11 @@ class ReceiptFragment : Fragment(),
 
 
 
-    fun showUpdatePatronDialog(patronId: Long, currentName: String) {
+    fun showUpdatePatronDialog(
+        patronId: Long,
+        currentName: String,
+        currentPatron: PatronDataClass
+    ) {
 
         fragManager
 
@@ -857,6 +862,8 @@ class ReceiptFragment : Fragment(),
         receiptVm._updatePatronID.value = patronId
 
         receiptVm._updatePatronName.value = currentName
+
+        receiptVm._currentPatron.value = currentPatron
     }
 
 

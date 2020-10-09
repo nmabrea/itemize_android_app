@@ -555,6 +555,8 @@ class ItemizeViewModel(application: Application) : AndroidViewModel(application)
 
 
 
+
+
     val _updatePatronID = MutableLiveData<Long>()
     val updatePatronID: LiveData<Long>
         get() = _updatePatronID
@@ -564,8 +566,8 @@ class ItemizeViewModel(application: Application) : AndroidViewModel(application)
         get() = _updatePatronName
 
     val _currentPatronName = MutableLiveData<String>()
-    val currentPatronName: LiveData<String>
-        get() = _currentPatronName
+
+    val _currentPatron = MutableLiveData<PatronDataClass>()
 
     private suspend fun updatePatron(patron: PatronDataClass) {
         viewModelScope.launch(Dispatchers.IO) {

@@ -9,6 +9,7 @@ import androidx.core.content.res.ResourcesCompat
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.viewModelScope
 import com.example.nabrea.itemizeapp.ItemizeTextWatcherClass
 import com.example.nabrea.itemizeapp.R
 import com.example.nabrea.itemizeapp.activity.ItemizeViewModel
@@ -19,6 +20,7 @@ import com.google.android.material.button.MaterialButton
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import com.google.android.material.textview.MaterialTextView
+import kotlinx.coroutines.launch
 import timber.log.Timber
 
 class UpdatePatronDialogFragment : DialogFragment() {
@@ -39,7 +41,7 @@ class UpdatePatronDialogFragment : DialogFragment() {
 
     private lateinit var updateDialogButton: MaterialButton
 
-    private lateinit var deleteDialogButton: MaterialButton
+    private lateinit var deleteDialogButton: MaterialTextView
 
     private lateinit var listener: ReceiptFragmentCommunication
 
@@ -82,11 +84,6 @@ class UpdatePatronDialogFragment : DialogFragment() {
 
         updatePatronNameEdit = updatePatronBinding.updatePatronNameEdit
 
-
-
-
-
-
         updatePatronForm = mutableMapOf()
 
         updatePatronForm[Pair(updatePatronNameEdit, updatePatronName)] =
@@ -101,6 +98,8 @@ class UpdatePatronDialogFragment : DialogFragment() {
         cancelDialogButton = updatePatronBinding.dialogButtonCancel
 
         updateDialogButton = updatePatronBinding.dialogButtonUpdate
+
+        deleteDialogButton = updatePatronBinding.dialogButtonDelete
 
         return updatePatronBinding.root
     }
@@ -135,6 +134,21 @@ class UpdatePatronDialogFragment : DialogFragment() {
 
             updatePatronVm._updatePatronName.value = currentName
 
+        })
+
+        updatePatronVm._currentPatron.observe(this, { currentPatron ->
+
+            deleteDialogButton.setOnClickListener {
+
+                updatePatronVm.viewModelScope.launch {
+
+                    updatePatronVm.deleteSelectedPatron(currentPatron)
+
+                }
+
+                closeDialog()
+
+            }
         })
 
 

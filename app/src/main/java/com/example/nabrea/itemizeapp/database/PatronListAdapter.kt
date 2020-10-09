@@ -36,7 +36,11 @@ class PatronListAdapter internal constructor(
         holder.patronInitials.setOnClickListener { view ->
 
             (hostFragment as ReceiptFragment)
-                .showUpdatePatronDialog(current.patronID!!, current.name)
+                .showUpdatePatronDialog(
+                    current.patronID!!,
+                    current.name,
+                    current
+                )
 
             Timber.i("Updating: ${current.name}, ID: ${current.patronID}")
 
