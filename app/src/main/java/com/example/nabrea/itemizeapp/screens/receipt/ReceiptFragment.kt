@@ -491,7 +491,15 @@ class ReceiptFragment : Fragment(),
 
 
         receiptVm._receiptTotal.observe(viewLifecycleOwner, { total ->
-            receiptVm._receiptTotalText.value = "%.2f".format(total)
+
+            when (total) {
+
+                null -> receiptVm._receiptTotalText.value = "%.2f".format(0F)
+
+                else -> receiptVm._receiptTotalText.value = "%.2f".format(total)
+
+            }
+
         })
 
 

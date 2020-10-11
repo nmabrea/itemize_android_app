@@ -19,6 +19,9 @@ interface ExpenseDao {
     @Update(entity = ExpenseDataClass::class)
     suspend fun updateExpense(expense: ExpenseDataClass)
 
+    @Query("SELECT SUM(sub_cost_raw) FROM expense_table")
+    fun getTotalExpenseCost(): LiveData<Float>
+
     @Query("DELETE from expense_table")
     suspend fun deleteAllExpenses()
 

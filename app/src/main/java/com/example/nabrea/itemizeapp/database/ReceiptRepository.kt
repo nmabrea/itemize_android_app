@@ -13,6 +13,8 @@ class ReceiptRepository(
 
     val allPatrons: LiveData<List<PatronDataClass>> = patronDao.getAlphabetizedPatrons()
 
+    val totalExpenseCost: LiveData<Float> = expenseDao.getTotalExpenseCost()
+
     suspend fun insertExpense(expense: ExpenseDataClass) {
         expenseDao.insertExpense(expense)
     }
@@ -25,7 +27,9 @@ class ReceiptRepository(
         expenseDao.deleteSelectedExpense(expense)
     }
 
-
+    suspend fun totalExpenseCosts() {
+        expenseDao.getTotalExpenseCost()
+    }
 
     suspend fun insertPatron(patron: PatronDataClass) {
         patronDao.insertPatron(patron)

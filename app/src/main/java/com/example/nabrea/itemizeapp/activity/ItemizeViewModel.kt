@@ -108,9 +108,7 @@ class ItemizeViewModel(application: Application) : AndroidViewModel(application)
     // Variable that temporarily collects the user input text patron fields for input validation
     private val patronFormFields = mutableListOf<String?>()
 
-    val _receiptTotal = MutableLiveData<Float>()
-    val receiptTotal: LiveData<Float>
-        get() = _receiptTotal
+    val _receiptTotal: LiveData<Float>
 
     val _receiptTotalText = MutableLiveData<String>()
 
@@ -140,10 +138,10 @@ class ItemizeViewModel(application: Application) : AndroidViewModel(application)
         // Connecting to the database method that pulls all patron data
         allPatrons = repository.allPatrons
 
+        _receiptTotal = repository.totalExpenseCost
+
         // Method deletes all database information everytime the ViewModel is created or recreated.
         deleteAll()
-
-        _receiptTotal.value = 0F
     }
 
     private suspend fun insertExpense(expense: ExpenseDataClass) {
