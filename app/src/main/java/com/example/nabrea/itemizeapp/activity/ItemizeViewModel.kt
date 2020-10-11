@@ -244,7 +244,7 @@ class ItemizeViewModel(application: Application) : AndroidViewModel(application)
     fun validateExpenseInputs(
         descriptionInput: MutableLiveData<String>,
         costInput: MutableLiveData<String>,
-        quantityInput:MutableLiveData<String>
+        quantityInput: MutableLiveData<String>
     ) {
 
         // All ViewModel variables associated with user input are added to the formFields collection
@@ -330,7 +330,13 @@ class ItemizeViewModel(application: Application) : AndroidViewModel(application)
                 _costFormat.value = "%.2f".format(_cost.value)
 
                 // Processes the subCost value before it gets bundled into an Expense object
-                _subCost.value = _cost.value?.times(_quantity.value!!) ?: 0F
+                _subCost.value =
+                    when {
+                        _cost.value!!.times(_quantity.value!!) < 0.01 -> 0.01.toFloat()
+                        else -> _cost.value!!.times(_quantity.value!!)
+                    }
+
+                Timber.i("subcost: ${_subCost.value}")
 
                 // Formally storing a formatted version of the subcost into a readable format
                 _subCostFormat.value = "%.2f".format(_subCost.value)

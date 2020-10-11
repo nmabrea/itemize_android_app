@@ -616,6 +616,7 @@ class ReceiptFragment : Fragment(),
                 expenseForm.forEach { inputField ->
                     inputField.key.second.error = null
                 }
+
             } else {
 
                 // If the ViewModel variable has an error message, all input fields are checked
@@ -627,7 +628,9 @@ class ReceiptFragment : Fragment(),
                     } else {
                         inputField.key.second.error = null
                     }
+
                 }
+
             }
         })
 
