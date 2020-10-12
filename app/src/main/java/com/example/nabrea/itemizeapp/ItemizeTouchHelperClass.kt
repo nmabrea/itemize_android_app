@@ -66,7 +66,7 @@ class ItemizeTouchHelperClass(private val viewModel: ItemizeViewModel,
 
         background.bounds = Rect(
             cardView.right - dX.toInt() * 15,
-            cardView.top + 26,
+            cardView.top + 13,
             cardView.right - dX.toInt() / 2,
             cardView.bottom
         )

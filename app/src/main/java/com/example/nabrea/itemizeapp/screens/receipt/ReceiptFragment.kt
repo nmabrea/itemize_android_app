@@ -464,6 +464,7 @@ class ReceiptFragment : Fragment(),
 
         // Recording the current menu actions that are associated with NavDirections
         // Future menu actions can be appended by following the format below
+        /*TODO(02) Set an alert dialog to add users/expenses if either is empty*/
         menuNavActions = expandMenu.menuNavActions
         menuNavActions[Pair(finalizeButton, finalizeLabel)] = finalizeDirections
 

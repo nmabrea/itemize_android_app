@@ -1,4 +1,4 @@
-package com.example.nabrea.itemizeapp.screens.home
+package com.example.nabrea.itemizeapp.screens.receipthistory
 
 import android.os.Bundle
 import android.view.LayoutInflater

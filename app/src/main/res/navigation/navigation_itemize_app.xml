@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/receiptHistoryFragment"
-        android:name="com.example.nabrea.itemizeapp.screens.home.ReceiptHistoryFragment"
+        android:name="com.example.nabrea.itemizeapp.screens.receipthistory.ReceiptHistoryFragment"
         android:label="@string/itm_receiptHistory_title"
         tools:layout="@layout/fragment_receipt_history">
         <action
@@ -27,7 +27,7 @@
         tools:layout="@layout/fragment_receipt">
         <action
             android:id="@+id/action_receiptFragment_to_receiptSummaryFragment"
-            app:destination="@id/receiptSummaryFragment"
+            app:destination="@id/finalizeFragment"
             app:enterAnim="@anim/anim_slide_in_up"
             app:exitAnim="@anim/anim_slide_out_up"
             app:popEnterAnim="@anim/anim_slide_in_down"
@@ -36,8 +36,8 @@
             app:popUpToInclusive="false" />
     </fragment>
     <fragment
-        android:id="@+id/receiptSummaryFragment"
-        android:name="com.example.nabrea.itemizeapp.screens.receiptsummary.ReceiptSummaryFragment"
+        android:id="@+id/finalizeFragment"
+        android:name="com.example.nabrea.itemizeapp.screens.finalize.FinalizeFragment"
         android:label="@string/itm_receiptSummary_title"
-        tools:layout="@layout/fragment_receipt_summary"/>
+        tools:layout="@layout/fragment_finalize"/>
 </navigation>

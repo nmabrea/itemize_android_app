@@ -10,7 +10,7 @@
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/patronInitialsButton"
-        style="@style/Widget.MaterialComponents.Button"
+        style="@style/patron_button"
         android:layout_width="40dp"
         android:layout_height="50dp"
         android:gravity="center"

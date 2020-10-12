@@ -74,12 +74,9 @@
         <item name="android:textColor">@color/itm_primary_grayDark</item>
     </style>
 
-    <style name="patron_button" parent="Widget.MaterialComponents.Button.OutlinedButton">
-        <item name="strokeColor">@color/itm_primary_grayLight</item>
-        <item name="strokeWidth">@dimen/itm_button_outline_stroke</item>
-        <item name="paddingStart">@dimen/itm_dp_none</item>
-        <item name="paddingEnd">@dimen/itm_dp_none</item>
-        <item name="android:textAppearance">@style/TextAppearance.MaterialComponents.Body2</item>
+    <style name="patron_button" parent="Widget.MaterialComponents.Button">
+        <item name="backgroundTint">@color/itm_transparent</item>
+        <item name="android:textColor">@color/itm_primaryText_white</item>
     </style>
 
     <style name="text_button" parent="Widget.MaterialComponents.Button.TextButton">
@@ -99,6 +96,20 @@
         <item name="android:textColor">@color/itm_primaryText_white</item>
         <item name="android:textColorHint">@color/itm_primaryText_white</item>
         <item name="boxCollapsedPaddingTop">@dimen/itm_margin_startEnd_min</item>
+    </style>
+
+    <style name="finalize_recycler" parent="Widget.MaterialComponents.CardView">
+        <item name="cardForegroundColor">@color/itm_transparent</item>
+        <item name="cardBackgroundColor">@color/itm_primary_gray</item>
+        <item name="shapeAppearanceOverlay">@style/finalize_recycler.shapeAppearanceOverlay</item>
+    </style>
+
+    <style name="finalize_recycler.shapeAppearanceOverlay" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSizeBottomLeft">8dp</item>
+        <item name="cornerSizeBottomRight">8dp</item>
+        <item name="cornerSizeTopLeft">8dp</item>
+        <item name="cornerSizeTopRight">8dp</item>
     </style>
 
 

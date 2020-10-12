@@ -22,5 +22,7 @@
     <color name="itm_secondary_orangeLighter">#FAD695</color>
 
     <color name="itm_secondary_orangeLightest">#FFFAF2</color>
+    <color name="itm_transparent">#00FFFFFF</color>
+    <color name="itm_primary_gray_dim">#2D3A41</color>
 
 </resources>

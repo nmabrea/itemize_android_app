@@ -2,9 +2,10 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context=".screens.home.ReceiptHistoryFragment">
+    tools:context=".screens.receipthistory.ReceiptHistoryFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/historyConstraintLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:fillViewport="true"
@@ -15,7 +16,7 @@
             android:id="@+id/scrollView2"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:layout_constraintBottom_toTopOf="@+id/coordinatorLayout"
+            app:layout_constraintBottom_toTopOf="@+id/historyConstraintLayout"
             tools:layout_editor_absoluteX="25dp">
 
             <LinearLayout

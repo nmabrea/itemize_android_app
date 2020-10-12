@@ -1,4 +1,4 @@
-package com.example.nabrea.itemizeapp.screens.receiptsummary
+package com.example.nabrea.itemizeapp.screens.finalize
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -7,11 +7,11 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import com.example.nabrea.itemizeapp.R
-import com.example.nabrea.itemizeapp.databinding.FragmentReceiptSummaryBinding
+import com.example.nabrea.itemizeapp.databinding.FragmentFinalizeBinding
 
-class ReceiptSummaryFragment : Fragment() {
+class FinalizeFragment : Fragment() {
 
-    lateinit var receiptSummaryBinding: FragmentReceiptSummaryBinding
+    lateinit var finalizeBinding: FragmentFinalizeBinding
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -19,9 +19,9 @@ class ReceiptSummaryFragment : Fragment() {
     ): View? {
 
         // Inflate the layout for this fragment
-        receiptSummaryBinding =
-            DataBindingUtil.inflate(inflater, R.layout.fragment_receipt_summary, container, false)
+        finalizeBinding =
+            DataBindingUtil.inflate(inflater, R.layout.fragment_finalize, container, false)
 
-        return receiptSummaryBinding.root
+        return finalizeBinding.root
     }
 }

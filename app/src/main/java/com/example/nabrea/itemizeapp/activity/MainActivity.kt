@@ -20,7 +20,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.nabrea.itemizeapp.ExpandingFabAnimationInterface
 import com.example.nabrea.itemizeapp.R
 import com.example.nabrea.itemizeapp.databinding.ActivityMainBinding
-import com.example.nabrea.itemizeapp.screens.home.ReceiptHistoryFragmentDirections
+import com.example.nabrea.itemizeapp.screens.receipthistory.ReceiptHistoryFragmentDirections
 import com.example.nabrea.itemizeapp.screens.receipt.ReceiptFragment
 import com.example.nabrea.itemizeapp.screens.receipt.ReceiptFragmentCommunication
 import com.example.nabrea.itemizeapp.screens.receipt.uidisplay.BottomSheetClass
@@ -190,7 +190,7 @@ class MainActivity : AppCompatActivity(),
                 }
 
                 // Navigation UI configuration when in ReceiptSummaryFragment
-                R.id.receiptSummaryFragment -> {
+                R.id.finalizeFragment -> {
 
                     // Logcat message to notify when the destination has changed to the Receipt Summary Fragment
                     Timber.i("destination.id is ReceiptSummaryFragment")
